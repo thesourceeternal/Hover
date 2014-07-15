@@ -1,26 +1,24 @@
 /* ==========================================================================
-   Establishing
+   Structure
    ========================================================================== */
-
+/* --- Main --- */
 html, body {
 	height: 100%;
 	width: 100%;
-	border: 0;
 }
 
 body{
 	overflow: hidden;
-	font-family:"Myriad Pro","Segoe UI",Helvetica, Arial, sans-serif;
-	color: rgb(200, 200, 200);
-    font-size: 1em;
-    line-height: 1.4;
+}
+
+html, body, a, a:link, a:visited, button, div, fieldset, footer, form, header,
+h1, h2, h3, h4, h5, h6, hr, input, legend, li, menu,
+nav, ol, ul, section, select, textarea {
+	box-sizing: border-box;
 }
 
 
-/* ==========================================================================
-   Structure
-   ========================================================================== */
-
+/* --- Sidebar --- */
 .sidebar {
 	position: absolute;
 	top: 0;
@@ -32,8 +30,25 @@ body{
 /* ==========================================================================
    Skin
    ========================================================================== */
+/* --- Main --- */
+html, body {
+	border: 0;
+}
 
+body{
+	color: rgb(200, 200, 200);
+	font-family:"Myriad Pro","Segoe UI",Helvetica, Arial, sans-serif;
+	font-size: 1em;
+	line-height: 1.4;
+}
+
+/* --- Editor --- */
 .hud {
 	background-color: rgba(17, 17, 17, 0.75);
+}
+
+/* --- Sidebar --- */
+.sidebar {
+	border: 1px solid rgb(40, 40, 40);
 }
 
