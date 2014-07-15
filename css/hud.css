@@ -42,10 +42,12 @@ body{
 	line-height: 1.4;
 }
 
-/* --- Editor --- */
+
+/* --- Hud --- */
 .hud {
 	background-color: rgba(17, 17, 17, 0.75);
 }
+
 
 /* --- Sidebar --- */
 .sidebar {
