@@ -1,0 +1,26 @@
+{
+  "name": "uw3d",
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "http://the-source-eternal.github.io/Unwritten-Exercise/",
+  "bugs": {"url": "https://github.com/thesourceeternal/Unwritten-Exercise/issues"},
+  "repository": {
+  	"type": "git",
+  	"url": "https://github.com/thesourceeternal/Unwritten-Exercise"
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "beefy": "~1.1.0",
+    "browserify": "~3.46.0"
+  },
+  "scripts": {
+    "start": "beefy index.js:bundle.js --live --open",
+    "push": "current_branch=\"`git rev-parse --abbrev-ref HEAD`\"; git branch -D gh-pages; git checkout -b gh-pages; browserify index.js -o bundle.js; git add -A; git commit -m 'New Build'; git push -f origin gh-pages; git checkout $current_branch"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "extend": "~1.2.1",
+    "looking-glass": "The-Source-Eternal/LookingGlass"
+  }
+}
