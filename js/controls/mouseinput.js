@@ -13,9 +13,10 @@ mouseEvents = function () {
 			pointerLock.lockPointer();
 
 			// Hide the intro
+			document.getElementsByClassName("intro")[0].style.display = 'none';
 			// Show inspector stuff
 
-			// userStates.arrival = false;
+			userStates.arrival = false;
 
 		}
 
