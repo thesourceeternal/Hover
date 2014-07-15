@@ -6,7 +6,10 @@ window.addEventListener('load', function () {
 	// Make all the pointer lock things work
 	pointerLock._init_();
 
-	// Intro screen
+	// Add event listeners
+	mouseEvents();
+
+	// Make intro screen appear
 	// on click request pointer lock, change pointer lock (to enable controls),
 	// hide intro screen
 

@@ -44,8 +44,8 @@ nav, ol, ul, section, select, textarea {
 	height: 100%;
 	width: 100%;
 	padding-top: 15%;
-	font-size: 1.7rem;
 }
+
 
 /* ==========================================================================
    Skin
@@ -79,4 +79,5 @@ body{
 .intro {
 	background-color: rgba(17, 17, 17, 0.4);
 	color: white;
+	font-size: 1.7rem;
 }

@@ -56,9 +56,29 @@ pointerLock = {
 	   Functions
 	   ==================================== */
 
+	// Normalizes locking the pointer for all browsers
+	lockPointer: function () {
+		this.lockElement.requestPointerLock =
+			this.lockElement.requestPointerLock ||
+			this.lockElement.mozRequestPointerLock ||
+			this.lockElement.webkitRequestPointerLock;
+
+		this.lockElement.requestPointerLock();
+	},
+
+	// Normalize unlocking the pointer for all browsers
+	unlockPointer: function () {
+		document.exitPointerLock = document.exitPointerLock ||
+			document.mozExitPointerLock ||
+			document.webkitExitPointerLock;
+
+		document.exitPointerLock();
+	},
+
 	// Always happens when the pointer lock is changed
 	changePointerLock: function (event) {
 
+		// lockElement is passed into here automatically, event is not needed
 		if ( document.pointerLockElement === lockElement ||  // pointer locked
 			document.mozPointerLockElement === lockElement ||
 			document.webkitPointerLockElement === lockElement ) {
