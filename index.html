@@ -7,7 +7,7 @@
 
 	<!-- TODO: make custom normalize -->
 	<link rel="stylesheet" href="css/normalize.min.css">
-	<link rel="stylesheet" href="css/editor.css">
+	<link rel="stylesheet" href="css/hud.css">
 
 	<!-- TODO: phase out jquery -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -18,11 +18,24 @@
     <script src="js/controls/PointerLockControls.js"></script>
 	<script src="js/world/cubeworld.js"></script>
 
+	<!-- Homemade -->
+	<script src="js/controls/pointerlock.js"></script>
+	<script src="js/index.js"></script>
+
 </head>
 
 <body>
 
+	<div class='majority'>
+		<div class='intro'>
+			<p>CLICK to start</p>
+			<p>Press ESC to get your mouse back</p>
+		</div>
+	</div> <!-- end .majority -->
+
 	<div class='sidebar hud'>
+
+		Press ESC to toggle editing
 
 	</div> <!-- end .sidebar -->
 

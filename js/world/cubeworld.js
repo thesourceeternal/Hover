@@ -1,5 +1,6 @@
 /* based on libraries of three.js with @author mrdoob / http://mrdoob.com/ */
 
+// TOOD: Localize global vars
 var controls;
 
 window.onload = function() {
