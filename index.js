@@ -5,6 +5,7 @@ window.addEventListener( 'load', function () {
 
 	// Make all the pointer lock things work
 	pointerLock._init_();
+	cubeWorld();
 
 	// Add event listeners
 	mouseEvents();

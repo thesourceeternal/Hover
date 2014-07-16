@@ -3,7 +3,7 @@
 // TOOD: Localize global vars
 var controls;
 
-window.addEventListener( 'load', function () {
+var cubeWorld = function () {
 
 	var camera, scene, renderer;
 	var geometry, material, mesh;
@@ -145,4 +145,4 @@ window.addEventListener( 'load', function () {
 
 	}
 
-} );
+};
