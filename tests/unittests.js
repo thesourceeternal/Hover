@@ -129,10 +129,12 @@ unitTests = {
 		unitTests.test = "pointerLock.unlockPointer";
 		unitTests.expected = false
 
-		// Test to be written later, just setting up the lock test
+		// Hook pointer lock state change events (event names assigned by browser)
+		document.addEventListener('pointerlockchange', unitTests.testLock, false);
+		document.addEventListener('mozpointerlockchange', unitTests.testLock, false);
+		document.addEventListener('webkitpointerlockchange', unitTests.testLock, false);
 
 		pointerLock.unlockPointer();
-		window.setTimeout( unitTests.checkResults, 500, false );
 
 	},
 
@@ -141,11 +143,6 @@ unitTests = {
 
 		unitTests.test = "pointerLock.lockPointer";
 		unitTests.expected = true;
-
-		// Hook pointer lock state change events (event names assigned by browser)
-		document.addEventListener('pointerlockchange', unitTests.testLock, false);
-		document.addEventListener('mozpointerlockchange', unitTests.testLock, false);
-		document.addEventListener('webkitpointerlockchange', unitTests.testLock, false);
 
 		pointerLock.lockPointer();
 
