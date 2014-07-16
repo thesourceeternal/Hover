@@ -8,6 +8,7 @@ window.addEventListener('load', function () {
 
 	// Add event listeners
 	mouseEvents();
+	keyEvents();
 
 	// Make intro screen appear
 	// on click request pointer lock, change pointer lock (to enable controls),

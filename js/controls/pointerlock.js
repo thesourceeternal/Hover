@@ -10,13 +10,15 @@ pointerLock = {
 
 	// Element the pointer lock is assigned to
 	lockElement: null,
+	havePointerLock: null,
 
 	_init_: function () {
 
 		// Does the user's browser support pointerlock
-		var havePointerLock = 'pointerLockElement' in document ||
+		this.havePointerLock = 'pointerLockElement' in document ||
 		    'mozPointerLockElement' in document ||
 		    'webkitPointerLockElement' in document;
+		var havePointerLock = this.havePointerLock;
 
 		if (!havePointerLock) {  // For browsers that don't support pointerlock
 
@@ -103,7 +105,24 @@ pointerLock = {
 	// to create more informative error messages.
 	pointerLockError: function () {
 
-		console.log("Pointer lock error");
+		console.log("Pointer lock error:");
+
+		
+		if ( document.pointerLockElement !== lockElement ||  // pointer locked
+			document.mozPointerLockElement !== lockElement ||
+			document.webkitPointerLockElement !== lockElement ) {
+
+			console.log("The document pointerlock element is not the same as pointerlock.lockElement.");
+
+		} else if (!this.havePointerLock) {
+
+			console.log("This browser doesn't support pointerlock.");
+
+		} else {
+
+			console.log("I'm not sure what's wrong. Probably the user didn't make an engagement gesture.");
+
+		}
 
 	},  // end pointerLockError()
 
