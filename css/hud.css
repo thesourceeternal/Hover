@@ -134,7 +134,7 @@ body{
 }
 
 .tab {
-	background-color: rgba(55, 55, 55, .8);
+	background-color: rgba(0, 0, 0, .4);
 	border-right: 1px solid rgb(40, 40, 40);
 	border-bottom: 1px solid rgb(40, 40, 40);
 	color: rgb(180, 180, 180);
