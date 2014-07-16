@@ -1,3 +1,4 @@
+
 /* ==========================================================================
    Structure
    ========================================================================== */
@@ -26,6 +27,8 @@ nav, ol, ul, section, textarea {
 	padding: 0;
 }
 
+li {list-style: none;}
+
 button, input, select, textarea {
 	font-size: 95%;
 	vertical-align: baseline;
@@ -40,6 +43,7 @@ button, input, select, textarea {
 	right: 18rem;
 }
 
+
 /* --- Bars --- */
 /* - sidebar - */
 .sidebar {
@@ -50,15 +54,35 @@ button, input, select, textarea {
 	width: 18rem;
 }
 
+.tab-container .spacer {
+
+}
+
+.tab-bar {
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.tab {
+	display: inline-block;
+	float: left;
+	top: 0;
+	width: 50%;
+	/* padding has to be here so border goes all the way up */
+	padding: .2rem;
+}
+
 /* - bottombar - */
 .bottombar {  /* needs functional name */
 	position: absolute;
-	bottom: 0px;
-	height: 32px;
+	bottom: 0;
+	height: 2rem;
 	width: 100%;
 	padding: .3rem;
 	overflow: auto;
 }
+
 
 /* --- Intro --- */
 .intro {
@@ -74,6 +98,10 @@ button, input, select, textarea {
 
 .collapsed {
 	display: none;
+}
+
+.spacer { /* because menu elements are floats */
+	visibility: hidden;
 }
 
 
@@ -95,7 +123,7 @@ body{
 
 /* --- Hud --- */
 .hud {
-	background-color: rgba(17, 17, 17, 0.75);
+	background-color: rgba(40, 40, 40, 0.75);
 }
 
 
@@ -103,6 +131,19 @@ body{
 /* - sidebar - */
 .sidebar {
 	border: .1rem solid rgb(40, 40, 40);
+}
+
+.tab {
+	background-color: rgba(55, 55, 55, .8);
+	border-right: 1px solid rgb(40, 40, 40);
+	border-bottom: 1px solid rgb(40, 40, 40);
+	color: rgb(180, 180, 180);
+}
+
+.active-tab {
+	background-color: inherit;
+	border-bottom: none;
+	color: rgb(230, 230, 230);
 }
 
 

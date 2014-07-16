@@ -5,11 +5,10 @@
 var htmlBlocks = {
 
 	editorTabs: "<div class='tab-container'>  <!-- in here for js -->\n"+
-	"<div class='spacer editors-tab-spacer'></div>\n"+
-    "<div class='faux-elem'>Inspector</div>\n"+
-    "<menu id='sidebar-nav' class='editors-tabs editor-menu'>\n"+
-    "    <a class='tab left-tab inspector-tab active-tab'>Inspector</a>\n"+
-    "    <a class='tab right-tab assets-tab'>Assets</a>\n"+
+    "<div class='spacer'>Inspector</div>\n"+
+    "<menu id='sidebar-nav' class='tab-bar'>  <!-- id for jump to top -->\n"+
+    "    <li class='tab inspector-get active-tab'>Inspector</li>\n"+
+    "    <li class='tab assets-get'>Assets</li>\n"+
     "</menu>\n"+
     "</div>",
 
