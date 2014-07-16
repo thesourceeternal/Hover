@@ -2,7 +2,7 @@
 * Tests function functionality
 */
 
-runTests = function () {
+var runTests = function () {
 
 	console.log( "*** Running Unit Tets ***" );
 	

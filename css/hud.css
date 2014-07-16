@@ -18,6 +18,10 @@ nav, ol, ul, section, select, textarea {
 	box-sizing: border-box;
 }
 
+button, input, select, textarea {
+	font-size: 95%;
+	vertical-align: baseline;
+}
 
 /* --- Major screen space (Not sidebar) --- */
 .majority {
@@ -28,22 +32,40 @@ nav, ol, ul, section, select, textarea {
 	right: 18rem;
 }
 
-
-/* --- Sidebar --- */
+/* --- Bars --- */
+/* - sidebar - */
 .sidebar {
 	position: absolute;
 	top: 0;
+	bottom: 0;
 	right: 0;
-	height: 100%;
 	width: 18rem;
 }
 
+/* - bottombar - */
+.bottombar {  /* needs functional name */
+	position: absolute;
+	bottom: 0px;
+	height: 32px;
+	width: 100%;
+	padding: .3rem;
+	overflow: auto;
+}
 
 /* --- Intro --- */
 .intro {
 	height: 100%;
 	width: 100%;
 	padding-top: 15%;
+}
+
+
+/* ==========================================================================
+   Functionality
+   ========================================================================== */
+
+.collapsed {
+	display: none;
 }
 
 
@@ -69,7 +91,8 @@ body{
 }
 
 
-/* --- Sidebar --- */
+/* --- Bars --- */
+/* - sidebar - */
 .sidebar {
 	border: .1rem solid rgb(40, 40, 40);
 }
