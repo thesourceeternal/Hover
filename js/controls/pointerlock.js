@@ -1,5 +1,6 @@
 /*
 * http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+* Also with functionality to toggle pointer lock
 */
 
 pointerLock = {
@@ -11,6 +12,8 @@ pointerLock = {
 	// Element the pointer lock is assigned to
 	lockElement: null,
 	havePointerLock: null,
+	// For toggling pointer lock (function below)
+	isLocked: true,
 
 	_init_: function () {
 
@@ -18,9 +21,8 @@ pointerLock = {
 		this.havePointerLock = 'pointerLockElement' in document ||
 		    'mozPointerLockElement' in document ||
 		    'webkitPointerLockElement' in document;
-		var havePointerLock = this.havePointerLock;
 
-		if (!havePointerLock) {  // For browsers that don't support pointerlock
+		if (!this.havePointerLock) {  // For browsers that don't support pointerlock
 
 			alert("Sorry, your browser does not support pointer lock.");
 
@@ -101,8 +103,24 @@ pointerLock = {
 
 	},  // end changePointerLock()
 
-	// TODO: Check out https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html#dfn-target
-	// to create more informative error messages.
+	// Toggles pointer lock independent of automatic changes
+	toggleLock: function () {
+
+		if (this.isLocked) {
+
+			document.exitPointerLock();
+			this.isLocked = false;
+
+		} else {
+
+			this.lockElement.requestPointerLock();
+			this.isLocked = true;
+
+		}
+	},  // end toggleLock()
+
+	// TODO: Comb https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html#dfn-target
+	// to see if there are any other conditions to check for.
 	pointerLockError: function () {
 
 		console.log("Pointer lock error:");
