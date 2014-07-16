@@ -4,10 +4,10 @@
 
 runTests = function () {
 
-	console.log("*** Running Unit Tets ***");
+	console.log( "*** Running Unit Tets ***" );
 	
 	unitTests.testList = [
-		// Unlock test has to come first. See notes with func
+		// Unlock test has to come before lock test. See notes with func
 		unitTests.testPointerUnlock,
 		unitTests.testPointerLock
 	];
@@ -16,7 +16,7 @@ runTests = function () {
 	unitTests.testList[0]();
 	// checkResults will finish up for us
 
-}
+}  // end runTests()
 
 unitTests = {
 
@@ -40,7 +40,7 @@ unitTests = {
 
 	// Tests all the expected results agains the actual results
 	// Runs the next test
-	checkResults: function (result) {
+	checkResults: function ( result ) {
 
 		unitTests.numTestsRun += 1;
 
@@ -48,11 +48,12 @@ unitTests = {
 		var totalTests = unitTests.testList.length;
 		var testRatio = " (" + numTestsRun + "/" + totalTests + ")";
 
-		// - Test Message  (for each individual test) - \\
+		// - Handle Current Test - \\
 		if ( result !== unitTests.expected ) {
 
+			// Add test to the tally and list of failed tests
 			unitTests.numTestsFailed += 1;
-			unitTests.testsFailed.push(unitTests.test);
+			unitTests.testsFailed.push( unitTests.test );
 			// Print the name of the test that was failed
 			console.log( "Failed: " + unitTests.test + testRatio );
 
@@ -67,7 +68,7 @@ unitTests = {
 
 		} else {
 			// Do we really want a message for passed tests?
-			console.log("Passed: " + unitTests.test + testRatio);
+			console.log( "Passed: " + unitTests.test + testRatio );
 
 		}
 
@@ -95,13 +96,13 @@ unitTests = {
 
 			}
 
-			console.log("Tests failed: " + testsFailed);
+			console.log( "Tests failed: " + testsFailed );
 
 			unitTests.endTests();
 
 		} else {
 
-			console.log("Wait. How were more tests run than there are tests?!")
+			console.log( "Wait. How were more tests run than there are tests?!" )
 
 		}  // end if numTestsRun
 
@@ -130,6 +131,7 @@ unitTests = {
 		unitTests.expected = false
 
 		// Hook pointer lock state change events (event names assigned by browser)
+		// specifically to our test function. Will be removed later
 		document.addEventListener('pointerlockchange', unitTests.testLock, false);
 		document.addEventListener('mozpointerlockchange', unitTests.testLock, false);
 		document.addEventListener('webkitpointerlockchange', unitTests.testLock, false);
@@ -148,21 +150,21 @@ unitTests = {
 
 	},  // end testPointerLock()
 
-	testLock: function (event) {
+	testLock: function ( event ) {
 		// Check for locked pointer
 		if (document.pointerLockElement === lockElement ||
 			document.mozPointerLockElement === lockElement ||
 			document.webkitPointerLockElement === lockElement) {  // Locked
 
 			unitTests.errorMsg = "Pointer was locked";
-			unitTests.checkResults(true);
+			unitTests.checkResults( true );
 
 		} else {  // Pointer is unlocked
 
 			unitTests.errorMsg = "Pointer was FREE!";
-			unitTests.checkResults(false);
+			unitTests.checkResults( false );
 
 		}
 	},  // end testLock()
 
-}
+}  // end unitTests{}

@@ -3,7 +3,7 @@
 // TOOD: Localize global vars
 var controls;
 
-window.onload = function() {
+window.addEventListener( 'load', function () {
 
 	var camera, scene, renderer;
 	var geometry, material, mesh;
@@ -144,4 +144,5 @@ window.onload = function() {
 		renderer.render( scene, camera );
 
 	}
-}
+
+} );

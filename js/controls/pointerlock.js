@@ -22,9 +22,9 @@ pointerLock = {
 		    'mozPointerLockElement' in document ||
 		    'webkitPointerLockElement' in document;
 
-		if (!this.havePointerLock) {  // For browsers that don't support pointerlock
+		if ( !this.havePointerLock ) {  // For browsers that don't support pointerlock
 
-			alert("Sorry, your browser does not support pointer lock.");
+			alert( "Sorry, your browser does not support pointer lock." );
 
 		} else {  // This is the bulk of the action
 
@@ -80,7 +80,7 @@ pointerLock = {
 	},
 
 	// Always happens when the pointer lock is changed
-	changePointerLock: function (event) {
+	changePointerLock: function ( event ) {
 
 		// lockElement is passed into here automatically, event is not needed
 		if ( document.pointerLockElement === lockElement ||  // pointer locked
@@ -106,7 +106,7 @@ pointerLock = {
 	// Toggles pointer lock independent of automatic changes
 	toggleLock: function () {
 
-		if (this.isLocked) {
+		if ( this.isLocked ) {
 
 			document.exitPointerLock();
 			this.isLocked = false;
@@ -123,18 +123,18 @@ pointerLock = {
 	// to see if there are any other conditions to check for.
 	pointerLockError: function () {
 
-		console.log("Pointer lock error:");
+		console.log( "Pointer lock error:" );
 
 		
 		if ( document.pointerLockElement !== lockElement ||  // pointer locked
 			document.mozPointerLockElement !== lockElement ||
 			document.webkitPointerLockElement !== lockElement ) {
 
-			console.log("The document pointerlock element is not the same as pointerlock.lockElement.");
+			console.log("The document pointer lock element is not the same as pointerlock.lockElement.");
 
-		} else if (!this.havePointerLock) {
+		} else if ( !this.havePointerLock ) {
 
-			console.log("This browser doesn't support pointerlock.");
+			console.log("This browser doesn't support pointer lock.");
 
 		} else {
 
