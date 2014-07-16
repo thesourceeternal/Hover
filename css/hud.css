@@ -18,6 +18,14 @@ nav, ol, ul, section, select, textarea {
 	box-sizing: border-box;
 }
 
+/* No button or select*/
+html, body, a, a:link, a:visited, div, fieldset, footer, form, header,
+h1, h2, h3, h4, h5, h6, hr, input, legend, li, menu,
+nav, ol, ul, section, textarea {
+	margin: 0;
+	padding: 0;
+}
+
 button, input, select, textarea {
 	font-size: 95%;
 	vertical-align: baseline;
