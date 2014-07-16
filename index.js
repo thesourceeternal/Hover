@@ -11,5 +11,9 @@ window.addEventListener( 'load', function () {
 	mouseEvents();
 	keyEvents();
 
+	// In here for testing
+	document.getElementsByClassName( "editor-functionality" )[0]
+							.innerHTML = htmlBlocks.editorTabs;
+
 } );  // end window on load
 
