@@ -140,6 +140,8 @@ body{
 	color: rgb(180, 180, 180);
 }
 
+.tab:last-of-type {border-right: none;}
+
 .active-tab {
 	background-color: inherit;
 	border-bottom: none;
