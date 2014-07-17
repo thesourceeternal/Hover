@@ -35,7 +35,7 @@ var displayBlocks = {
 
 		// Show majority element and editor sidebar
 		document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
-		document.getElementsByClassName( "editor-functionality" )[0].classList.remove("collapsed");
+		document.getElementsByClassName( "editor-sidebar" )[0].classList.remove("collapsed");
 
 		displayBlocks.editorShowing = true;
 
@@ -45,7 +45,7 @@ var displayBlocks = {
 
 		// Hide the majority element with the code and bars, and the sidebar editor
 		document.getElementsByClassName( "majority" )[0].classList.add("collapsed");
-		document.getElementsByClassName( "editor-functionality" )[0].classList.add("collapsed");
+		document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
 
 		// Show the object info sampler and reticule
 		document.getElementsByClassName( "sampler" )[0].classList.remove("collapsed");
@@ -88,7 +88,7 @@ var displayBlocks = {
 
 		// hide any sidbar contents, the bars, reticule and the inventory
 		document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
-		document.getElementsByClassName( "editor-functionality" )[0].classList.add("collapsed");
+		document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
 		document.getElementsByClassName( "bottombar" )[0].classList.add("collapsed");
 		// document.getElementsByClassName( "reticule" )[0].classList.add("collapsed");
 		// document.getElementsByClassName( "inventory" )[0].classList.add("collapsed");

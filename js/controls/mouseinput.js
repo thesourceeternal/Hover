@@ -12,7 +12,6 @@ var mouseEvents = function () {
 	} );
 
 
-
 	// --- Intro --- \\
 	// When first landing on the site. Escape key works too.
 	// This event listener will not be removed, it's too much work for

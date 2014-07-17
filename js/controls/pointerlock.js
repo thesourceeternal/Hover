@@ -95,6 +95,22 @@ pointerLock = {
 
 	},
 
+	// Toggles pointer lock independent of automatic changes
+	toggleLock: function () {
+
+		if ( pointerLock.isLocked ) {
+
+			// Accessing our own function so isLocked changes
+			pointerLock.unlockPointer();
+
+		} else {
+
+			pointerLock.lockPointer();
+
+		}
+
+	},  // end toggleLock()
+
 	// Always happens when the pointer lock is changed
 	changePointerLock: function ( event ) {
 
@@ -118,22 +134,6 @@ pointerLock = {
 		}
 
 	},  // end changePointerLock()
-
-	// Toggles pointer lock independent of automatic changes
-	toggleLock: function () {
-
-		if ( pointerLock.isLocked ) {
-
-			// Accessing our own function so isLocked changes
-			pointerLock.unlockPointer();
-
-		} else {
-
-			pointerLock.lockPointer();
-
-		}
-
-	},  // end toggleLock()
 
 	// TODO: Comb https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html#dfn-target
 	// to see if there are any other conditions to check for.
