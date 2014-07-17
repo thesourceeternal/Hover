@@ -5,23 +5,26 @@
 
 var mouseEvents = function () {
 
+	// When first landing on the site. Affects pointer lock escape key too.
 	document.addEventListener( 'click', function () {
 		
 		// Perhaps put this in display.js
-		// If the user has just opened the page
 		if ( userStates.arrival ) {
 
 			pointerLock.lockPointer();
 
-			// Hide the intro
-			// Perhaps remove instead
-			document.getElementsByClassName( "intro" )[0].style.display = 'none';
-			// Show inspector stuff
+			// Remove and hide necessary elements
+			displayBlocks.hideIntro();
 
 			// Don't do this again till they next land
 			userStates.arrival = false;
 
 		}
+
+	} );
+
+	// Button to enter pointer lock
+	document.addEventListener( 'click', function () {
 
 	} );
 

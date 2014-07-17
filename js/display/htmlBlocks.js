@@ -18,4 +18,8 @@ var htmlBlocks = {
 
 	transforms: null,
 
+	sampler: "<div>\n"+
+	"Test sampler\n"+
+	"</div>"
+
 };

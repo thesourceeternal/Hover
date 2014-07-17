@@ -24,6 +24,7 @@
 	<script src="js/controls/keyevents.js"></script>
 	<script src="js/user/userState.js"></script>
 	<script src="js/display/htmlBlocks.js"></script>
+	<script src="js/display/display.js"></script>
 
 	<!-- Goes at bottom -->
 	<script src="index.js"></script>
@@ -41,7 +42,7 @@
 			<p>Press 't' while pointerlocked to run unit tests. Results appear in the console.</p>
 		</div>
 
-		<div class='editor hud bottombar collapsed'>
+		<div class='hud bottombar collapsed'>
 			<button class='noted esc-clause'>Press ESC to toggle editing</button>
 		</div>
 
@@ -49,9 +50,9 @@
 
 	<div class='sidebar hud'>
 
-		<div class='sampler collapsed'></div>
+		<div class='sampler collapsed'></div>  <!-- doesn't include tabs -->
 
-		<div class='editor-functionality collapsed'></div>
+		<div class='editor-functionality collapsed'></div>  <!-- includes tabs -->
 
 	</div> <!-- end .sidebar -->
 
