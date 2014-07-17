@@ -55,7 +55,7 @@ button, input, select, textarea {
 }
 
 .tab-container .spacer {
-
+	float: none;
 }
 
 .tab-bar {
@@ -71,6 +71,27 @@ button, input, select, textarea {
 	width: 50%;
 	/* padding has to be here so border goes all the way up */
 	padding: .2rem;
+}
+
+.inspector, .assets { /* perhaps find a structural name */
+	text-align: left;
+}
+
+.sidebar section {
+	position: relative; /* for abs pos children */
+	padding: .5rem 0 1.2rem 0;
+	margin: 0 2.5%;
+}
+
+.scene-tree {
+	height: auto;
+	max-height: 150px;
+}
+
+.jump-to-top {
+	position: absolute;
+	bottom: 0;
+	right: 10px;
 }
 
 /* - bottombar - */
@@ -120,6 +141,23 @@ body{
 	line-height: 1.4;
 }
 
+/* No html or body */
+a, a:link, a:visited, button, div, fieldset, footer, form, header,
+h1, h2, h3, h4, h5, h6, hr, input, legend, li, menu,
+nav, ol, ul, section, select, textarea {
+	font-family: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-size: 1rem;
+	font-weight: bold;
+}
+
+li, legend {margin-bottom: .1rem;}
+
+a, a:link, a:visited {
+	color: inherit;
+}
 
 /* --- Hud --- */
 .hud {
@@ -131,6 +169,10 @@ body{
 /* - sidebar - */
 .sidebar {
 	border: .1rem solid rgb(40, 40, 40);
+}
+
+.sidebar h1, .sidebar h2, .sidebar h3, .sidebar h4,.sidebar h5, .sidebar h6 {
+	color: rgb(230, 230, 230);
 }
 
 .tab {
@@ -146,6 +188,36 @@ body{
 	background-color: inherit;
 	border-bottom: none;
 	color: rgb(230, 230, 230);
+}
+
+.scene-tree-container h1 {
+	background-color: rgba(28, 28, 28, .8);
+}
+
+.scene-tree-container menu {
+	background-color: rgba(60, 60, 60, .7);
+	border: 1px solid rgba(28, 28, 28, .8);  /* same as h1 background */
+}
+
+/* buttons */
+.collapser {
+	background: none;
+	border: none;
+}
+
+.expanded {
+	behavior: url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform: rotate(90deg);
+    /* Safari and Chrome */
+    -webkit-transform: rotate(90deg);
+    /* Opera */
+    -o-transform: rotate(90deg);
+}
+
+/* extras */
+.tiny-text {  /* Needs a better name */
+	font-size: .8rem;
 }
 
 
