@@ -14,6 +14,8 @@ window.addEventListener( 'load', function () {
 	// In here for testing
 	document.getElementsByClassName( "editor-functionality" )[0]
 							.innerHTML = htmlBlocks.editorTabs;
+	document.getElementsByClassName( "sampler" )[0]
+							.innerHTML = htmlBlocks.sampler;
 
 } );  // end window on load
 

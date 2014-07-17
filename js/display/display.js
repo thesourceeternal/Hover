@@ -106,6 +106,7 @@ var displayBlocks = {
 		var intro = document.getElementsByClassName( "intro" )[0];
 		intro.parentNode.removeChild(intro);
 
+		// The sidebar and sampler are exposed
 		displayBlocks.hideEditor();
 
 	},  // end hideIntro()
