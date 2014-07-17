@@ -17,17 +17,18 @@ keyEvents = function () {
 
 			// Toggle display of inspector/assests vs. object sampler
 			// but not on first arrival where hideIntro() will take care of it
-			if (!userState.arrival) {
+			if ( userState.arrival ) {
 
+				// This will take care of pointer lock too
+				displayBlocks.hideIntro();
+
+			} else {  // just lock the pointer
+
+				// Keyup so it waits till after all other pointer
+				// changes have been made, after toggleEditor() so arrival
+				// will stay true and intro will hide properly
 				displayBlocks.toggleEditor();
-
 			}
-
-			// Keyup so it waits till after all other pointer
-			// changes have been made, after toggleEditor() so arrival
-			// will stay true and intro will hide properly
-			pointerLock.toggleLock();
-			// lockPointer() should take care of the user's arrival
 
 		}  // end keyCode pointerLock
 

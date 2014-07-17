@@ -29,6 +29,8 @@ var displayBlocks = {
 
 	showEditor: function () {
 
+		pointerLock.unlockPointer();
+
 		// Hide the object info sampler and reticule
 		document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
 		// document.getElementsByClassName( "reticule" )[0].classList.add("collapsed");
@@ -43,6 +45,8 @@ var displayBlocks = {
 	},  // end showEditor()
 
 	hideEditor: function () {
+
+		pointerLock.lockPointer();
 
 		// Hide the majority element with the code and bars, and the sidebar editor
 		document.getElementsByClassName( "majority" )[0].classList.add("collapsed");
@@ -110,6 +114,8 @@ var displayBlocks = {
 
 		// The sidebar and sampler are exposed
 		displayBlocks.hideEditor();
+
+		userState.arrival = false;
 
 	},  // end hideIntro()
 

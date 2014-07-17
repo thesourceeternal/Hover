@@ -6,8 +6,20 @@
 var mouseEvents = function () {
 
 	// --- Input Elements --- \\
-	// Button to enter pointer lock
-	document.addEventListener( 'click', function () {
+	document.addEventListener( 'click', function (event) {
+
+		var eventTarget = event.target;
+
+		// Button to enter pointer lock
+		if ( eventTarget.tagName.toLowerCase() === "button" ) {
+
+			if ( eventTarget.classList.contains("esc-clause") ) {
+
+				displayBlocks.toggleEditor();
+
+			}  // end if .esc-clause
+
+		}  // end if button
 
 	} );
 
@@ -21,9 +33,9 @@ var mouseEvents = function () {
 		// Perhaps put this in display.js
 		if ( userState.arrival ) {
 
-			// lockPointer() will hide the
-			// intro and turn userState.arrival to false
-			pointerLock.lockPointer();
+			// lockPointer() will hide the intro, turn userState.arrival
+			// to false, and lock pointer
+			displayBlocks.hideIntro();
 			// displayBlocks.hideIntro();
 
 		}
