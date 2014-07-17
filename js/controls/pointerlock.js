@@ -72,12 +72,12 @@ pointerLock = {
 		pointerLock.isLocked = true;
 
 		// if the user just landed on the page
-		if (userStates.arrival) {
+		if (userState.arrival) {
 
 			// they've engaged the pointerlock, hide the intro
 			displayBlocks.hideIntro();
 			// unitl the next time they freshly open the page
-			userStates.arrival = false;
+			userState.arrival = false;
 
 		}
 	},

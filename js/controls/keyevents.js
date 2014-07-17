@@ -13,10 +13,19 @@ keyEvents = function () {
 		/* ===================================
 		   RUNNING TESTS
 		   ==================================== */
-		// 't'
-		if ( keyCode === 84 ) {
+		if ( keyCode === userState.preferences.hotkeys.test[2] ) {
 
-			runTests();
+			if (pointerLock.isLocked) {
+
+				runTests();
+
+			} else {  // the user may have not engaged pointerlock
+				// so pointerlock tests can't run properly,
+				// will give incorrect results
+				console.log("Warning: Pressing 't' for tests is only " +
+					"for use while pointer is locked. Using it while " +
+					"pointer is unlocked may cause errors in testing.")
+			}
 
 		}
 
@@ -24,7 +33,7 @@ keyEvents = function () {
 		/* ===================================
 		   UI
 		   ==================================== */
-		else if ( keyCode === 27 ) {
+		else if ( keyCode === userState.preferences.hotkeys.pointerLock[2] ) {
 
 			// Keyup so it waits till after all other pointer
 			// changes have been made

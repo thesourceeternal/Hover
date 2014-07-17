@@ -19,7 +19,7 @@ var mouseEvents = function () {
 	document.addEventListener( 'click', function () {
 		
 		// Perhaps put this in display.js
-		if ( userStates.arrival ) {
+		if ( userState.arrival ) {
 
 			// lockPointer() will hide the
 			// intro and turn userState.arrival to false
