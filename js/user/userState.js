@@ -29,11 +29,11 @@ userState = {
 			// --- Testing --- \\
 			test: ["test", "t", 84],
 
-		},
+		},  // end hotkeys{}
 
 		flying: true,
 
-	},
+	},  // end preferences{}
 
 }
 
