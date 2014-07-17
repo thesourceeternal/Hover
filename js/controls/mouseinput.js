@@ -5,27 +5,29 @@
 
 var mouseEvents = function () {
 
-	// When first landing on the site. Affects pointer lock escape key too.
-	document.addEventListener( 'click', function () {
-		
-		// Perhaps put this in display.js
-		if ( userStates.arrival ) {
-
-			pointerLock.lockPointer();
-
-			// Remove and hide necessary elements
-			displayBlocks.hideIntro();
-
-			// Don't do this again till they next land
-			userStates.arrival = false;
-
-		}
-
-	} );
-
+	// --- Input Elements --- \\
 	// Button to enter pointer lock
 	document.addEventListener( 'click', function () {
 
 	} );
 
-}
+
+
+	// --- Intro --- \\
+	// When first landing on the site. Escape key works too.
+	// This event listener will not be removed, it's too much work for
+	// one little event listener
+	document.addEventListener( 'click', function () {
+		
+		// Perhaps put this in display.js
+		if ( userStates.arrival ) {
+
+			// lockPointer() will hide the
+			// intro and turn userState.arrival to false
+			pointerLock.lockPointer();
+
+		}
+
+	} );
+
+};
