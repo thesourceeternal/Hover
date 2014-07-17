@@ -27,7 +27,7 @@ userState = {
 			pointerLock: ["pointer lock", "esc", 27],
 
 			// --- Testing --- \\
-			test: ["test", "t", 84],
+			tests: ["run tests", "t", 84],
 
 		},  // end hotkeys{}
 

@@ -11,11 +11,7 @@ window.addEventListener( 'load', function () {
 	mouseEvents();
 	keyEvents();
 
-	// In here for testing
-	document.getElementsByClassName( "editor-sidebar" )[0]
-							.innerHTML = htmlBlocks.editorTabs;
-	document.getElementsByClassName( "sampler" )[0]
-							.innerHTML = htmlBlocks.sampler;
+	htmlBlocks._init_();
 
 } );  // end window on load
 

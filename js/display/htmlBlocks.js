@@ -1,8 +1,19 @@
 /* 
 * The building blocks of contextual interactivity
+* TODO: discuss - should bottombar be in here? Should all
+* html be in here?
 */
 
 var htmlBlocks = {
+
+	_init_: function () {
+
+		document.getElementsByClassName( "editor-sidebar" )[0].innerHTML =
+					htmlBlocks.editorTabs;
+		document.getElementsByClassName( "sampler" )[0]
+								.innerHTML = htmlBlocks.sampler;
+
+	},
 
 	editorTabs: "<div class='tab-container'>  <!-- in here for js -->\n"+
     "<div class='tab spacer'>Inspector</div>\n"+

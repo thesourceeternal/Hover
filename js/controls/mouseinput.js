@@ -24,6 +24,7 @@ var mouseEvents = function () {
 			// lockPointer() will hide the
 			// intro and turn userState.arrival to false
 			pointerLock.lockPointer();
+			// displayBlocks.hideIntro();
 
 		}
 
