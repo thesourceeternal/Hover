@@ -117,14 +117,23 @@ button, input, select, textarea {
    Functionality
    ========================================================================== */
 
-.collapsed {
-	display: none;
-}
-
 .spacer { /* because menu elements are floats */
 	visibility: hidden;
 }
 
+.collapsed {
+	display: none;
+}
+
+.expanded {
+	behavior: url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform: rotate(90deg);
+    /* Safari and Chrome */
+    -webkit-transform: rotate(90deg);
+    /* Opera */
+    -o-transform: rotate(90deg);
+}
 
 /* ==========================================================================
    Skin
@@ -203,16 +212,6 @@ a, a:link, a:visited {
 .collapser {
 	background: none;
 	border: none;
-}
-
-.expanded {
-	behavior: url(-ms-transform.htc);
-    /* Firefox */
-    -moz-transform: rotate(90deg);
-    /* Safari and Chrome */
-    -webkit-transform: rotate(90deg);
-    /* Opera */
-    -o-transform: rotate(90deg);
 }
 
 /* extras */
