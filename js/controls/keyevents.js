@@ -47,7 +47,7 @@ keyEvents = function () {
 				// will give incorrect results
 				console.log("Pressing 't' for tests is only " +
 					"for use while pointer is locked. Using it while " +
-					"pointer is unlocked may cause errors in testing.")
+					"pointer is unlocked may cause errors in testing.");
 			}
 
 		}  // end keyCode tests
