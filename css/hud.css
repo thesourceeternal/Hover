@@ -29,9 +29,22 @@ nav, ol, ul, section, textarea {
 
 li {list-style: none;}
 
+input, select {
+	margin: 0 0 .25rem .25rem;
+}
+
 button, input, select, textarea {
 	font-size: 95%;
 	vertical-align: baseline;
+}
+
+input[type=text] {
+	padding-left: .25rem;
+	width: 7rem;
+}
+
+input[type=text].var-name {
+	width: 7rem;
 }
 
 /* --- Major screen space (Not sidebar) --- */
@@ -52,6 +65,7 @@ button, input, select, textarea {
 	bottom: 0;
 	right: 0;
 	width: 18rem;
+	/* TODO: Make this scrollable; */
 }
 
 .tab-container .spacer {
@@ -75,17 +89,19 @@ button, input, select, textarea {
 
 .inspector, .assets { /* perhaps find a structural name */
 	text-align: left;
+	padding: 0 2.5%;
 }
 
 .sidebar section {
 	position: relative; /* for abs pos children */
 	padding: .5rem 0 1.2rem 0;
-	margin: 0 2.5%;
 }
 
 .scene-tree {
 	height: auto;
-	max-height: 150px;
+	max-height: 10rem;
+	/* TODO: Make this height draggable */
+	/* TODO: Make this scrollable; */
 }
 
 .jump-to-top {
@@ -150,9 +166,9 @@ body{
 	line-height: 1.4;
 }
 
-/* No html or body */
+/* No html, body, or hr */
 a, a:link, a:visited, button, div, fieldset, footer, form, header,
-h1, h2, h3, h4, h5, h6, hr, input, legend, li, menu,
+h1, h2, h3, h4, h5, h6, input, legend, li, menu,
 nav, ol, ul, section, select, textarea {
 	font-family: inherit;
 }
@@ -168,9 +184,20 @@ a, a:link, a:visited {
 	color: inherit;
 }
 
+input {
+	background: none;
+	color: inherit;
+	border: .1rem solid gray;
+}
+
+hr {
+	border: 0;
+	border-top: .1rem solid rgba(30, 30, 30, .8);  /* same as h1 background */
+}
+
 /* --- Hud --- */
 .hud {
-	background-color: rgba(40, 40, 40, 0.75);
+	background-color: rgba(60, 60, 60, 0.9);
 }
 
 
@@ -185,9 +212,9 @@ a, a:link, a:visited {
 }
 
 .tab {
-	background-color: rgba(0, 0, 0, .4);
-	border-right: 1px solid rgb(40, 40, 40);
-	border-bottom: 1px solid rgb(40, 40, 40);
+	background-color: rgba(0, 0, 0, .3);
+	border-right: .1rem solid rgb(40, 40, 40);
+	border-bottom: .1rem solid rgb(40, 40, 40);
 	color: rgb(180, 180, 180);
 }
 
@@ -200,12 +227,19 @@ a, a:link, a:visited {
 }
 
 .scene-tree-container h1 {
-	background-color: rgba(28, 28, 28, .8);
+	background-color: rgba(30, 30, 30, .8);
 }
 
 .scene-tree-container menu {
 	background-color: rgba(60, 60, 60, .7);
-	border: 1px solid rgba(28, 28, 28, .8);  /* same as h1 background */
+	border: .1rem solid rgba(30, 30, 30, .8);  /* same as h1 background */
+}
+
+.child {margin-left: 20px;}
+
+/* components */
+.obj-info h1 {
+	color: rgba(252, 87, 87, 0.94); /* red */
 }
 
 /* buttons */
