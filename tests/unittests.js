@@ -4,7 +4,7 @@
 
 var runTests = function () {
 
-	console.log( "*** Running Unit Tets ***" );
+	console.log( "*** Running Unit Tests ***" );
 	
 	unitTests.testList = [
 		// Unlock test has to come before lock test. See notes with func
@@ -121,7 +121,14 @@ unitTests = {
 
 	// --- TESTS --- \\
 
-	// -- Pointer Tests -- \\
+	// -- Pointer Lock Tests -- \\
+
+	// Because of the way we handle changing pointer lock, every time
+	// we change it happens twice, we only want to test one of those times
+	// each time we test pointer lock. If this circumstance changes, this
+	// will have to be redone
+	lockChangeNum: 0,
+
 	// - Unlock Pointer - \\
 	// This has to go first because the user has to
 	// engage the lock before the tests for the lock can be run
@@ -129,6 +136,8 @@ unitTests = {
 
 		unitTests.test = "pointerLock.unlockPointer";
 		unitTests.expected = false
+
+		unitTests.lockChangeNum = 0;
 
 		// Hook pointer lock state change events (event names assigned by browser)
 		// specifically to our test function. Will be removed later
@@ -146,25 +155,50 @@ unitTests = {
 		unitTests.test = "pointerLock.lockPointer";
 		unitTests.expected = true;
 
+		unitTests.lockChangeNum = 0;
+
 		pointerLock.lockPointer();
 
 	},  // end testPointerLock()
 
 	testLock: function ( event ) {
-		// Check for locked pointer
-		if (document.pointerLockElement === lockElement ||
-			document.mozPointerLockElement === lockElement ||
-			document.webkitPointerLockElement === lockElement) {  // Locked
 
-			unitTests.errorMsg = "Pointer was locked";
-			unitTests.checkResults( true );
+		// The pointer lock got changed one more time
+		unitTests.lockChangeNum += 1;
 
-		} else {  // Pointer is unlocked
+		// The second time the pointer lock gets changed
+		// (see notes above at lockChangeNum)
+		if (unitTests.lockChangeNum > 2) {
 
-			unitTests.errorMsg = "Pointer was FREE!";
-			unitTests.checkResults( false );
+			// Get rid of event listeners
+			document.removeEventListener('pointerlockchange', unitTests.testLock, false);
+			document.removeEventListener('mozpointerlockchange', unitTests.testLock, false);
+			document.removeEventListener('webkitpointerlockchange', unitTests.testLock, false);
 
-		}
+			console.log("WARNING: The number of consecutive pointer " +
+				"lock changes has exceeded 2.\nThe variable unitTests.lockChangeNum " + 
+				"has not been reset in some function and effective testing cannot " + 
+				"continue.\nPointer lock change event for testing have been removed.")
+
+		} else if (unitTests.lockChangeNum > 1) {
+
+			// Check for locked pointer
+			if (document.pointerLockElement === lockElement ||
+				document.mozPointerLockElement === lockElement ||
+				document.webkitPointerLockElement === lockElement) {  // Locked
+
+				unitTests.errorMsg = "Pointer was locked";
+				unitTests.checkResults( true );
+
+			} else {  // Pointer is unlocked
+
+				unitTests.errorMsg = "Pointer was FREE!";
+				unitTests.checkResults( false );
+
+			}
+
+		}  // end if lockChangeNum
+
 	},  // end testLock()
 
 }  // end unitTests{}
