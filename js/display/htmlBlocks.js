@@ -30,8 +30,6 @@ var htmlBlocks = {
 		for ( var compIndx = 0; compIndx < components.length; compIndx++ ) {
 			inspectorContents += components[compIndx];
 
-			console.log(compIndx, components.length);
-
 			// Don't put an hr after the last component
 			if ( compIndx < components.length - 1 ) {
 				inspectorContents += "<hr>";
