@@ -113,7 +113,7 @@ var displayBlocks = {
 		intro.parentNode.removeChild(intro);
 
 		// The sidebar and sampler are exposed
-		// displayBlocks.hideEditor();
+		displayBlocks.hideEditor();
 
 		userState.arrival = false;
 
