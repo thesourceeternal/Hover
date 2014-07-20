@@ -113,14 +113,10 @@ pointerLock = {
 			// Start fps controls
 			controls.enabled = true;
 
-			// toggleDisplay();
-
 		} else {  // pointer is NOT locked
 
 			// Stop fps controls
 			controls.enabled = false;
-
-			// toggleDisplay();
 
 		}
 

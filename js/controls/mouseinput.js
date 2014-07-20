@@ -29,12 +29,10 @@ var mouseEvents = function () {
 	// This event listener will not be removed, it's too much work for
 	// one little event listener
 	document.addEventListener( 'click', function () {
-		
-		// Perhaps put this in display.js
+
 		if ( userState.arrival ) {
 
-			// lockPointer() will hide the intro, turn userState.arrival
-			// to false, and lock pointer
+			// Will take care of pointer lock and all that jazz
 			displayBlocks.hideIntro();
 
 		}
