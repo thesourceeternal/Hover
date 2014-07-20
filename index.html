@@ -13,20 +13,22 @@
 	<!-- *** JS *** -->
 	<!-- TODO: phase out jquery -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/jquery-1.11.0.min.js"><\/script>')</script>
+	<script>window.jQuery || document.write('<script src="js/thirdparty/jquery-1.11.0.min.js"><\/script>')</script>
 
 	<!-- From three.js -->
-	<script src="js/three.min.js"></script>
+	<script src="js/thirdparty/three.min.js"></script>
     <script src="js/controls/PointerLockControls.js"></script>
-	<script src="js/world/cubeworld.js"></script>
+	<script src="server/worlds/cubeworld.js"></script>
 
 	<!-- Homemade -->
+	<!--  -->
 	<script src="js/controls/pointerlock.js"></script>
 	<script src="js/controls/mouseinput.js"></script>
 	<script src="js/controls/keyevents.js"></script>
-	<script src="js/user/userState.js"></script>
-	<script src="js/display/htmlBlocks.js"></script>
-	<script src="js/display/display.js"></script>
+	<script src="js/userstate.js"></script>
+	<script src="js/display.js"></script>
+
+	<script src="server/htmlBlocks.js"></script>
 
 	<!-- Goes at bottom of scripts -->
 	<!-- beefy creates and then deletes bundle.js when it start the server
