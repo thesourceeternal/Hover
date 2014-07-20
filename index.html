@@ -28,8 +28,11 @@
 	<script src="js/display/htmlBlocks.js"></script>
 	<script src="js/display/display.js"></script>
 
-	<!-- Goes at bottom -->
-	<script src="index.js"></script>
+	<!-- Goes at bottom of scripts -->
+	<!-- beefy creates and then deletes bundle.js when it start the server
+	each time. It also calls on index.js, so you can't put index.js in here
+	or "require" will be undefined, but index.js is still being used. -->
+	<script src="bundle.js"></script>
 	<script src="tests/unittests.js"></script>
 
 </head>
