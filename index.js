@@ -1,17 +1,27 @@
-// For now this starts things up
-// Perhaps later it will be in a game.js
+// Starts things off
 
 window.addEventListener( 'load', function () {
 
+	/* ===================================
+	    Server
+	   ==================================== */
+
+	// TODO: Need to seperate client stuff from this file
+	cubeWorld();
+
+	// The editor element representations of the objects
+	htmlBlocks._init_();
+
+
+	/* ===================================
+	    User/Client
+	   ==================================== */
+
 	// Make all the pointer lock things work
 	pointerLock._init_();
-	cubeWorld();
 
 	// Add event listeners
 	mouseEvents();
 	keyEvents();
 
-	htmlBlocks._init_();
-
 } );  // end window on load
-
