@@ -125,7 +125,25 @@ var htmlBlocks = module.exports = {
 			),
 
 			hyper( 'form.collapsible',
-				'contents',
+				hyper( 'ul',
+
+					hyper( 'li.child',
+						'Prefabs'
+					),  // end li
+
+					hyper( 'li.child',
+						'name'
+					),  // end li
+
+					hyper( 'li.child',
+						'id'
+					),  // end li
+
+					hyper( 'li.child',
+						'foo'
+					)  // end li
+
+				),  // end ul
 
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
@@ -183,7 +201,7 @@ var htmlBlocks = module.exports = {
 
 	// 'Components' that are always present
 	allPermanent: [
-		// Will contain (in _init_()):
+		// Will contain (assigned in _init_()):
 		// htmlBlocks.sceneTree,
 		// htmlBlocks.objectInfo,
 		// htmlBlocks.transforms
