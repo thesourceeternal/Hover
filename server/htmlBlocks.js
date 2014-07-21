@@ -24,28 +24,31 @@ var htmlBlocks = module.exports = {
 		editorSidebar.appendChild(blocks.inspector);
 		editorSidebar.appendChild(blocks.assets);
 
-		// document.getElementsByClassName( "editor-sidebar" )[0].innerHTML =
-		// 			blocks.editorTabs() + blocks.inspector + blocks.assets;
+		var inspector = document.getElementsByClassName( "inspector" )[0];
 
-		// Get all the inspector stuff together
-		var inspectorContents = blocks.sceneTree + "<hr>" +
-							blocks.objectInfo + "<hr>" +
-							blocks.transforms + "<hr>";
+		htmlBlocks.allPermanent = [
+			htmlBlocks.sceneTree,
+			htmlBlocks.objectInfo,
+			htmlBlocks.transforms
+		];
 
-		var components = blocks.allComponents;
+		htmlBlocks.allComponents = [
+			htmlBlocks.sample1
+		];
 
-		for ( var compIndx = 0; compIndx < components.length; compIndx++ ) {
-			inspectorContents += components[compIndx];
+		var permanentElements = htmlBlocks.allPermanent;
+
+		var numPermanent = permanentElements.length;
+
+		for ( var indx = 0; indx < numPermanent; indx++ ) {
+			inspector.appendChild(permanentElements[indx]);
 
 			// Don't put an hr after the last component
-			if ( compIndx < components.length - 1 ) {
-				inspectorContents += "<hr>";
+			if ( indx < numPermanent - 1 ) {
+				var hr = document.createElement('hr');
+				inspector.appendChild(hr);
 			}
-
 		}
-
-		document.getElementsByClassName( "inspector" )[0].innerHTML =
-					inspectorContents;
 
 		document.getElementsByClassName( "sampler" )[0].appendChild(blocks.sampler);
 					// blocks.sampler;
@@ -60,22 +63,13 @@ var htmlBlocks = module.exports = {
 	sampler: hyper( 'div', 'Test sampler' ),
 
 	editorTabs:
-		hyper( 'div.tab-container',
+		hyper( 'div.tab-container',  // element for js
 			hyper( 'div.tab.spacer', 'Inspector' ),
-			hyper( 'menu#sidebar-nav.tab-bar',
+			hyper( 'menu#sidebar-nav.tab-bar',  // id for jump to top
 				hyper( 'li.tab.inspector-get.active-tab', 'Inspector' ),
 				hyper( 'li.tab.assets-get', 'Assets' )
-				)
 			)
-
-// "<div class='tab-container'>  <!-- in here for js -->\n"+
-//    "<div class='tab spacer'>Inspector</div>\n"+
-//    "<menu id='sidebar-nav' class='tab-bar'>  <!-- id for jump to top -->\n"+
-//    "    <li class='tab inspector-get active-tab'>Inspector</li>\n"+
-//    "    <li class='tab assets-get'>Assets</li>\n"+
-//    "</menu>\n"+
-// "</div> <!-- end .tab-container -->"
-    ,  // end editorTabs
+		),  // end editorTabs
 
 	inspector: hyper( 'div.inspector' ),
 	// "<div class='inspector'></div>",
@@ -84,86 +78,65 @@ var htmlBlocks = module.exports = {
 	// "<div class='assets'></div>",
 
 	sceneTree:
-		"<section class='scene-tree-container'>" +
-			"<h1>" +
-				"<button class='collapser expanded'>" +
-					"<img src='images/arrow-small.png' alt='Click to collapse'>" +
-				"</button>" +
-				"Scene Object Tree" +
-			"</h1>" +
+		hyper( 'section.scene-tree-container',
 
-			"<!-- Maybe this shouldn't be a menu, menu " +
-			"isn't supported by most browsers -->" +
-            "<menu type='context' class='scene-tree collapsible'> <!-- draggable height change -->" +
-                "<!-- Clicking on an object selects it in the scene -->" +
+			hyper( 'h1',
+				hyper( 'button.collapser.expanded',
+					hyper( 'img', { src: 'images/arrow-small.png', alt: 'Click to collapse' })
+				),
+				'Scene Object Tree'
+			),
 
-                "<ul>" +
-	                "<li class='scene-obj obj-1'>" +
-                        "<div class='selectable'>" +
-                        // TODO: only give an object a collapser if it has children
-                            "<button class='collapser expanded'>" +
-	                            "<img src='images/arrow-small.png' alt='Click to collapse'>" +
-                            "</button>" +
-                            " Some Object 1" +
-                        "</div>" +
-                    "<li> <!-- end .obj-1 -->" +
+			// Maybe not a menu, menu isn't supported by most browsers
+			hyper( 'menu.scene-tree.collapsible',
+				// Clicking on an object should select it in the scene
+				hyper( 'ul',
 
-                "</ul> <!-- end .scene-tree -->" +
+					hyper( 'li.scene-obj.obj-1',
 
-                "<a class='tiny-text jump-to-top' href='#sidebar-nav'>Jump to top</a>" +
-            "</menu>" +
-            "<!-- Add a search field for searching the objects (lazy search) -->" +
+						hyper( 'div.selectable',
+							// TODO: only give an object a collapser if it has children
+							hyper( 'button.collapser.expanded',
+								hyper('img',  { src: 'images/arrow-small.png',
+									alt: 'Click to collapse' })
+							),  // end button.collapser
+							'Some Object 1'
+						)
 
-		"</section> <!-- end .scene-tree-container -->"
+					),  // end .obj-1
+
+					hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+						'Jump to top'
+					)
+
+				)
+			)  // end menu.scene-tree
+		)  // end .scene-tree-container
 	,  // end sceneTree
 
 	objectInfo:
-		"<section class='component obj-info'>" +
-	        "<h1>" +
-	            "<button class='collapser expanded'>" +
-	            	"<img src='images/arrow-small.png' alt='Click to collapse'>" +
-            	"</button> Object Info" +
-	        "</h1>" +
+		hyper( 'section.component.obj-info', 
+			hyper('h1', 'Object Info')
 
-	        "<form class='collapsible'>" +
-	            "<ul>" +
-	                "<li class='child info-field'>" +
-	                    "<label>Prefab:" +
-	                        "<select name='prefab'>" +
-	                            "<option>None (make unique)</option>" +
-	                            "<option>prefab 1</option>" +
-	                            "<option>prefab 2</option>" +
-	                        "</select>" +
-	                    "</label>" +
-	                "</li>" +
-	                "<li class='child info-field'>" +
-	                    "<label>name:" +
-	                        "<input name='name' type='text'>" +
-	                    "</label>" +
-	                "</li>" +
-	                "<li class='child info-field'>" +
-	                    "<label>id:" +
-	                        "<input name='id' type='text'>" +
-	                    "</label>" +
-	                "</li>" +
-	                "<li class='child info-field'>" +
-	                    "<label>foo:" +
-	                        "<input name='foo' type='text'>" +
-	                    "</label>" +
-	                "</li>" +
-	            "</ul>" +
+		),  // end objectInfo
 
-	            "<a class='tiny-text jump-to-top' href='#sidebar-nav'>Jump to top</a>  <!-- is nav needed? -->" +
-	        "</form>" +
+	transforms:
+		hyper( 'section.component.transforms'
 
-	    "</section> <!-- end .obj-info -->"
-    ,  // end objectInfo
+		)  // end .transforms
+	,  // end transforms
 
-	transforms: "transforms",
+	sample1:
+		hyper('div'),
+
+	allPermanent: [
+		// htmlBlocks.sceneTree,
+		// htmlBlocks.objectInfo,
+		// htmlBlocks.transforms
+	],
 
 	allComponents: [
-		"component 1",
-		"component 2"
+		// htmlBlocks.sample1
 	],
 
 	/* ===================================
