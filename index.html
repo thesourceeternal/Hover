@@ -28,12 +28,13 @@
 	<script src="js/userstate.js"></script>
 	<script src="js/display.js"></script>
 
-	<script src="server/htmlBlocks.js"></script>
+	<!-- Converted to bundle -->
+	<!-- <script src="server/htmlBlocks.js"></script> -->
 
 	<!-- Goes at bottom of scripts -->
 	<!-- beefy creates and then deletes bundle.js when it start the server
 	each time. It also calls on index.js, so you can't put index.js in here
-	or "require" will be undefined, but index.js is still being used. -->
+	or "require" will be undefined. bundle.js now makes index.js happen. -->
 	<script src="bundle.js"></script>
 	<script src="tests/unittests.js"></script>
 

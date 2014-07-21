@@ -4,7 +4,9 @@
 * html be in here?
 */
 
-var htmlBlocks = {
+var hyper = require('hyperscript');
+
+var htmlBlocks = module.exports = {
 
 	// Existing elements
 	// majority: document.getElementsByClassName( "majority" )[0],
@@ -40,8 +42,8 @@ var htmlBlocks = {
 		document.getElementsByClassName( "inspector" )[0].innerHTML =
 					inspectorContents;
 
-		document.getElementsByClassName( "sampler" )[0].innerHTML =
-					blocks.sampler;
+		document.getElementsByClassName( "sampler" )[0].appendChild(blocks.sampler);
+					// blocks.sampler;
 
 	},
 
@@ -50,9 +52,7 @@ var htmlBlocks = {
 	   Blocks
 	   ==================================== */
 
-	sampler: "<div>\n"+
-	"Test sampler\n"+
-	"</div>",
+	sampler: hyper('div', 'Test sampler'),
 
 	inspector: "<div class='inspector'></div>",
 

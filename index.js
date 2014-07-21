@@ -1,5 +1,8 @@
 // Starts things off
 
+// Server stuff
+var html = require('./server/htmlBlocks.js');
+
 window.addEventListener( 'load', function () {
 
 	/* ===================================
@@ -10,7 +13,7 @@ window.addEventListener( 'load', function () {
 	cubeWorld();
 
 	// The editor element representations of the objects
-	htmlBlocks._init_();
+	html._init_();
 
 
 	/* ===================================
