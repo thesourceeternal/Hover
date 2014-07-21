@@ -125,22 +125,38 @@ var htmlBlocks = module.exports = {
 			),
 
 			hyper( 'form.collapsible',
+
 				hyper( 'ul',
 
 					hyper( 'li.child',
-						'Prefabs'
+						hyper( 'label', 'Prefab:',
+							hyper( 'select', {name: 'prefab'},
+								hyper('option', 'None (make unique)'),
+								hyper('option', 'Prefab 1'),
+								hyper('option', 'Prefab 2')
+							)
+						)  // end label (Prefab)
 					),  // end li
 
 					hyper( 'li.child',
-						'name'
+						hyper( 'label', 'name:',
+							hyper( 'input', {name: 'name', type: 'text'}
+							)
+						)  // end label (name)
 					),  // end li
 
 					hyper( 'li.child',
-						'id'
+						hyper( 'label', 'id:',
+							hyper( 'input', {name: 'id', type: 'text'}
+							)
+						)  // end label (id)
 					),  // end li
 
 					hyper( 'li.child',
-						'foo'
+						hyper( 'label', 'foo:',
+							hyper( 'input', {name: 'foo', type: 'text'}
+							)
+						)  // end label (foo)
 					)  // end li
 
 				),  // end ul
