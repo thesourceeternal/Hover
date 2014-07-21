@@ -19,8 +19,13 @@ var htmlBlocks = module.exports = {
 
 		var blocks = htmlBlocks;
 
-		document.getElementsByClassName( "editor-sidebar" )[0].innerHTML =
-					blocks.editorTabs + blocks.inspector + blocks.assets;
+		var editorSidebar = document.getElementsByClassName( "editor-sidebar" )[0];
+		editorSidebar.appendChild(blocks.editorTabs);
+		editorSidebar.appendChild(blocks.inspector);
+		editorSidebar.appendChild(blocks.assets);
+
+		// document.getElementsByClassName( "editor-sidebar" )[0].innerHTML =
+		// 			blocks.editorTabs() + blocks.inspector + blocks.assets;
 
 		// Get all the inspector stuff together
 		var inspectorContents = blocks.sceneTree + "<hr>" +
@@ -52,20 +57,31 @@ var htmlBlocks = module.exports = {
 	   Blocks
 	   ==================================== */
 
-	sampler: hyper('div', 'Test sampler'),
+	sampler: hyper( 'div', 'Test sampler' ),
 
-	inspector: "<div class='inspector'></div>",
+	editorTabs:
+		hyper( 'div.tab-container',
+			hyper( 'div.tab.spacer', 'Inspector' ),
+			hyper( 'menu#sidebar-nav.tab-bar',
+				hyper( 'li.tab.inspector-get.active-tab', 'Inspector' ),
+				hyper( 'li.tab.assets-get', 'Assets' )
+				)
+			)
 
-	assets: "<div class='assets'></div>",
-
-	editorTabs: "<div class='tab-container'>  <!-- in here for js -->\n"+
-    "<div class='tab spacer'>Inspector</div>\n"+
-    "<menu id='sidebar-nav' class='tab-bar'>  <!-- id for jump to top -->\n"+
-    "    <li class='tab inspector-get active-tab'>Inspector</li>\n"+
-    "    <li class='tab assets-get'>Assets</li>\n"+
-    "</menu>\n"+
-    "</div> <!-- end .tab-container -->"
+// "<div class='tab-container'>  <!-- in here for js -->\n"+
+//    "<div class='tab spacer'>Inspector</div>\n"+
+//    "<menu id='sidebar-nav' class='tab-bar'>  <!-- id for jump to top -->\n"+
+//    "    <li class='tab inspector-get active-tab'>Inspector</li>\n"+
+//    "    <li class='tab assets-get'>Assets</li>\n"+
+//    "</menu>\n"+
+// "</div> <!-- end .tab-container -->"
     ,  // end editorTabs
+
+	inspector: hyper( 'div.inspector' ),
+	// "<div class='inspector'></div>",
+
+	assets: hyper( 'div.assets' ),
+	// "<div class='assets'></div>",
 
 	sceneTree:
 		"<section class='scene-tree-container'>" +
