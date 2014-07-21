@@ -9,12 +9,34 @@ var mouseEvents = function () {
 	document.addEventListener( 'click', function (event) {
 
 		var eventTarget = event.target;
+		var targetClasses = eventTarget.classList;
 
-			if ( eventTarget.classList.contains("esc-clause") ) {
+		// -- Editor Functionality -- \\
+		// Switch between inspector and assets
+		if ( targetClasses.contains("tab") ) {
 
-				displayBlocks.toggleEditor();
+			if ( targetClasses.contains("inspector-get") ) {
 
-			}  // end if .esc-clause
+				displayBlocks.showInspector();
+
+			} else if ( targetClasses.contains("assets-get") ) {
+
+				displayBlocks.showAssets();
+
+			} else {
+
+				console.log("You clicked a tab that does not exist...");
+
+			}  // end if inspector or assets
+
+		}  // end if .tab
+
+		// Pointer lock, get it back
+		if ( targetClasses.contains("esc-clause") ) {
+
+			displayBlocks.toggleEditor();
+
+		}  // end if .esc-clause
 
 	} );
 

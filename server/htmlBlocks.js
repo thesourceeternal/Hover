@@ -73,7 +73,7 @@ var htmlBlocks = module.exports = {
 	inspector: hyper( 'div.inspector' ),
 	// "<div class='inspector'></div>",
 
-	assets: hyper( 'div.assets' ),
+	assets: hyper( 'div.assets.collapsed' ),
 	// "<div class='assets'></div>",
 
 	sceneTree:

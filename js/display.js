@@ -6,7 +6,7 @@ var displayBlocks = {
 
 	// Bools
 	editorShowing: false,
-	inspectorShowing: false,
+	inspectorShowing: true,
 	assetsShowing: false,
 	// samplerShowing: false,
 	codeShowing: false,
@@ -23,7 +23,6 @@ var displayBlocks = {
 		} else {
 			displayBlocks.showEditor();
 		}
-
 
 	},  // end toggleEditor()
 
@@ -64,15 +63,50 @@ var displayBlocks = {
 
 	},  // end hideEditor()
 
-	// --- Inspector --- \\
-	showInspector: function () {},  // end showInspector()
+	// --- Tabs --- \\
+	// toggleTabs: function () {
 
-	hideInspector: function () {},  // end hideInspector()
+	// 	// Toggle visibility of the inspector and assets in sidebar
+	// 	if ( displayBlocks.inspectorShowing ) {
 
-	// --- Assets --- \\
-	showAssets: function () {},  // end showAssets()
+		// displayBlocks.showAssets();
 
-	hideAssets: function () {},  // end hideAssets()
+	// 	} else {
+
+		// displayBlocks.showInspector();
+
+	// 	}
+
+	// },  // end toggleTabs()
+
+	showInspector: function () {
+
+		// Show inspector, hide assets
+		document.getElementsByClassName( "inspector" )[0].classList.remove("collapsed");
+		document.getElementsByClassName( "assets" )[0].classList.add("collapsed");
+
+		// Change the appearence of the inspector tabs
+		document.getElementsByClassName( "inspector-get" )[0].classList.add("active-tab");
+		document.getElementsByClassName( "assets-get" )[0].classList.remove("active-tab");
+
+		displayBlocks.inspectorShowing = true;
+
+	},  // end showInspector()
+
+	showAssets: function () {
+
+		// Show assets, hide inspector
+		document.getElementsByClassName( "assets" )[0].classList.remove("collapsed");
+		document.getElementsByClassName( "inspector" )[0].classList.add("collapsed");
+
+		// Change the appearence of the inspector tabs
+		document.getElementsByClassName( "assets-get" )[0].classList.add("active-tab");
+		document.getElementsByClassName( "inspector-get" )[0].classList.remove("active-tab");
+
+		displayBlocks.inspectorShowing = false;
+
+
+	},  // end showAssets()
 
 	// // --- Sampler --- \\
 	// // Sampler? Info box?
