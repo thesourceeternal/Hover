@@ -158,6 +158,9 @@ input[type=number] {
     -o-transform: rotate(90deg);
 }
 
+/* So that img won't take away from clicks on .collapser */
+.collapser img { pointer-events: none; }
+
 /* ==========================================================================
    Skin
    ========================================================================== */

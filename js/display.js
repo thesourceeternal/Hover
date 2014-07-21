@@ -17,7 +17,8 @@ var displayBlocks = {
 
 	// --- Smaller Effects --- \\
 
-	// Expand and collapse
+	// Expands and collapses the first sibling of a .collapser element
+	// Changes the arrow image too
 	toggleCollapse: function (element) {
 
 		console.log("in toggleCollapse");
@@ -41,6 +42,7 @@ var displayBlocks = {
 		}
 
 	},
+
 
 	// --- Editor Blocks --- \\
 	toggleEditor: function () {

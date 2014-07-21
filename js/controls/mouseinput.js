@@ -15,7 +15,6 @@ var mouseEvents = function () {
 		var targetClasses = eventTarget.classList;
 
 		// Keep buttons from scrolling to top of sidebar, etc.
-		// TODO: Need to allow some defaults for part of the time, perhaps move this to bottom
 		if ( eventTarget.tagName === "BUTTON" ) {
 			event.preventDefault();
 		}
@@ -43,6 +42,8 @@ var mouseEvents = function () {
 
 
 		// Collapsing and expanding
+		// NOTE: a .collaper's image has pointer-events: none so that it
+		// won't become the target element and eat the click
 		if ( targetClasses.contains("collapser") ) {
 
 			display.toggleCollapse(eventTarget);
