@@ -46,6 +46,11 @@ input[type=text].var-name {
 	width: 7rem;
 }
 
+input[type=number] {
+	padding-left: .25rem;
+	width: 3.3rem;
+}
+
 /* --- Major screen space (Not sidebar) --- */
 .majority {
 	position: absolute;
@@ -108,6 +113,8 @@ input[type=text].var-name {
 	bottom: 0;
 	right: 10px;
 }
+
+.transforms li {display: inline-block;}
 
 /* - bottombar - */
 .bottombar {  /* needs functional name */
@@ -245,12 +252,18 @@ fieldset {
 	color: rgba(252, 87, 87, 0.94); /* red */
 }
 
-.transforms h1 {color: rgba(106, 168, 79, 1); /* green */}
+.transforms h1 {
+	color: rgba(106, 168, 79, 1); /* green */
+}
 
 /* buttons */
 .collapser {
 	background: none;
 	border: none;
+}
+
+.sidebar button {
+	padding: .2rem;
 }
 
 /* extras */
