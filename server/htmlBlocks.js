@@ -19,13 +19,17 @@ var htmlBlocks = module.exports = {
 
 		var blocks = htmlBlocks;
 
+		// Add the main elements of .editor-sidebar
 		var editorSidebar = document.getElementsByClassName( "editor-sidebar" )[0];
 		editorSidebar.appendChild(blocks.editorTabs);
 		editorSidebar.appendChild(blocks.inspector);
 		editorSidebar.appendChild(blocks.assets);
 
+		// Fill in the inspector
+		// TODO: discuss - have a bool to determine if values will be updated?
 		var inspector = document.getElementsByClassName( "inspector" )[0];
 
+		// Assign allPermanent its values
 		htmlBlocks.allPermanent = [
 			htmlBlocks.sceneTree,
 			htmlBlocks.objectInfo,
@@ -33,22 +37,40 @@ var htmlBlocks = module.exports = {
 			htmlBlocks.material
 		];
 
-		htmlBlocks.userComponents = [
-			htmlBlocks.sample1
-		];
-
+		// Cycle through the permanent inspector elements and add them to inspector
 		var permanentElements = htmlBlocks.allPermanent;
 		var numPermanent = permanentElements.length;
 
 		for ( var indx = 0; indx < numPermanent; indx++ ) {
 			inspector.appendChild(permanentElements[indx]);
 
-			// Don't put an hr after the last component
+			// Add an hr after, but not after the last component
+			// To better understand, see userComponents loop
 			if ( indx < numPermanent - 1 ) {
 				var hr = document.createElement('hr');
 				inspector.appendChild(hr);
 			}
 		}
+
+		// Assign userComponents its values (hard coded right now)
+		htmlBlocks.userComponents = [
+			htmlBlocks.sample1
+		];
+
+		// Iterate through components, adding each to the inspector
+		var userComponents = htmlBlocks.userComponents;
+		var numComponents = userComponents.length;
+
+		for ( var indx = 0; indx < numComponents; indx++ ) {
+
+			// This time add a hr above each element
+			var hr = document.createElement('hr');
+			inspector.appendChild(hr);
+
+			inspector.appendChild(userComponents[indx]);
+
+		}
+
 
 		document.getElementsByClassName( "sampler" )[0].appendChild(blocks.sampler);
 					// blocks.sampler;
@@ -324,40 +346,6 @@ var htmlBlocks = module.exports = {
 
 		)  // end section.material
 	,  // end material
-		// <section class='component comp-script comp-id'>
-  //                   <h1>
-  //                       <button class='collapser expanded'><img src='images/arrow-small.png' alt='Click to collapse'></button>
-  //                       <input class='active-comp-checkbox' name='active-material' type='checkbox' checked='checked'>
-  //                       Script1
-  //                   </h1>
-
-  //                   <form class='collapsible'>
-  //                       <!-- Possibly these could have a checkbox to activate them,
-  //                       a play button for functions to run the functions, var names
-  //                       as fields so they can be changed in the inspector -->
-  //                       <ul>
-  //                           <li class='child'>
-  //                               <label>aNum:
-  //                                   <input class='aNum number' name='aNum' type='number' placeholder='How to validate?'>
-  //                               </label>
-  //                           </li>
-  //                           <li class='child'>
-  //                               <label>someText:
-  //                                   <input class='someText number' name='someText' type='text'>
-  //                               </label>
-  //                           </li>
-  //                           <li class='child'>
-  //                               <label>
-  //                                   <input name="aBool" type="checkbox">
-  //                                   aBool
-  //                               </label>
-  //                           </li>
-  //                       </ul>
-
-  //                       <a class='tiny-text jump-to-top' href='#sidebar-nav'>Jump to top</a>
-  //                   </form>
-
-  //               </section> <!-- end .comp-id -->
 
 	sample1:
 		hyper( 'section.component.componentType',
@@ -407,7 +395,7 @@ var htmlBlocks = module.exports = {
 		// htmlBlocks.sceneTree,
 		// htmlBlocks.objectInfo,
 		// htmlBlocks.transforms
-		// perhaps materials as well
+		// htmlBlocks.material
 	],
 
 	// Components the user adds
