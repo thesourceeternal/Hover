@@ -11,7 +11,13 @@ var mouseEvents = function () {
 		var eventTarget = event.target;
 		var targetClasses = eventTarget.classList;
 
+		// Keep buttons from scrolling to top of sidebar, etc.
+		if ( eventTarget.tagName === "BUTTON" ) {
+			event.preventDefault();
+		}
+
 		// -- Editor Functionality -- \\
+
 		// Switch between inspector and assets
 		if ( targetClasses.contains("tab") ) {
 
@@ -30,6 +36,7 @@ var mouseEvents = function () {
 			}  // end if inspector or assets
 
 		}  // end if .tab
+
 
 		// Pointer lock, get it back
 		if ( targetClasses.contains("esc-clause") ) {
