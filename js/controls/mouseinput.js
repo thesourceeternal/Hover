@@ -10,16 +10,11 @@ var mouseEvents = function () {
 
 		var eventTarget = event.target;
 
-		// Button to enter pointer lock
-		if ( eventTarget.tagName.toLowerCase() === "button" ) {
-
 			if ( eventTarget.classList.contains("esc-clause") ) {
 
 				displayBlocks.toggleEditor();
 
 			}  // end if .esc-clause
-
-		}  // end if button
 
 	} );
 
