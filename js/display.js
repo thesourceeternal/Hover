@@ -21,8 +21,6 @@ var displayBlocks = {
 	// Changes the arrow image too
 	toggleCollapse: function (element) {
 
-		console.log("in toggleCollapse");
-
 		var sib = element.parentNode.nextSibling;
 
 		// Uses jquery slideToggle function for nice animation
