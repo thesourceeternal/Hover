@@ -98,7 +98,7 @@ input[type=number] {
 
 .sidebar section {
 	position: relative; /* for abs pos children */
-	padding: .5rem 0 1.2rem 0;
+	padding-top: .5rem;
 }
 
 .scene-tree {
@@ -108,10 +108,9 @@ input[type=number] {
 	/* TODO: Make this scrollable; */
 }
 
-.jump-to-top {
-	position: absolute;
-	bottom: 0;
-	right: 10px;
+.jump-container {
+	text-align: right;
+	padding-right: .5rem;
 }
 
 .transforms li {display: inline-block;}
@@ -202,7 +201,7 @@ input {
 
 hr {
 	border: 0;
-	border-top: .1rem solid rgba(30, 30, 30, .8);  /* same as h1 background */
+	border-bottom: .1rem solid rgba(30, 30, 30, .8);  /* same as h1 background */
 }
 
 fieldset {

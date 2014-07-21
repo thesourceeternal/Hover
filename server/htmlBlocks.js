@@ -102,14 +102,18 @@ var htmlBlocks = module.exports = {
 							'Some Object 1'
 						)
 
-					),  // end .obj-1
-
-					hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
-						'Jump to top'
-					)
-
+					)  // end li.obj-1
 				)  // end ul
-			)  // end menu.scene-tree
+
+			),  // end menu.scene-tree
+
+					
+			hyper('div.jump-container',
+				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+					'Jump to top'
+				)
+			)
+
 		)  // end .scene-tree-container
 	,  // end sceneTree
 
@@ -159,13 +163,15 @@ var htmlBlocks = module.exports = {
 						)  // end label (foo)
 					)  // end li
 
-				),  // end ul
+				)  // end ul
 
+			),  // end form
+
+			hyper('div.jump-container',
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
 				)
-
-			)  // end form
+			)
 
 		),  // end objectInfo
 
@@ -267,13 +273,15 @@ var htmlBlocks = module.exports = {
 
 					)  // end ul
 
-				),  // end .scale
+				)  // end .scale
 
+			),  // end form
+
+			hyper('div.jump-container',
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
 				)
-
-			)  // end form
+			)
 
 		)  // end .transforms
 	,  // end transforms
@@ -290,13 +298,14 @@ var htmlBlocks = module.exports = {
 			),
 
 			hyper( 'form.collapsible',
-				'contents',
+				'contents'
+			),  // end form
 
+			hyper('div.jump-container',
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
 				)
-
-			)  // end form
+			)
 
 		)  // end .componentType
 	,  // end sample1
