@@ -186,9 +186,24 @@ var htmlBlocks = module.exports = {
 					hyper( 'legend', hyper('button', 'position')),
 					hyper( 'ul',
 
-						hyper( 'li.child', 'x'),
-						hyper( 'li.child', 'y'),
-						hyper( 'li.child', 'z')
+						hyper( 'li.child',
+							hyper( 'label', 'x:',
+								// .number for alternative num manipulation
+								hyper('input.x-coord.number', {name: 'x-coord', type: 'number'})
+							)
+						),  // end li
+
+						hyper( 'li.child',
+							hyper( 'label', 'y:',
+								hyper('input.y-coord.number', {name: 'y-coord', type: 'number'})
+							)
+						),
+
+						hyper( 'li.child',
+							hyper( 'label', 'z:',
+								hyper('input.z-coord.number', {name: 'z-coord', type: 'number'})
+							)
+						)
 
 					)  // end ul
 
