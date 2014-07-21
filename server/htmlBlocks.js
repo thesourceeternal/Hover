@@ -32,12 +32,11 @@ var htmlBlocks = module.exports = {
 			htmlBlocks.transforms
 		];
 
-		htmlBlocks.allComponents = [
+		htmlBlocks.userComponents = [
 			htmlBlocks.sample1
 		];
 
 		var permanentElements = htmlBlocks.allPermanent;
-
 		var numPermanent = permanentElements.length;
 
 		for ( var indx = 0; indx < numPermanent; indx++ ) {
@@ -182,13 +181,17 @@ var htmlBlocks = module.exports = {
 		)  // end .componentType
 	,  // end sample1
 
+	// 'Components' that are always present
 	allPermanent: [
+		// Will contain (in _init_()):
 		// htmlBlocks.sceneTree,
 		// htmlBlocks.objectInfo,
 		// htmlBlocks.transforms
+		// perhaps materials as well
 	],
 
-	allComponents: [
+	// Components the user adds
+	userComponents: [
 		// htmlBlocks.sample1
 	],
 
