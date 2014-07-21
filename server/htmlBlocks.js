@@ -169,6 +169,8 @@ var htmlBlocks = module.exports = {
 
 		),  // end objectInfo
 
+	// Editable transforms with buttons to activate manipulation
+	// of position, rotation, and scale
 	transforms:
 		hyper( 'section.component.transforms',
 
@@ -184,6 +186,7 @@ var htmlBlocks = module.exports = {
 
 				hyper( 'fieldset.position',
 					hyper( 'legend', hyper('button', 'position')),
+
 					hyper( 'ul',
 
 						hyper( 'li.child',
@@ -207,17 +210,64 @@ var htmlBlocks = module.exports = {
 
 					)  // end ul
 
-				),
+				),  // end .position
 
 				hyper( 'fieldset.rotation',
 					hyper( 'legend', hyper('button', 'rotation')),
-					'xyz'
-				),
+
+					hyper( 'ul',
+
+						hyper( 'li.child',
+							hyper( 'label', 'x:',
+								hyper('input.x-rot.number', {name: 'x-rot', type: 'number'})
+							)
+						),  // end li
+
+						hyper( 'li.child',
+							hyper( 'label', 'y:',
+								hyper('input.y-rot.number', {name: 'y-rot', type: 'number'})
+							)
+						),  // end li
+
+						hyper( 'li.child',
+							hyper( 'label', 'z:',
+								hyper('input.z-rot.number', {name: 'z-rot', type: 'number'})
+							)
+						)  // end li
+
+					)  // end ul
+
+				),  // end .rotation
 
 				hyper( 'fieldset.scale',
 					hyper( 'legend', hyper('button', 'scale')),
-					'xyz'
-				),
+
+					hyper( 'ul',
+
+						hyper( 'li.child',
+							hyper( 'label', 'x:',
+								// .number for alternative num manipulation
+								hyper('input.x-scale.number', {name: 'x-scale', type: 'number'})
+							)
+						),  // end li
+
+						hyper( 'li.child',
+							hyper( 'label', 'y:',
+								// .number for alternative num manipulation
+								hyper('input.y-scale.number', {name: 'y-scale', type: 'number'})
+							)
+						),  // end li
+
+						hyper( 'li.child',
+							hyper( 'label', 'z:',
+								// .number for alternative num manipulation
+								hyper('input.z-scale.number', {name: 'z-scale', type: 'number'})
+							)
+						)  // end li
+
+					)  // end ul
+
+				),  // end .scale
 
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
