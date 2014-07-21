@@ -29,7 +29,8 @@ var htmlBlocks = module.exports = {
 		htmlBlocks.allPermanent = [
 			htmlBlocks.sceneTree,
 			htmlBlocks.objectInfo,
-			htmlBlocks.transforms
+			htmlBlocks.transforms,
+			htmlBlocks.material
 		];
 
 		htmlBlocks.userComponents = [
@@ -108,7 +109,7 @@ var htmlBlocks = module.exports = {
 			),  // end menu.scene-tree
 
 					
-			hyper('div.jump-container',
+			hyper( 'div.jump-container',
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
 				)
@@ -167,7 +168,7 @@ var htmlBlocks = module.exports = {
 
 			),  // end form
 
-			hyper('div.jump-container',
+			hyper( 'div.jump-container',
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
 				)
@@ -277,7 +278,7 @@ var htmlBlocks = module.exports = {
 
 			),  // end form
 
-			hyper('div.jump-container',
+			hyper( 'div.jump-container',
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
 				)
@@ -285,6 +286,78 @@ var htmlBlocks = module.exports = {
 
 		)  // end .transforms
 	,  // end transforms
+
+	material:
+		hyper( 'section.component.material',
+			hyper( 'h1',
+				hyper( 'button.collapser.expanded',
+					hyper( 'img',  { src: 'images/arrow-small.png',
+						alt: 'Click to collapse' })
+				),  // end button.collapser
+				'Material'
+			),
+
+			hyper( 'form.collapsible',
+
+				hyper( 'ul',
+
+					hyper( 'li.child',
+						hyper( 'label', 'var blar:',
+							// .number for alternative num manipulation
+							hyper('input.blar.number', {type: 'number'})
+						)
+					),  // end li
+
+					hyper( 'li.child',
+						'color interface'
+					)  // end li
+
+				)  // end ul
+
+			),  // end form
+
+			hyper( 'div.jump-container',
+				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+					'Jump to top'
+				)
+			)
+
+		)  // end section.material
+	,  // end material
+		// <section class='component comp-script comp-id'>
+  //                   <h1>
+  //                       <button class='collapser expanded'><img src='images/arrow-small.png' alt='Click to collapse'></button>
+  //                       <input class='active-comp-checkbox' name='active-material' type='checkbox' checked='checked'>
+  //                       Script1
+  //                   </h1>
+
+  //                   <form class='collapsible'>
+  //                       <!-- Possibly these could have a checkbox to activate them,
+  //                       a play button for functions to run the functions, var names
+  //                       as fields so they can be changed in the inspector -->
+  //                       <ul>
+  //                           <li class='child'>
+  //                               <label>aNum:
+  //                                   <input class='aNum number' name='aNum' type='number' placeholder='How to validate?'>
+  //                               </label>
+  //                           </li>
+  //                           <li class='child'>
+  //                               <label>someText:
+  //                                   <input class='someText number' name='someText' type='text'>
+  //                               </label>
+  //                           </li>
+  //                           <li class='child'>
+  //                               <label>
+  //                                   <input name="aBool" type="checkbox">
+  //                                   aBool
+  //                               </label>
+  //                           </li>
+  //                       </ul>
+
+  //                       <a class='tiny-text jump-to-top' href='#sidebar-nav'>Jump to top</a>
+  //                   </form>
+
+  //               </section> <!-- end .comp-id -->
 
 	sample1:
 		hyper( 'section.component.componentType',
@@ -298,10 +371,28 @@ var htmlBlocks = module.exports = {
 			),
 
 			hyper( 'form.collapsible',
-				'contents'
+
+				hyper( 'ul',
+
+					hyper( 'li.child',
+						hyper( 'label', 'var num 2:',
+							// .number for alternative num manipulation
+							hyper('input.num1.number', {type: 'number'})
+						)
+					),  // end li
+
+					hyper( 'li.child',
+						hyper( 'label', 'var num 1:',
+							// .number for alternative num manipulation
+							hyper('input.num2.number', {type: 'number'})
+						)
+					)  // end li
+
+				)  // end ul
+
 			),  // end form
 
-			hyper('div.jump-container',
+			hyper( 'div.jump-container',
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
 				)

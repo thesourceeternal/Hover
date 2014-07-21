@@ -259,6 +259,10 @@ fieldset {
 	color: rgba(106, 168, 79, 1); /* green */
 }
 
+.material h1 {
+	color: rgba(255, 229, 153, 1); /* yellow */
+}
+
 /* buttons */
 .collapser {
 	background: none;
