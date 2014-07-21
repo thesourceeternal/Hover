@@ -194,6 +194,10 @@ hr {
 	border-top: .1rem solid rgba(30, 30, 30, .8);  /* same as h1 background */
 }
 
+fieldset {
+	border: none;
+}
+
 /* --- Hud --- */
 .hud {
 	background-color: rgba(60, 60, 60, 0.9);
@@ -240,6 +244,8 @@ hr {
 .obj-info h1 {
 	color: rgba(252, 87, 87, 0.94); /* red */
 }
+
+.transforms h1 {color: rgba(106, 168, 79, 1); /* green */}
 
 /* buttons */
 .collapser {
