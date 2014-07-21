@@ -138,6 +138,7 @@ input[type=number] {
 /* ==========================================================================
    Functionality
    ========================================================================== */
+.scrollable {overflow: scroll;}
 
 .spacer { /* because menu elements are floats */
 	visibility: hidden;
