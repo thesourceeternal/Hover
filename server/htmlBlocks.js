@@ -183,14 +183,17 @@ var htmlBlocks = module.exports = {
 			hyper( 'form.collapsible',
 
 				hyper( 'fieldset.position',
+					hyper( 'legend', hyper('button', 'position')),
 					'position'
 				),
 
-				hyper( 'fieldset.position',
+				hyper( 'fieldset.rotation',
+					hyper( 'legend', hyper('button', 'rotation')),
 					'rotation'
 				),
 
-				hyper( 'fieldset.position',
+				hyper( 'fieldset.scale',
+					hyper( 'legend', hyper('button', 'scale')),
 					'scale'
 				),
 
