@@ -5,6 +5,9 @@
 
 var mouseEvents = function () {
 
+	// Make global into local
+	var display = displayBlocks;
+
 	// --- Input Elements --- \\
 	document.addEventListener( 'click', function (event) {
 
@@ -12,6 +15,7 @@ var mouseEvents = function () {
 		var targetClasses = eventTarget.classList;
 
 		// Keep buttons from scrolling to top of sidebar, etc.
+		// TODO: Need to allow some defaults for part of the time, perhaps move this to bottom
 		if ( eventTarget.tagName === "BUTTON" ) {
 			event.preventDefault();
 		}
@@ -23,11 +27,11 @@ var mouseEvents = function () {
 
 			if ( targetClasses.contains("inspector-get") ) {
 
-				displayBlocks.showInspector();
+				display.showInspector();
 
 			} else if ( targetClasses.contains("assets-get") ) {
 
-				displayBlocks.showAssets();
+				display.showAssets();
 
 			} else {
 
@@ -38,10 +42,18 @@ var mouseEvents = function () {
 		}  // end if .tab
 
 
+		// Collapsing and expanding
+		if ( targetClasses.contains("collapser") ) {
+
+			display.toggleCollapse(eventTarget);
+
+		}  // end if collapser
+
+
 		// Pointer lock, get it back
 		if ( targetClasses.contains("esc-clause") ) {
 
-			displayBlocks.toggleEditor();
+			display.toggleEditor();
 
 		}  // end if .esc-clause
 
@@ -57,7 +69,7 @@ var mouseEvents = function () {
 		if ( userState.arrival ) {
 
 			// Will take care of pointer lock and all that jazz
-			displayBlocks.hideIntro();
+			display.hideIntro();
 
 		}
 

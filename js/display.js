@@ -15,7 +15,34 @@ var displayBlocks = {
 	   Functions
 	   ==================================== */
 
-	// --- Editor --- \\
+	// --- Smaller Effects --- \\
+
+	// Expand and collapse
+	toggleCollapse: function (element) {
+
+		console.log("in toggleCollapse");
+
+		var sib = element.parentNode.nextSibling;
+
+		// Uses jquery slideToggle function for nice animation
+		$(sib).slideToggle();
+
+		// Change the arrow image and it's alt text (accessibility)
+		if ( element.classList.contains("expanded") ) {
+
+			element.classList.remove("expanded");
+			element.alt = "Click to expand";
+
+		} else {
+
+			element.classList.add("expanded");
+			element.alt = "Click to collapse";
+
+		}
+
+	},
+
+	// --- Editor Blocks --- \\
 	toggleEditor: function () {
 		
 		if (displayBlocks.editorShowing) {

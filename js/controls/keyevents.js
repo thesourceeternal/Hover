@@ -6,6 +6,9 @@
 
 keyEvents = function () {
 
+	// Make global local
+	var display = displayBlocks;
+
 	document.addEventListener( 'keyup', function () {
 
 		var keyCode = ( 'which' in event ) ? event.which : event.keyCode;
@@ -20,14 +23,14 @@ keyEvents = function () {
 			if ( userState.arrival ) {
 
 				// This will take care of pointer lock too
-				displayBlocks.hideIntro();
+				display.hideIntro();
 
 			} else {  // just lock the pointer
 
 				// Keyup so it waits till after all other pointer
 				// changes have been made, after toggleEditor() so arrival
 				// will stay true and intro will hide properly
-				displayBlocks.toggleEditor();
+				display.toggleEditor();
 			}
 
 		}  // end keyCode pointerLock
