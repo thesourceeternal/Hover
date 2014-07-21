@@ -109,25 +109,78 @@ var htmlBlocks = module.exports = {
 						'Jump to top'
 					)
 
-				)
+				)  // end ul
 			)  // end menu.scene-tree
 		)  // end .scene-tree-container
 	,  // end sceneTree
 
 	objectInfo:
 		hyper( 'section.component.obj-info', 
-			hyper('h1', 'Object Info')
+
+			hyper( 'h1',
+				hyper( 'button.collapser.expanded',
+					hyper( 'img',  { src: 'images/arrow-small.png',
+						alt: 'Click to collapse' })
+				),  // end button.collapser
+				'Object Info'
+			),
+
+			hyper( 'form.collapsible',
+				'contents',
+
+				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+					'Jump to top'
+				)
+
+			)  // end form
 
 		),  // end objectInfo
 
 	transforms:
-		hyper( 'section.component.transforms'
+		hyper( 'section.component.transforms',
+
+			hyper( 'h1',
+				hyper( 'button.collapser.expanded',
+					hyper( 'img',  { src: 'images/arrow-small.png',
+						alt: 'Click to collapse' })
+				),  // end button.collapser
+				'Transforms'
+			),
+
+			hyper( 'form.collapsible',
+				'contents',
+
+				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+					'Jump to top'
+				)
+
+			)  // end form
 
 		)  // end .transforms
 	,  // end transforms
 
 	sample1:
-		hyper('div'),
+		hyper( 'section.component.componentType',
+
+			hyper( 'h1',
+				hyper( 'button.collapser.expanded',
+					hyper( 'img',  { src: 'images/arrow-small.png',
+						alt: 'Click to collapse' })
+				),  // end button.collapser
+				'Sample Component 1'
+			),
+
+			hyper( 'form.collapsible',
+				'contents',
+
+				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+					'Jump to top'
+				)
+
+			)  // end form
+
+		)  // end .componentType
+	,  // end sample1
 
 	allPermanent: [
 		// htmlBlocks.sceneTree,
