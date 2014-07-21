@@ -181,7 +181,18 @@ var htmlBlocks = module.exports = {
 			),
 
 			hyper( 'form.collapsible',
-				'contents',
+
+				hyper( 'fieldset.position',
+					'position'
+				),
+
+				hyper( 'fieldset.position',
+					'rotation'
+				),
+
+				hyper( 'fieldset.position',
+					'scale'
+				),
 
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
 					'Jump to top'
