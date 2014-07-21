@@ -184,17 +184,24 @@ var htmlBlocks = module.exports = {
 
 				hyper( 'fieldset.position',
 					hyper( 'legend', hyper('button', 'position')),
-					'position'
+					hyper( 'ul',
+
+						hyper( 'li.child', 'x'),
+						hyper( 'li.child', 'y'),
+						hyper( 'li.child', 'z')
+
+					)  // end ul
+
 				),
 
 				hyper( 'fieldset.rotation',
 					hyper( 'legend', hyper('button', 'rotation')),
-					'rotation'
+					'xyz'
 				),
 
 				hyper( 'fieldset.scale',
 					hyper( 'legend', hyper('button', 'scale')),
-					'scale'
+					'xyz'
 				),
 
 				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
