@@ -2,7 +2,7 @@
 * User variables that need to be stored and accessed
 */
 
-userState = {
+module.exports = userState = {
 
 	arrival: true,
 
