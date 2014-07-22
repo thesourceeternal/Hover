@@ -2,7 +2,13 @@
 // Starts things off
 
 // Server stuff
+var cubeWorld = require('./server/worlds/cubeworld.js');
 var html = require('./server/htmlBlocks.js');
+
+// User stuff
+var pointerLock = require('./js/controls/pointerlock.js');
+var mouseEvents = require('./js/controls/mouseevents.js');
+var keyEvents = require('./js/controls/keyevents.js');
 
 window.addEventListener( 'load', function () {
 
@@ -30,9 +36,541 @@ window.addEventListener( 'load', function () {
 
 } );  // end window on load
 
-},{"./server/htmlBlocks.js":11}],2:[function(require,module,exports){
+},{"./js/controls/keyevents.js":2,"./js/controls/mouseevents.js":3,"./js/controls/pointerlock.js":4,"./server/htmlBlocks.js":17,"./server/worlds/cubeworld.js":18}],2:[function(require,module,exports){
+/* 
+* Handles user mouse input events
+* There will eventually be a lot of them
+*/
 
-},{}],3:[function(require,module,exports){
+var display = require('../display.js');
+var userState = require('../userstate.js');
+
+
+module.exports = keyEvents = function () {
+
+	document.addEventListener( 'keyup', function () {
+
+		var keyCode = ( 'which' in event ) ? event.which : event.keyCode;
+
+		/* ===================================
+		   UI
+		   ==================================== */
+		if ( keyCode === userState.preferences.hotkeys.pointerLock[2] ) {
+
+			// Toggle display of inspector/assests vs. object sampler
+			// but not on first arrival where hideIntro() will take care of it
+			if ( userState.arrival ) {
+
+				// This will take care of pointer lock too
+				display.hideIntro();
+
+			} else {  // just lock the pointer
+
+				// Keyup so it waits till after all other pointer
+				// changes have been made, after toggleEditor() so arrival
+				// will stay true and intro will hide properly
+				display.toggleEditor();
+			}
+
+		}  // end keyCode pointerLock
+
+
+		/* ===================================
+		   RUNNING TESTS
+		   ==================================== */
+		else if ( keyCode === userState.preferences.hotkeys.tests[2] ) {
+
+			if (pointerLock.isLocked) {
+
+				runTests();
+
+			} else {  // the user may have not engaged pointerlock
+				// so pointerlock tests can't run properly,
+				// will give incorrect results
+				console.log("Pressing 't' for tests is only " +
+					"for use while pointer is locked. Using it while " +
+					"pointer is unlocked may cause errors in testing.");
+			}
+
+		}  // end keyCode tests
+
+	} );  // end document on keyup ()
+
+};
+
+},{"../display.js":5,"../userstate.js":7}],3:[function(require,module,exports){
+/* 
+* Handles user mouse input events
+* There will eventually be a lot of them
+*/
+
+var display = require('../display.js');
+var userState = require('../userstate.js');
+
+
+module.exports = mouseEvents = function () {
+
+	// --- Input Elements --- \\
+	document.addEventListener( 'click', function (event) {
+
+		var eventTarget = event.target;
+		var targetClasses = eventTarget.classList;
+
+		// Keep buttons from scrolling to top of sidebar, etc.
+		if ( eventTarget.tagName === "BUTTON" ) {
+			event.preventDefault();
+		}
+
+		// -- Editor Functionality -- \\
+
+		// Switch between inspector and assets
+		if ( targetClasses.contains("tab") ) {
+
+			if ( targetClasses.contains("inspector-get") ) {
+
+				display.showInspector();
+
+			} else if ( targetClasses.contains("assets-get") ) {
+
+				display.showAssets();
+
+			} else {
+
+				console.log("You clicked a tab that does not exist...");
+
+			}  // end if inspector or assets
+
+		}  // end if .tab
+
+
+		// Collapsing and expanding
+		// NOTE: a .collaper's image has pointer-events: none so that it
+		// won't become the target element and eat the click
+		if ( targetClasses.contains("collapser") ) {
+
+			display.toggleCollapse(eventTarget);
+
+		}  // end if collapser
+
+
+		// Pointer lock, get it back
+		if ( targetClasses.contains("esc-clause") ) {
+
+			display.toggleEditor();
+
+		}  // end if .esc-clause
+
+	} );
+
+
+	// --- Intro --- \\
+	// When first landing on the site. Escape key works too.
+	// This event listener will not be removed, it's too much work for
+	// one little event listener
+	document.addEventListener( 'click', function () {
+
+		if ( userState.arrival ) {
+
+			// Will take care of pointer lock and all that jazz
+			display.hideIntro();
+
+		}
+
+	} );
+
+};
+
+},{"../display.js":5,"../userstate.js":7}],4:[function(require,module,exports){
+/*
+* http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+* Also with functionality to toggle pointer lock
+*/
+
+// var controls = require('./controls.js');
+var cubeWorld = require('../../server/worlds/cubeworld.js');
+
+
+module.exports = pointerLock = {
+
+	/* ===================================
+	   Setup
+	   ==================================== */
+
+	// Element the pointer lock is assigned to
+	lockElement: null,
+	havePointerLock: null,
+	// For toggling pointer lock (function below)
+	isLocked: false,
+
+	_init_: function () {
+
+		// Does the user's browser support pointerlock
+		pointerLock.havePointerLock = 'pointerLockElement' in document ||
+		    'mozPointerLockElement' in document ||
+		    'webkitPointerLockElement' in document;
+
+		if ( !pointerLock.havePointerLock ) {  // For browsers that don't support pointerlock
+
+			alert( "Sorry, your browser does not support pointer lock." );
+
+		} else {  // This is the bulk of the action
+
+			pointerLock.lockElement = document.body;
+			lockElement = pointerLock.lockElement;
+
+			// Normalize the name for the function that locks the pointer, no
+			// matter the browser
+			lockElement.requestPointerLock = lockElement.requestPointerLock ||
+				     lockElement.mozRequestPointerLock ||
+				     lockElement.webkitRequestPointerLock;
+
+			// Normalize the name for the function that releases/unlocks the pointer
+			document.exitPointerLock = document.exitPointerLock ||
+					   document.mozExitPointerLock ||
+					   document.webkitExitPointerLock;
+
+			// Hook pointer lock state change events (event names assigned by browser)
+			document.addEventListener('pointerlockchange', pointerLock.changePointerLock, false);
+			document.addEventListener('mozpointerlockchange', pointerLock.changePointerLock, false);
+			document.addEventListener('webkitpointerlockchange', pointerLock.changePointerLock, false);
+
+			document.addEventListener( 'pointerlockerror', pointerLock.pointerLockError, false );
+			document.addEventListener( 'mozpointerlockerror', pointerLock.pointerLockError, false );
+			document.addEventListener( 'webkitpointerlockerror', pointerLock.pointerLockError, false );
+
+		}
+
+	},  // end _init_()
+
+
+	/* ===================================
+	   Functions
+	   ==================================== */
+
+	// Normalizes locking the pointer for all browsers
+	lockPointer: function () {
+		pointerLock.lockElement.requestPointerLock =
+			pointerLock.lockElement.requestPointerLock ||
+			pointerLock.lockElement.mozRequestPointerLock ||
+			pointerLock.lockElement.webkitRequestPointerLock;
+
+		pointerLock.lockElement.requestPointerLock();
+
+		pointerLock.isLocked = true;
+
+	},
+
+	// Normalize unlocking the pointer for all browsers
+	unlockPointer: function () {
+
+		document.exitPointerLock = document.exitPointerLock ||
+			document.mozExitPointerLock ||
+			document.webkitExitPointerLock;
+
+		document.exitPointerLock();
+
+		pointerLock.isLocked = false;
+
+	},
+
+	// Toggles pointer lock independent of automatic changes
+	toggleLock: function () {
+
+		if ( pointerLock.isLocked ) {
+
+			// Accessing our own function so isLocked changes
+			pointerLock.unlockPointer();
+
+		} else {
+
+			pointerLock.lockPointer();
+
+		}
+
+	},  // end toggleLock()
+
+	// Always happens when the pointer lock is changed
+	changePointerLock: function ( event ) {
+
+		// lockElement is passed into here automatically, event is not needed
+		if ( document.pointerLockElement === lockElement ||  // pointer locked
+			document.mozPointerLockElement === lockElement ||
+			document.webkitPointerLockElement === lockElement ) {
+
+			// Start fppov controls
+			cubeWorld.controls.enabled = true;
+
+		} else {  // pointer is NOT locked
+
+			// Stop fppov controls
+			cubeWorld.controls.enabled = false;
+
+		}
+
+	},  // end changePointerLock()
+
+	// TODO: Comb https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html#dfn-target
+	// to see if there are any other conditions to check for.
+	pointerLockError: function () {
+
+		console.log( "Pointer lock error:" );
+
+		
+		if ( document.pointerLockElement !== lockElement ||  // pointer locked
+			document.mozPointerLockElement !== lockElement ||
+			document.webkitPointerLockElement !== lockElement ) {
+
+			console.log("The document pointer lock element is not the same as pointerlock.lockElement.");
+
+		} else if ( !pointerLock.havePointerLock ) {
+
+			console.log("This browser doesn't support pointer lock.");
+
+		} else {
+
+			console.log("I'm not sure what's wrong. Probably the user didn't make an engagement gesture.");
+
+		}
+
+	},  // end pointerLockError()
+
+};  // end pointerLock {}
+
+},{"../../server/worlds/cubeworld.js":18}],5:[function(require,module,exports){
+/* 
+* Controls the hiding and showing of element blocks
+*/
+
+var userState = require('./userState.js');
+
+
+module.exports = displayBlocks = {
+
+	// Bools
+	editorShowing: false,
+	inspectorShowing: true,
+	assetsShowing: false,
+	// samplerShowing: false,
+	codeShowing: false,
+
+	/* ===================================
+	   Functions
+	   ==================================== */
+
+	// --- Smaller Effects --- \\
+
+	// Expands and collapses the first sibling of a .collapser element
+	// Changes the arrow image too
+	toggleCollapse: function (element) {
+
+		var sib = element.parentNode.nextSibling;
+
+		// Uses jquery slideToggle function for nice animation
+		$(sib).slideToggle();
+
+		// Change the arrow image and it's alt text (accessibility)
+		if ( element.classList.contains("expanded") ) {
+
+			element.classList.remove("expanded");
+			element.alt = "Click to expand";
+
+		} else {
+
+			element.classList.add("expanded");
+			element.alt = "Click to collapse";
+
+		}
+
+	},
+
+
+	// --- Editor Blocks --- \\
+	toggleEditor: function () {
+		
+		if (displayBlocks.editorShowing) {
+			displayBlocks.hideEditor();
+		} else {
+			displayBlocks.showEditor();
+		}
+
+	},  // end toggleEditor()
+
+	showEditor: function () {
+
+		pointerLock.unlockPointer();
+
+		// Hide the object info sampler and reticule
+		document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
+		// document.getElementsByClassName( "reticule" )[0].classList.add("collapsed");
+
+		// Show majority element and editor sidebar
+		document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
+		document.getElementsByClassName( "editor-sidebar" )[0].classList.remove("collapsed");
+		// This is for just after the intro
+		document.getElementsByClassName( "bottombar" )[0].classList.remove("collapsed");
+
+		displayBlocks.editorShowing = true;
+
+	},  // end showEditor()
+
+	hideEditor: function () {
+
+		pointerLock.lockPointer();
+
+		// Hide the majority element with the code and bars, and the sidebar editor
+		document.getElementsByClassName( "majority" )[0].classList.add("collapsed");
+		document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
+
+		// Show the object info sampler and reticule
+		document.getElementsByClassName( "sampler" )[0].classList.remove("collapsed");
+		// document.getElementsByClassName( "reticule" )[0].classList.remove("collapsed");
+
+		// Show inventory perhaps
+		// document.getElementsByClassName( "inventory" )[0].classList.remove("collapsed");
+
+		displayBlocks.editorShowing = false;
+
+	},  // end hideEditor()
+
+	// --- Tabs --- \\
+	// toggleTabs: function () {
+
+	// 	// Toggle visibility of the inspector and assets in sidebar
+	// 	if ( displayBlocks.inspectorShowing ) {
+
+		// displayBlocks.showAssets();
+
+	// 	} else {
+
+		// displayBlocks.showInspector();
+
+	// 	}
+
+	// },  // end toggleTabs()
+
+	showInspector: function () {
+
+		// Show inspector, hide assets
+		document.getElementsByClassName( "inspector" )[0].classList.remove("collapsed");
+		document.getElementsByClassName( "assets" )[0].classList.add("collapsed");
+
+		// Change the appearence of the inspector tabs
+		document.getElementsByClassName( "inspector-get" )[0].classList.add("active-tab");
+		document.getElementsByClassName( "assets-get" )[0].classList.remove("active-tab");
+
+		displayBlocks.inspectorShowing = true;
+
+	},  // end showInspector()
+
+	showAssets: function () {
+
+		// Show assets, hide inspector
+		document.getElementsByClassName( "assets" )[0].classList.remove("collapsed");
+		document.getElementsByClassName( "inspector" )[0].classList.add("collapsed");
+
+		// Change the appearence of the inspector tabs
+		document.getElementsByClassName( "assets-get" )[0].classList.add("active-tab");
+		document.getElementsByClassName( "inspector-get" )[0].classList.remove("active-tab");
+
+		displayBlocks.inspectorShowing = false;
+
+
+	},  // end showAssets()
+
+	// // --- Sampler --- \\
+	// // Sampler? Info box?
+	// showSampler: function () {},  // end showSampler()
+
+	// hideSampler: function () {},  // end hideSampler()
+
+	// --- Code --- \\
+	toggleCode: function () {
+		// toggle code mirror editor
+	},  // end toggleCode()
+
+	showCode: function () {},  // end showCode()
+
+	hideCode: function () {},  // end hideCode()
+
+	// --- Intro --- \\
+	showIntro: function () {
+
+		// hide any sidbar contents, the bars, reticule and the inventory
+		document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
+		document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
+		document.getElementsByClassName( "bottombar" )[0].classList.add("collapsed");
+		// document.getElementsByClassName( "reticule" )[0].classList.add("collapsed");
+		// document.getElementsByClassName( "inventory" )[0].classList.add("collapsed");
+
+		// show the majority with the intro in it
+		document.getElementsByClassName( "intro" )[0].classList.remove("collapsed");
+		document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
+		// show the sidebar
+
+	},  // end showIntro()
+
+	hideIntro: function () {
+
+		// Remove the intro
+		var intro = document.getElementsByClassName( "intro" )[0];
+		intro.parentNode.removeChild(intro);
+
+		// The sidebar and sampler are exposed
+		displayBlocks.hideEditor();
+
+		userState.arrival = false;
+
+	},  // end hideIntro()
+
+
+}
+
+},{"./userState.js":6}],6:[function(require,module,exports){
+/*
+* User variables that need to be stored and accessed
+*/
+
+module.exports = userState = {
+
+	arrival: true,
+
+	preferences: {
+
+		hotkeys: {
+
+			// --- FPS Movement --- \\
+			// NOT YET IMPLEMENTED
+			forwards: ["forwards", "w", 87],
+			left: ["left", "a", 65],
+			backwards: ["backwards", "s", 83],
+			right: ["right", "d", 68],
+			jumpup: ["jump/up", "spacebar", 32],  // just up
+			crouchdown: ["crouch/down", "shift", 16],  // just down
+			// TODO: Implement double tapping, holding, and other behavior
+			// TODO: Discuss implications of this behavior for user experience
+			// startFlying: ["start flying", "double tap space bar", 32],
+			toggleFlying: ["toggle flying", "f", 70],
+
+			// --- pointerlock --- \\
+			pointerLock: ["pointer lock", "esc", 27],
+
+			// --- Testing --- \\
+			tests: ["run tests", "t", 84],
+
+		},  // end hotkeys{}
+
+		flying: true,
+
+	},  // end preferences{}
+
+}
+
+
+},{}],7:[function(require,module,exports){
+module.exports=require(6)
+},{}],8:[function(require,module,exports){
+
+},{}],9:[function(require,module,exports){
 var split = require('browser-split')
 var ClassList = require('class-list')
 var DataSet = require('data-set')
@@ -177,7 +715,7 @@ function isArray (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]'
 }
 
-},{"browser-split":4,"class-list":5,"data-set":7,"html-element":2}],4:[function(require,module,exports){
+},{"browser-split":10,"class-list":11,"data-set":13,"html-element":8}],10:[function(require,module,exports){
 /*!
  * Cross-Browser Split 1.1.1
  * Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
@@ -285,7 +823,7 @@ module.exports = (function split(undef) {
   return self;
 })();
 
-},{}],5:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 // contains, add, remove, toggle
 var indexof = require('indexof')
 
@@ -386,7 +924,7 @@ function isTruthy(value) {
     return !!value
 }
 
-},{"indexof":6}],6:[function(require,module,exports){
+},{"indexof":12}],12:[function(require,module,exports){
 
 var indexOf = [].indexOf;
 
@@ -397,7 +935,7 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-},{}],7:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var Weakmap = require("weakmap")
 var Individual = require("individual")
 
@@ -441,7 +979,7 @@ function createHash(elem) {
     return hash
 }
 
-},{"individual":8,"weakmap":10}],8:[function(require,module,exports){
+},{"individual":14,"weakmap":16}],14:[function(require,module,exports){
 var root = require("global")
 
 module.exports = Individual
@@ -459,7 +997,7 @@ function Individual(key, value) {
     return value
 }
 
-},{"global":9}],9:[function(require,module,exports){
+},{"global":15}],15:[function(require,module,exports){
 (function (global){
 /*global window, global*/
 if (typeof global !== "undefined") {
@@ -469,7 +1007,7 @@ if (typeof global !== "undefined") {
 }
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],10:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /* (The MIT License)
  *
  * Copyright (c) 2012 Brandon Benvie <http://bbenvie.com>
@@ -711,7 +1249,7 @@ void function(global, undefined_, undefined){
     global.WeakMap.createStorage = createStorage;
 }((0, eval)('this'));
 
-},{}],11:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* 
 * The building blocks of contextual interactivity
 * TODO: discuss - should bottombar be in here? Should all
@@ -1140,4 +1678,154 @@ var htmlBlocks = module.exports = {
 
 };  // end htmlBlocks{}
 
-},{"hyperscript":3}]},{},[1])
+},{"hyperscript":9}],18:[function(require,module,exports){
+/* based on libraries of three.js with @author mrdoob / http://mrdoob.com/ */
+
+module.exports = cubeWorld = function () {
+
+	// Hack to get require working
+	this.controls = null;
+
+	var camera, scene, renderer;
+	var geometry, material, mesh;
+
+	var objects = [];
+
+	var ray;
+
+	init();
+	animate();
+
+	function init() {
+
+		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+
+		scene = new THREE.Scene();
+		scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+
+		var light = new THREE.DirectionalLight( 0xffffff, 1.5 );
+		light.position.set( 1, 1, 1 );
+		scene.add( light );
+
+		var light = new THREE.DirectionalLight( 0xffffff, 0.75 );
+		light.position.set( -1, - 0.5, -1 );
+		scene.add( light );
+
+		cubeWorld.controls = new THREE.PointerLockControls( camera );
+		scene.add( cubeWorld.controls.getObject() );
+
+		ray = new THREE.Raycaster();
+		ray.ray.direction.set( 0, -1, 0 );
+
+		// floor
+
+		geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+
+		for ( var i = 0, l = geometry.vertices.length; i < l; i ++ ) {
+
+			var vertex = geometry.vertices[ i ];
+			vertex.x += Math.random() * 20 - 10;
+			vertex.y += Math.random() * 2;
+			vertex.z += Math.random() * 20 - 10;
+
+		}
+
+		for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
+
+			var face = geometry.faces[ i ];
+			face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+			face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+			face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+
+		}
+
+		material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
+
+		mesh = new THREE.Mesh( geometry, material );
+		scene.add( mesh );
+
+		// objects
+
+		geometry = new THREE.BoxGeometry( 20, 20, 20 );
+
+		for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
+
+			var face = geometry.faces[ i ];
+			face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+			face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+			face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+
+		}
+
+		for ( var i = 0; i < 500; i ++ ) {
+
+			material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+
+			var mesh = new THREE.Mesh( geometry, material );
+			mesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
+			mesh.position.y = Math.floor( Math.random() * 20 ) * 20 + 10;
+			mesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
+			scene.add( mesh );
+
+			material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+
+			objects.push( mesh );
+
+		}
+
+		//
+
+		renderer = new THREE.WebGLRenderer();
+		renderer.setClearColor( 0xffffff );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		document.body.appendChild( renderer.domElement );
+
+		//
+
+		window.addEventListener( 'resize', onWindowResize, false );
+
+	}
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+	}
+
+	function animate() {
+
+		requestAnimationFrame( animate );
+
+		cubeWorld.controls.isOnObject( false );
+
+		ray.ray.origin.copy( cubeWorld.controls.getObject().position );
+		ray.ray.origin.y -= 10;
+
+		var intersections = ray.intersectObjects( objects );
+
+		if ( intersections.length > 0 ) {
+
+			var distance = intersections[ 0 ].distance;
+
+			if ( distance > 0 && distance < 10 ) {
+
+				cubeWorld.controls.isOnObject( true );
+
+			}
+
+		}
+
+		cubeWorld.controls.update();
+
+		renderer.render( scene, camera );
+
+	}
+
+};
+
+},{}]},{},[1])
