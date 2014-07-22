@@ -1,9 +1,9 @@
 /* based on libraries of three.js with @author mrdoob / http://mrdoob.com/ */
 
-// TOOD: Localize global vars
-var controls;
+module.exports = cubeWorld = function () {
 
-var cubeWorld = function () {
+	// Hack to get require working
+	this.controls = null;
 
 	var camera, scene, renderer;
 	var geometry, material, mesh;
@@ -30,8 +30,8 @@ var cubeWorld = function () {
 		light.position.set( -1, - 0.5, -1 );
 		scene.add( light );
 
-		controls = new THREE.PointerLockControls( camera );
-		scene.add( controls.getObject() );
+		cubeWorld.controls = new THREE.PointerLockControls( camera );
+		scene.add( cubeWorld.controls.getObject() );
 
 		ray = new THREE.Raycaster();
 		ray.ray.direction.set( 0, -1, 0 );
@@ -120,9 +120,9 @@ var cubeWorld = function () {
 
 		requestAnimationFrame( animate );
 
-		controls.isOnObject( false );
+		cubeWorld.controls.isOnObject( false );
 
-		ray.ray.origin.copy( controls.getObject().position );
+		ray.ray.origin.copy( cubeWorld.controls.getObject().position );
 		ray.ray.origin.y -= 10;
 
 		var intersections = ray.intersectObjects( objects );
@@ -133,13 +133,13 @@ var cubeWorld = function () {
 
 			if ( distance > 0 && distance < 10 ) {
 
-				controls.isOnObject( true );
+				cubeWorld.controls.isOnObject( true );
 
 			}
 
 		}
 
-		controls.update();
+		cubeWorld.controls.update();
 
 		renderer.render( scene, camera );
 

@@ -1,7 +1,11 @@
 // Starts things off
 
 // Server stuff
+var cubeWorld = require('./server/worlds/cubeworld.js');
 var html = require('./server/htmlBlocks.js');
+
+// User stuff
+var pointerLock = require('./js/controls/pointerlock.js');
 var mouseEvents = require('./js/controls/mouseevents.js');
 var keyEvents = require('./js/controls/keyevents.js');
 

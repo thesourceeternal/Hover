@@ -3,7 +3,11 @@
 * Also with functionality to toggle pointer lock
 */
 
-pointerLock = {
+// var controls = require('./controls.js');
+var cubeWorld = require('../../server/worlds/cubeworld.js');
+
+
+module.exports = pointerLock = {
 
 	/* ===================================
 	   Setup
@@ -110,13 +114,13 @@ pointerLock = {
 			document.mozPointerLockElement === lockElement ||
 			document.webkitPointerLockElement === lockElement ) {
 
-			// Start fps controls
-			controls.enabled = true;
+			// Start fppov controls
+			cubeWorld.controls.enabled = true;
 
 		} else {  // pointer is NOT locked
 
-			// Stop fps controls
-			controls.enabled = false;
+			// Stop fppov controls
+			cubeWorld.controls.enabled = false;
 
 		}
 
