@@ -3,11 +3,10 @@
 * There will eventually be a lot of them
 */
 
+var display = require('../display.js');
+
 
 module.exports = keyEvents = function () {
-
-	// Make global local
-	var display = displayBlocks;
 
 	document.addEventListener( 'keyup', function () {
 

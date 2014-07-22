@@ -2,7 +2,7 @@
 * Controls the hiding and showing of element blocks
 */
 
-var displayBlocks = {
+module.exports = displayBlocks = {
 
 	// Bools
 	editorShowing: false,

@@ -3,10 +3,10 @@
 * There will eventually be a lot of them
 */
 
-module.exports = mouseEvents = function () {
+var display = require('../display.js');
 
-	// Make global into local
-	var display = displayBlocks;
+
+module.exports = mouseEvents = function () {
 
 	// --- Input Elements --- \\
 	document.addEventListener( 'click', function (event) {
