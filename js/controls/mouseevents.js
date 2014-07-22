@@ -3,7 +3,7 @@
 * There will eventually be a lot of them
 */
 
-var mouseEvents = function () {
+module.exports = mouseEvents = function () {
 
 	// Make global into local
 	var display = displayBlocks;

@@ -2,6 +2,7 @@
 
 // Server stuff
 var html = require('./server/htmlBlocks.js');
+var mouseEvents = require('./js/controls/mouseevents.js');
 
 window.addEventListener( 'load', function () {
 
