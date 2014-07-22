@@ -4,7 +4,7 @@
 */
 
 
-keyEvents = function () {
+module.exports = keyEvents = function () {
 
 	// Make global local
 	var display = displayBlocks;
