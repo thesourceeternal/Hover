@@ -107,33 +107,34 @@ var htmlBlocks = module.exports = {
 				'Scene Object Tree'
 			),
 
-			// Maybe not a menu, menu isn't supported by most browsers
-			hyper( 'menu.scene-tree.collapsible',
-				// Clicking on an object should select it in the scene
-				hyper( 'ul',
+			hyper( 'div.collapsible',
+				// Maybe not a menu, menu isn't supported by most browsers
+				hyper( 'menu.scene-tree',
+					// Clicking on an object should select it in the scene
+					hyper( 'ul',
 
-					hyper( 'li.scene-obj.obj-1',
+						hyper( 'li.scene-obj.obj-1',
 
-						hyper( 'div.selectable',
-							// TODO: only give an object a collapser if it has children
-							hyper( 'button.collapser.expanded',
-								hyper('img',  { src: 'images/arrow-small.png',
-									alt: 'Click to collapse' })
-							),  // end button.collapser
-							'Some Object 1'
-						)
+							hyper( 'div.selectable',
+								// TODO: only give an object a collapser if it has children
+								hyper( 'button.collapser.expanded',
+									hyper('img',  { src: 'images/arrow-small.png',
+										alt: 'Click to collapse' })
+								),  // end button.collapser
+								'Some Object 1'
+							)
 
-					)  // end li.obj-1
-				)  // end ul
+						)  // end li.obj-1
+					)  // end ul
 
-			),  // end menu.scene-tree
-
+				),  // end menu.scene-tree
 					
-			hyper( 'div.jump-container',
-				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
-					'Jump to top'
+				hyper( 'div.jump-container',
+					hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+						'Jump to top'
+					)
 				)
-			)
+			)  // end div.collapsible
 
 		)  // end .scene-tree-container
 	,  // end sceneTree
@@ -149,50 +150,52 @@ var htmlBlocks = module.exports = {
 				'Object Info'
 			),
 
-			hyper( 'form.collapsible',
+			hyper( 'div.collapsible',
+				hyper( 'form',
 
-				hyper( 'ul',
+					hyper( 'ul',
 
-					hyper( 'li.child',
-						hyper( 'label', 'Prefab:',
-							hyper( 'select', {name: 'prefab'},
-								hyper('option', 'None (make unique)'),
-								hyper('option', 'Prefab 1'),
-								hyper('option', 'Prefab 2')
-							)
-						)  // end label (Prefab)
-					),  // end li
+						hyper( 'li.child',
+							hyper( 'label', 'Prefab:',
+								hyper( 'select', {name: 'prefab'},
+									hyper('option', 'None (make unique)'),
+									hyper('option', 'Prefab 1'),
+									hyper('option', 'Prefab 2')
+								)
+							)  // end label (Prefab)
+						),  // end li
 
-					hyper( 'li.child',
-						hyper( 'label', 'name:',
-							hyper( 'input', {name: 'name', type: 'text'}
-							)
-						)  // end label (name)
-					),  // end li
+						hyper( 'li.child',
+							hyper( 'label', 'name:',
+								hyper( 'input', {name: 'name', type: 'text'}
+								)
+							)  // end label (name)
+						),  // end li
 
-					hyper( 'li.child',
-						hyper( 'label', 'id:',
-							hyper( 'input', {name: 'id', type: 'text'}
-							)
-						)  // end label (id)
-					),  // end li
+						hyper( 'li.child',
+							hyper( 'label', 'id:',
+								hyper( 'input', {name: 'id', type: 'text'}
+								)
+							)  // end label (id)
+						),  // end li
 
-					hyper( 'li.child',
-						hyper( 'label', 'foo:',
-							hyper( 'input', {name: 'foo', type: 'text'}
-							)
-						)  // end label (foo)
-					)  // end li
+						hyper( 'li.child',
+							hyper( 'label', 'foo:',
+								hyper( 'input', {name: 'foo', type: 'text'}
+								)
+							)  // end label (foo)
+						)  // end li
 
-				)  // end ul
+					)  // end ul
 
-			),  // end form
+				),  // end form
 
-			hyper( 'div.jump-container',
-				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
-					'Jump to top'
+				hyper( 'div.jump-container',
+					hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+						'Jump to top'
+					)
 				)
-			)
+			)  // end div.collapsible
 
 		),  // end objectInfo
 
@@ -209,100 +212,103 @@ var htmlBlocks = module.exports = {
 				'Transforms'
 			),
 
-			hyper( 'form.collapsible',
+			hyper( 'div.collapsible',
 
-				hyper( 'fieldset.position',
-					hyper( 'legend', hyper('button', 'position')),
+				hyper( 'form',
 
-					hyper( 'ul',
+					hyper( 'fieldset.position',
+						hyper( 'legend', hyper('button', 'position')),
 
-						hyper( 'li.child',
-							hyper( 'label', 'x:',
-								// .number for alternative num manipulation
-								hyper('input.x-coord.number', {name: 'x-coord', type: 'number'})
+						hyper( 'ul',
+
+							hyper( 'li.child',
+								hyper( 'label', 'x:',
+									// .number for alternative num manipulation
+									hyper('input.x-coord.number', {name: 'x-coord', type: 'number'})
+								)
+							),  // end li
+
+							hyper( 'li.child',
+								hyper( 'label', 'y:',
+									hyper('input.y-coord.number', {name: 'y-coord', type: 'number'})
+								)
+							),
+
+							hyper( 'li.child',
+								hyper( 'label', 'z:',
+									hyper('input.z-coord.number', {name: 'z-coord', type: 'number'})
+								)
 							)
-						),  // end li
 
-						hyper( 'li.child',
-							hyper( 'label', 'y:',
-								hyper('input.y-coord.number', {name: 'y-coord', type: 'number'})
-							)
-						),
+						)  // end ul
 
-						hyper( 'li.child',
-							hyper( 'label', 'z:',
-								hyper('input.z-coord.number', {name: 'z-coord', type: 'number'})
-							)
-						)
+					),  // end .position
 
-					)  // end ul
+					hyper( 'fieldset.rotation',
+						hyper( 'legend', hyper('button', 'rotation')),
 
-				),  // end .position
+						hyper( 'ul',
 
-				hyper( 'fieldset.rotation',
-					hyper( 'legend', hyper('button', 'rotation')),
+							hyper( 'li.child',
+								hyper( 'label', 'x:',
+									hyper('input.x-rot.number', {name: 'x-rot', type: 'number'})
+								)
+							),  // end li
 
-					hyper( 'ul',
+							hyper( 'li.child',
+								hyper( 'label', 'y:',
+									hyper('input.y-rot.number', {name: 'y-rot', type: 'number'})
+								)
+							),  // end li
 
-						hyper( 'li.child',
-							hyper( 'label', 'x:',
-								hyper('input.x-rot.number', {name: 'x-rot', type: 'number'})
-							)
-						),  // end li
+							hyper( 'li.child',
+								hyper( 'label', 'z:',
+									hyper('input.z-rot.number', {name: 'z-rot', type: 'number'})
+								)
+							)  // end li
 
-						hyper( 'li.child',
-							hyper( 'label', 'y:',
-								hyper('input.y-rot.number', {name: 'y-rot', type: 'number'})
-							)
-						),  // end li
+						)  // end ul
 
-						hyper( 'li.child',
-							hyper( 'label', 'z:',
-								hyper('input.z-rot.number', {name: 'z-rot', type: 'number'})
-							)
-						)  // end li
+					),  // end .rotation
 
-					)  // end ul
+					hyper( 'fieldset.scale',
+						hyper( 'legend', hyper('button', 'scale')),
 
-				),  // end .rotation
+						hyper( 'ul',
 
-				hyper( 'fieldset.scale',
-					hyper( 'legend', hyper('button', 'scale')),
+							hyper( 'li.child',
+								hyper( 'label', 'x:',
+									// .number for alternative num manipulation
+									hyper('input.x-scale.number', {name: 'x-scale', type: 'number'})
+								)
+							),  // end li
 
-					hyper( 'ul',
+							hyper( 'li.child',
+								hyper( 'label', 'y:',
+									// .number for alternative num manipulation
+									hyper('input.y-scale.number', {name: 'y-scale', type: 'number'})
+								)
+							),  // end li
 
-						hyper( 'li.child',
-							hyper( 'label', 'x:',
-								// .number for alternative num manipulation
-								hyper('input.x-scale.number', {name: 'x-scale', type: 'number'})
-							)
-						),  // end li
+							hyper( 'li.child',
+								hyper( 'label', 'z:',
+									// .number for alternative num manipulation
+									hyper('input.z-scale.number', {name: 'z-scale', type: 'number'})
+								)
+							)  // end li
 
-						hyper( 'li.child',
-							hyper( 'label', 'y:',
-								// .number for alternative num manipulation
-								hyper('input.y-scale.number', {name: 'y-scale', type: 'number'})
-							)
-						),  // end li
+						)  // end ul
 
-						hyper( 'li.child',
-							hyper( 'label', 'z:',
-								// .number for alternative num manipulation
-								hyper('input.z-scale.number', {name: 'z-scale', type: 'number'})
-							)
-						)  // end li
+					)  // end .scale
 
-					)  // end ul
+				),  // end form
 
-				)  // end .scale
-
-			),  // end form
-
-			hyper( 'div.jump-container',
-				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
-					'Jump to top'
+				hyper( 'div.jump-container',
+					hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+						'Jump to top'
+					)
 				)
-			)
+			)  // end div.collapsible
 
 		)  // end .transforms
 	,  // end transforms
@@ -317,30 +323,32 @@ var htmlBlocks = module.exports = {
 				'Material'
 			),
 
-			hyper( 'form.collapsible',
+			hyper ( 'div.collapsible',
+				hyper( 'form',
 
-				hyper( 'ul',
+					hyper( 'ul',
 
-					hyper( 'li.child',
-						hyper( 'label', 'var blar:',
-							// .number for alternative num manipulation
-							hyper('input.blar.number', {type: 'number'})
-						)
-					),  // end li
+						hyper( 'li.child',
+							hyper( 'label', 'var blar:',
+								// .number for alternative num manipulation
+								hyper('input.blar.number', {type: 'number'})
+							)
+						),  // end li
 
-					hyper( 'li.child',
-						'color interface'
-					)  // end li
+						hyper( 'li.child',
+							'color interface'
+						)  // end li
 
-				)  // end ul
+					)  // end ul
 
-			),  // end form
+				),  // end form
 
-			hyper( 'div.jump-container',
-				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
-					'Jump to top'
+				hyper( 'div.jump-container',
+					hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+						'Jump to top'
+					)
 				)
-			)
+			)  // end div.collapsible
 
 		)  // end section.material
 	,  // end material
@@ -356,33 +364,35 @@ var htmlBlocks = module.exports = {
 				'Sample Component 1'
 			),
 
-			hyper( 'form.collapsible',
+			hyper( 'div.collapsible',
+				hyper( 'form',
 
-				hyper( 'ul',
+					hyper( 'ul',
 
-					hyper( 'li.child',
-						hyper( 'label', 'var num 2:',
-							// .number for alternative num manipulation
-							hyper('input.num1.number', {type: 'number'})
-						)
-					),  // end li
+						hyper( 'li.child',
+							hyper( 'label', 'var num 2:',
+								// .number for alternative num manipulation
+								hyper('input.num1.number', {type: 'number'})
+							)
+						),  // end li
 
-					hyper( 'li.child',
-						hyper( 'label', 'var num 1:',
-							// .number for alternative num manipulation
-							hyper('input.num2.number', {type: 'number'})
-						)
-					)  // end li
+						hyper( 'li.child',
+							hyper( 'label', 'var num 1:',
+								// .number for alternative num manipulation
+								hyper('input.num2.number', {type: 'number'})
+							)
+						)  // end li
 
-				)  // end ul
+					)  // end ul
 
-			),  // end form
+				),  // end form
 
-			hyper( 'div.jump-container',
-				hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
-					'Jump to top'
+				hyper( 'div.jump-container',
+					hyper( 'a.tiny-text.jump-to-top', {href: '#sidebar-nav'},
+						'Jump to top'
+					)
 				)
-			)
+			)  // end div.collapsible
 
 		)  // end .componentType
 	,  // end sample1
