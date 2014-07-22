@@ -21,6 +21,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "extend": "~1.2.1",
-    "looking-glass": "The-Source-Eternal/LookingGlass"
+    "looking-glass": "The-Source-Eternal/LookingGlass",
+    "hyperscript": "1.4.0"
   }
 }
