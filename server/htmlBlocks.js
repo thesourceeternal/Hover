@@ -71,9 +71,7 @@ var htmlBlocks = module.exports = {
 
 		}
 
-
 		document.getElementsByClassName( "sampler" )[0].appendChild(blocks.sampler);
-					// blocks.sampler;
 
 	},
 
