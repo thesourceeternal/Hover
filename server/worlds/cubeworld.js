@@ -2,9 +2,6 @@
 
 module.exports = cubeWorld = function () {
 
-	// Hack to get require working
-	this.controls = null;
-
 	var camera, scene, renderer;
 	var geometry, material, mesh;
 
@@ -17,60 +14,81 @@ module.exports = cubeWorld = function () {
 
 	function init() {
 
-		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+		// Hack to get require and hover working
+		// Need to be declared in here or values = undefined.
+		cubeWorld.controls = null;
+		
+		cubeWorld.camera = null;
+		cubeWorld.scene = null;
+		cubeWorld.renderer = null;
 
-		scene = new THREE.Scene();
-		scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+		cubeWorld.geometroy = null;
+		cubeWorld.material = null;
+		cubeWorld.mesh = null;
+
+		cubeWorld.objects = [];
+
+		cubeWorld.ray = null;
+
+		// For selecting objects
+		cubeWorld.projector = new THREE.Projector();
+		cubeWorld.raycaster = new THREE.Raycaster();
+
+		// Onwards!
+		cubeWorld.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+
+		cubeWorld.scene = new THREE.Scene();
+		cubeWorld.scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
 		var light = new THREE.DirectionalLight( 0xffffff, 1.5 );
 		light.position.set( 1, 1, 1 );
-		scene.add( light );
+		cubeWorld.scene.add( light );
 
 		var light = new THREE.DirectionalLight( 0xffffff, 0.75 );
 		light.position.set( -1, - 0.5, -1 );
-		scene.add( light );
+		cubeWorld.scene.add( light );
 
-		cubeWorld.controls = new THREE.PointerLockControls( camera );
-		scene.add( cubeWorld.controls.getObject() );
+		cubeWorld.controls = new THREE.PointerLockControls( cubeWorld.camera );
+		cubeWorld.scene.add( cubeWorld.controls.getObject() );
 
 		ray = new THREE.Raycaster();
 		ray.ray.direction.set( 0, -1, 0 );
 
 		// floor
 
-		geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
-		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+		cubeWorld.geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
+		cubeWorld.geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 
-		for ( var i = 0, l = geometry.vertices.length; i < l; i ++ ) {
+		for ( var i = 0, l = cubeWorld.geometry.vertices.length; i < l; i ++ ) {
 
-			var vertex = geometry.vertices[ i ];
+			var vertex = cubeWorld.geometry.vertices[ i ];
 			vertex.x += Math.random() * 20 - 10;
 			vertex.y += Math.random() * 2;
 			vertex.z += Math.random() * 20 - 10;
 
 		}
 
-		for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
+		for ( var i = 0, l = cubeWorld.geometry.faces.length; i < l; i ++ ) {
 
-			var face = geometry.faces[ i ];
+			var face = cubeWorld.geometry.faces[ i ];
 			face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 			face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 			face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 
 		}
 
-		material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
+		cubeWorld.material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
 
-		mesh = new THREE.Mesh( geometry, material );
-		scene.add( mesh );
+		cubeWorld.mesh = new THREE.Mesh( cubeWorld.geometry, cubeWorld.material );
+		cubeWorld.scene.add( cubeWorld.mesh );
 
 		// objects
 
-		geometry = new THREE.BoxGeometry( 20, 20, 20 );
+		cubeWorld.geometry = new THREE.BoxGeometry( 20, 20, 20 );
 
-		for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
+		for ( var i = 0, l = cubeWorld.geometry.faces.length; i < l; i ++ ) {
 
-			var face = geometry.faces[ i ];
+			var face = cubeWorld.geometry.faces[ i ];
 			face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 			face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 			face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
@@ -79,27 +97,27 @@ module.exports = cubeWorld = function () {
 
 		for ( var i = 0; i < 500; i ++ ) {
 
-			material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+			cubeWorld.material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
-			var mesh = new THREE.Mesh( geometry, material );
+			var mesh = new THREE.Mesh( cubeWorld.geometry, cubeWorld.material );
 			mesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
 			mesh.position.y = Math.floor( Math.random() * 20 ) * 20 + 10;
 			mesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
-			scene.add( mesh );
+			cubeWorld.scene.add( mesh );
 
-			material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+			cubeWorld.material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 
-			objects.push( mesh );
+			cubeWorld.objects.push( mesh );
 
 		}
 
 		//
 
-		renderer = new THREE.WebGLRenderer();
-		renderer.setClearColor( 0xffffff );
-		renderer.setSize( window.innerWidth, window.innerHeight );
+		cubeWorld.renderer = new THREE.WebGLRenderer();
+		cubeWorld.renderer.setClearColor( 0xffffff );
+		cubeWorld.renderer.setSize( window.innerWidth, window.innerHeight );
 
-		document.body.appendChild( renderer.domElement );
+		document.body.appendChild( cubeWorld.renderer.domElement );
 
 		//
 
@@ -109,10 +127,10 @@ module.exports = cubeWorld = function () {
 
 	function onWindowResize() {
 
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
+		cubeWorld.camera.aspect = window.innerWidth / window.innerHeight;
+		cubeWorld.camera.updateProjectionMatrix();
 
-		renderer.setSize( window.innerWidth, window.innerHeight );
+		cubeWorld.renderer.setSize( window.innerWidth, window.innerHeight );
 
 	}
 
@@ -125,7 +143,7 @@ module.exports = cubeWorld = function () {
 		ray.ray.origin.copy( cubeWorld.controls.getObject().position );
 		ray.ray.origin.y -= 10;
 
-		var intersections = ray.intersectObjects( objects );
+		var intersections = ray.intersectObjects( cubeWorld.objects );
 
 		if ( intersections.length > 0 ) {
 
@@ -141,7 +159,7 @@ module.exports = cubeWorld = function () {
 
 		cubeWorld.controls.update();
 
-		renderer.render( scene, camera );
+		cubeWorld.renderer.render( cubeWorld.scene, cubeWorld.camera );
 
 	}
 

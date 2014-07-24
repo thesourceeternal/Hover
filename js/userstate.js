@@ -4,7 +4,17 @@
 
 module.exports = userState = {
 
+	// Bools
 	arrival: true,
+
+	editorShowing: false,
+	inspectorShowing: true,
+	// assetsShowing: false,
+	// samplerShowing: false,
+	// codeShowing: false,
+
+	selectedObj: undefined,
+
 
 	preferences: {
 

@@ -5,6 +5,7 @@
 
 var display = require('../display.js');
 var userState = require('../userstate.js');
+// var select = require('../ui/select.js');
 
 
 module.exports = mouseEvents = function () {
@@ -60,6 +61,13 @@ module.exports = mouseEvents = function () {
 		}  // end if .esc-clause
 
 	} );
+
+
+	// --- UI --- \\
+	// Check PointerLockControls.js for more UI events
+
+	// --- Objects --- \\
+	// Check select.js for more object events
 
 
 	// --- Intro --- \\

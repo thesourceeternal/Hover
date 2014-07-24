@@ -114,13 +114,7 @@ module.exports = pointerLock = {
 			document.mozPointerLockElement === lockElement ||
 			document.webkitPointerLockElement === lockElement ) {
 
-			// Start fppov controls
-			cubeWorld.controls.enabled = true;
-
 		} else {  // pointer is NOT locked
-
-			// Stop fppov controls
-			cubeWorld.controls.enabled = false;
 
 		}
 

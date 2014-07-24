@@ -3,16 +3,17 @@
 */
 
 var userState = require('./userState.js');
+var select = require('./ui/select.js');
 
 
 module.exports = displayBlocks = {
 
 	// Bools
-	editorShowing: false,
-	inspectorShowing: true,
-	assetsShowing: false,
+	// editorShowing: false,
+	// inspectorShowing: true,
+	// assetsShowing: false,
 	// samplerShowing: false,
-	codeShowing: false,
+	// codeShowing: false,
 
 	/* ===================================
 	   Functions
@@ -48,7 +49,7 @@ module.exports = displayBlocks = {
 	// --- Editor Blocks --- \\
 	toggleEditor: function () {
 		
-		if (displayBlocks.editorShowing) {
+		if (userState.editorShowing) {
 			displayBlocks.hideEditor();
 		} else {
 			displayBlocks.showEditor();
@@ -70,7 +71,11 @@ module.exports = displayBlocks = {
 		// This is for just after the intro
 		document.getElementsByClassName( "bottombar" )[0].classList.remove("collapsed");
 
-		displayBlocks.editorShowing = true;
+		userState.editorShowing = true;
+
+		// Start fppov controls
+		cubeWorld.controls.enabled = false;
+		select.disableHoverSelection();
 
 	},  // end showEditor()
 
@@ -89,7 +94,12 @@ module.exports = displayBlocks = {
 		// Show inventory perhaps
 		// document.getElementsByClassName( "inventory" )[0].classList.remove("collapsed");
 
-		displayBlocks.editorShowing = false;
+		userState.editorShowing = false;
+
+		// Start fppov controls
+		cubeWorld.controls.enabled = true;
+
+		select.enableHoverSelection();
 
 	},  // end hideEditor()
 
@@ -97,7 +107,7 @@ module.exports = displayBlocks = {
 	// toggleTabs: function () {
 
 	// 	// Toggle visibility of the inspector and assets in sidebar
-	// 	if ( displayBlocks.inspectorShowing ) {
+	// 	if ( userState.inspectorShowing ) {
 
 		// displayBlocks.showAssets();
 
@@ -119,7 +129,7 @@ module.exports = displayBlocks = {
 		document.getElementsByClassName( "inspector-get" )[0].classList.add("active-tab");
 		document.getElementsByClassName( "assets-get" )[0].classList.remove("active-tab");
 
-		displayBlocks.inspectorShowing = true;
+		userState.inspectorShowing = true;
 
 	},  // end showInspector()
 
@@ -133,7 +143,7 @@ module.exports = displayBlocks = {
 		document.getElementsByClassName( "assets-get" )[0].classList.add("active-tab");
 		document.getElementsByClassName( "inspector-get" )[0].classList.remove("active-tab");
 
-		displayBlocks.inspectorShowing = false;
+		userState.inspectorShowing = false;
 
 
 	},  // end showAssets()
