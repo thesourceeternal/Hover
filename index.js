@@ -36,35 +36,35 @@ window.addEventListener( 'load', function () {
 	mouseEvents();
 	keyEvents();
 
-	// somehow transformControls is already being called
-	var renderer = cubeWorld.renderer;
-	var camera = cubeWorld.camera;
-	var scene = cubeWorld.scene;
-	var controls = new THREE.TransformControls( camera, renderer.dom );
-	controls.scope = controls;
-	controls.setMode("translate");
+	// // somehow transformControls is already being called
+	// var renderer = cubeWorld.renderer;
+	// var camera = cubeWorld.camera;
+	// var scene = cubeWorld.scene;
+	// var controls = new THREE.TransformControls( camera, renderer.dom );
+	// controls.scope = controls;
+	// controls.setMode("translate");
 
 
-	// controls.addEventListener( 'change', render );
+	// // controls.addEventListener( 'change', render );
 
-	function render() {
+	// function render() {
 
-		controls.update();
+	// 	controls.update();
 
-		renderer.render( scene, camera );
+	// 	renderer.render( scene, camera );
 
-	}
+	// }
 
-	document.addEventListener('click', function () {
+	// document.addEventListener('click', function () {
 
-		// controls.scope.object = userState.selectedObj;
-		controls.attach(userState.selectedObj);
+	// 	// controls.scope.object = userState.selectedObj;
+	// 	controls.attach(userState.selectedObj);
 
-		// controls.update();
+	// 	// controls.update();
 
-		// renderer.render( scene, camera );
+	// 	// renderer.render( scene, camera );
 
-	});
+	// });
 
 
 

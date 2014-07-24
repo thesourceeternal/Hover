@@ -4,7 +4,7 @@
  /*jshint sub:true*/
 
 module.exports = transormControls = function () {
-	console.log("in transformControls");
+
 	'use strict';
 
 	var GizmoMaterial = function ( parameters ) {
