@@ -7,8 +7,5 @@ module.exports = transformGizmos = {
 	console.log("in transformGizmos")
 
 
-
-
-
 };
 

@@ -60,9 +60,9 @@ window.addEventListener( 'load', function () {
 		// controls.scope.object = userState.selectedObj;
 		controls.attach(userState.selectedObj);
 
-		controls.update();
+		// controls.update();
 
-		renderer.render( scene, camera );
+		// renderer.render( scene, camera );
 
 	});
 
