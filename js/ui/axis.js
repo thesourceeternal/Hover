@@ -67,11 +67,21 @@ module.exports = transformGizmos = function (color, object, direction) {
 
 	Cube = function ( object, originMode, axis ) {
 
-		var geometry = new THREE.BoxGeometry(100, 100, 100);
-		var material = new THREE.MeshLambertMaterial({ color: 0x1ec876 });
+		var scene = cubeWorld.scene;
+
+		var geometry = new THREE.BoxGeometry(10, 10, 10);
+		var material = new THREE.MeshBasicMaterial({ color: "rgb(217, 37, 37)" });
+
+		material.transparent = true;
+		material.opacity = 0.5;
+
 		var cube = new THREE.Mesh(geometry, material);
 
+		cube.position.y = 10;
 
+		scene.add(cube);
+
+		console.log(cube.position);
 
 	};
 
