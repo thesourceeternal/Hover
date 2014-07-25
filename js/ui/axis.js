@@ -20,20 +20,26 @@ module.exports = transformGizmos = function (color, object, direction) {
 		zEndpoint = new THREE.Vector3(0, 0, 3);
 
 
-	// Places the axes depending on where it's center should be
-	// object is the data for the object that will have the axis
-	// mode will determine where the axis will be relative to the object
-	var placeAxesOrigin = function ( object, mode ) {};  // end placeAxesOrigin()
+	// // Places the axes depending on where it's center should be
+	// // object is the data for the object that will have the axis
+	// // mode will determine where the axis will be relative to the object
+	// var placeAxesOrigin = function ( object, mode ) {};  // end placeAxesOrigin()
 
+	// IS THIS NECESSARY?
 	// The basic material for all the bits of the axis:
 	// The ends/terminals of the lines, the circles,
 	// the center, and the planes
 	// Doesn't include color
-	var GizmoMaterial = function () {};  // end GizmoMaterial();
+	var GizmoMaterial = function () {	
+
+		this.transparent = true;
+
+	};  // end GizmoMaterial();
 
 	// THREE.MeshBasicMaterial.prototype is assumed
 	GizmoMaterial.prototype = new THREE.MeshBasicMaterial;
 
+	// --- Line --- \\
 	// Draws an axis line for translate and scale
 	// axis sets which axis is being drawn. Determines
 	// direction and color
@@ -41,16 +47,10 @@ module.exports = transformGizmos = function (color, object, direction) {
 	// be in relation to object
 	var Line = function ( object, originMode, axis ) {
 
-		console.log("in transformGizmos Line()");
-
 		var scene = cubeWorld.scene;
-		var renderer = cubeWorld.renderer;
-		var camera = cubeWorld.camera;
 
 		// Later will be determined by axis
-		var material = new THREE.LineBasicMaterial({
-			color: 0x0000ff
-		});
+		var material = new THREE.LineBasicMaterial();
 
 		// Later will be in the object
 		// Can prototype fit in here? No need, over optimization
@@ -72,9 +72,14 @@ module.exports = transformGizmos = function (color, object, direction) {
 	// For testing: create one line with one axis
 	Line( color, object, direction );
 
+	// --- Circle --- \\
 	// Draws an axis circle for rotation
 	var Circle = function ( object, originMode, axis ) {};  // end Circle()
 
+	Circle.prototype = new THREE.LineBasicMaterial();;
+
+
+	// --- Cube --- \\
 	// axis sets which axis is being drawn. Determines
 	// color and location
 	// originMode sets where the origin of the line will
@@ -83,33 +88,25 @@ module.exports = transformGizmos = function (color, object, direction) {
 
 		var scene = cubeWorld.scene;
 
-		var geometry,
-			material,
+		var geometry = new THREE.BoxGeometry(1, 1, 1);
+		
+		var	material,
 			x, y, z;
 
 		if ( axis === "x" ) {
 
-			geometry = new THREE.BoxGeometry(1, 1, 1);
 			material = new THREE.MeshBasicMaterial({ color: xColor });
-			x = 3.5;
-			y = 0;
-			z = 0;
+			x = 3.5; y = 0; z = 0;
 
 		} else if ( axis === "y" ) {
 
-			geometry = new THREE.BoxGeometry(1, 1, 1);
 			material = new THREE.MeshBasicMaterial({ color: yColor });
-			x = 0;
-			y = 3.5;
-			z = 0;
+			x = 0; y = 3.5; z = 0;
 
 		} else if ( axis === "z" ) {
 
-			geometry = new THREE.BoxGeometry(1, 1, 1);
 			material = new THREE.MeshBasicMaterial({ color: zColor });
-			x = 0;
-			y = 0;
-			z = 3.5;
+			x = 0; y = 0; z = 3.5;
 
 		} else {
 
@@ -126,7 +123,7 @@ module.exports = transformGizmos = function (color, object, direction) {
 
 		scene.add(cube);
 
-	};
+	};  // end Cube
 
 	Cube("object", "center", "x");
 	Cube("object", "center", "y");
