@@ -67,7 +67,7 @@ window.addEventListener( 'load', function () {
 
 	// });
 
-	axis.createLine("red", "object");
+	axis( "color", "object", "direction" );
 
 
 
