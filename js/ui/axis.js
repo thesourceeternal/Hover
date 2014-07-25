@@ -11,10 +11,13 @@ var cubeWorld = require('../../server/worlds/cubeworld.js');
 module.exports = transformGizmos = function (color, object, direction) {
 
 	// Places the axes depending on where it's center should be
-	placeAxesOrigin = function ( point ) {};  // end placeAxesOrigin()
+	// object is the data for the object that will have the axis
+	// mode will determine where the axis will be relative to the object
+	placeAxesOrigin = function ( object, mode ) {};  // end placeAxesOrigin()
 
 	// The basic material for all the bits of the axis:
-	// The lines and ends/terminals of the lines and the circles
+	// The ends/terminals of the lines, the circles,
+	// the center, and the planes
 	// Doesn't include color
 	GizmoMaterial = function () {};  // end GizmoMaterial();
 
@@ -22,13 +25,17 @@ module.exports = transformGizmos = function (color, object, direction) {
 	GizmoMaterial.prototype = new THREE.MeshBasicMaterial;
 
 	// Draws an axis line for translate and scale
-	Line = function ( object, axis ) {
+	// axis sets which axis is being drawn. Determines
+	// direction and color
+	// originMode sets where the origin of the line will
+	// be in relation to object
+	Line = function ( object, originMode, axis ) {
+
+		console.log("in transformGizmos Line()");
 
 		var scene = cubeWorld.scene;
 		var renderer = cubeWorld.renderer;
 		var camera = cubeWorld.camera;
-
-	console.log("in transformGizmos Line()");
 
 		// Later will be determined by axis
 		var material = new THREE.LineBasicMaterial({
@@ -45,7 +52,6 @@ module.exports = transformGizmos = function (color, object, direction) {
 
 	    var line = new THREE.Line(geometry, material);
 	    scene.add(line);
-	    renderer.render(scene, camera);
 
 	};  // end Line()
 
@@ -57,8 +63,19 @@ module.exports = transformGizmos = function (color, object, direction) {
 	Line( color, object, direction );
 
 	// Draws an axis circle for rotation
-	Circle = function ( object, axis ) {};  // end Circle()
+	Circle = function ( object, originMode, axis ) {};  // end Circle()
 
+	Cube = function ( object, originMode, axis ) {
+
+		var geometry = new THREE.BoxGeometry(100, 100, 100);
+		var material = new THREE.MeshLambertMaterial({ color: 0x1ec876 });
+		var cube = new THREE.Mesh(geometry, material);
+
+
+
+	};
+
+	Cube();
 
 
 	// The end of the line will go in Scale and Transform
