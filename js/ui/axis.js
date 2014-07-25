@@ -10,16 +10,26 @@ var cubeWorld = require('../../server/worlds/cubeworld.js');
 
 module.exports = transformGizmos = function (color, object, direction) {
 
+	// The axes
+	var xColor = "rgb(217, 37, 37)",
+		yColor = "rgb(42, 199, 115)",
+		zColor = "rgb(87, 91, 217)";
+
+	var xEndpoint = new THREE.Vector3(3, 0, 0),
+		yEndpoint = new THREE.Vector3(0, 3, 0),
+		zEndpoint = new THREE.Vector3(0, 0, 3);
+
+
 	// Places the axes depending on where it's center should be
 	// object is the data for the object that will have the axis
 	// mode will determine where the axis will be relative to the object
-	placeAxesOrigin = function ( object, mode ) {};  // end placeAxesOrigin()
+	var placeAxesOrigin = function ( object, mode ) {};  // end placeAxesOrigin()
 
 	// The basic material for all the bits of the axis:
 	// The ends/terminals of the lines, the circles,
 	// the center, and the planes
 	// Doesn't include color
-	GizmoMaterial = function () {};  // end GizmoMaterial();
+	var GizmoMaterial = function () {};  // end GizmoMaterial();
 
 	// THREE.MeshBasicMaterial.prototype is assumed
 	GizmoMaterial.prototype = new THREE.MeshBasicMaterial;
@@ -29,7 +39,7 @@ module.exports = transformGizmos = function (color, object, direction) {
 	// direction and color
 	// originMode sets where the origin of the line will
 	// be in relation to object
-	Line = function ( object, originMode, axis ) {
+	var Line = function ( object, originMode, axis ) {
 
 		console.log("in transformGizmos Line()");
 
@@ -63,29 +73,64 @@ module.exports = transformGizmos = function (color, object, direction) {
 	Line( color, object, direction );
 
 	// Draws an axis circle for rotation
-	Circle = function ( object, originMode, axis ) {};  // end Circle()
+	var Circle = function ( object, originMode, axis ) {};  // end Circle()
 
-	Cube = function ( object, originMode, axis ) {
+	// axis sets which axis is being drawn. Determines
+	// color and location
+	// originMode sets where the origin of the line will
+	// be in relation to object
+	var Cube = function ( object, originMode, axis ) {
 
 		var scene = cubeWorld.scene;
 
-		var geometry = new THREE.BoxGeometry(10, 10, 10);
-		var material = new THREE.MeshBasicMaterial({ color: "rgb(217, 37, 37)" });
+		var geometry,
+			material,
+			x, y, z;
+
+		if ( axis === "x" ) {
+
+			geometry = new THREE.BoxGeometry(1, 1, 1);
+			material = new THREE.MeshBasicMaterial({ color: xColor });
+			x = 3.5;
+			y = 0;
+			z = 0;
+
+		} else if ( axis === "y" ) {
+
+			geometry = new THREE.BoxGeometry(1, 1, 1);
+			material = new THREE.MeshBasicMaterial({ color: yColor });
+			x = 0;
+			y = 3.5;
+			z = 0;
+
+		} else if ( axis === "z" ) {
+
+			geometry = new THREE.BoxGeometry(1, 1, 1);
+			material = new THREE.MeshBasicMaterial({ color: zColor });
+			x = 0;
+			y = 0;
+			z = 3.5;
+
+		} else {
+
+			console.error("You have provided an invalid axis. Permited: x, y, z");
+			return;
+
+		}
 
 		material.transparent = true;
-		material.opacity = 0.5;
+		material.opacity = 0.75;
 
-		var cube = new THREE.Mesh(geometry, material);
-
-		cube.position.y = 10;
+		var cube = new THREE.Mesh( geometry, material );
+		cube.position = new THREE.Vector3( x, y, z );
 
 		scene.add(cube);
 
-		console.log(cube.position);
-
 	};
 
-	Cube();
+	Cube("object", "center", "x");
+	Cube("object", "center", "y");
+	Cube("object", "center", "z");
 
 
 	// The end of the line will go in Scale and Transform
