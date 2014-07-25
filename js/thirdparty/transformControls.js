@@ -7,7 +7,18 @@ module.exports = transormControls = function () {
 
 	'use strict';
 
+	// In this function, "this" is the TransformControls object or
+	// possibly the GizmoMaterial itself
+	// It's stack is:
+	// THREE.TransformGizmoTranslate
+		// Y: [
+			// [ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0x00ff00 } ) ), [ 0, 0.5, 0 ] ],
+	// THREE.TransformControls
+		// this.gizmo["translate"] = new THREE.TransformGizmoTranslate();
+	// Viewport (Viewport.js)
+		// var transformControls = new THREE.TransformControls( camera, container.dom );
 	var GizmoMaterial = function ( parameters ) {
+		console.log(this);
 
 		THREE.MeshBasicMaterial.call( this );
 

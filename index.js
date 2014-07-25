@@ -9,10 +9,11 @@ var pointerLock = require('./js/controls/pointerlock.js');
 var mouseEvents = require('./js/controls/mouseevents.js');
 var keyEvents = require('./js/controls/keyevents.js');
 
-var transformControls = require('./js/thirdparty/transformControls.js');
+// var transformControls = require('./js/thirdparty/transformControls.js');
+var axis = require('./js/ui/axis.js');
 
 window.addEventListener( 'load', function () {
-	console.log("PROJECT: Unwritten Exercise Hover Transforms");
+	console.log("PROJECT: Unwritten Exercise Hover Transforms Axes");
 
 	/* ===================================
 	    Server
@@ -66,6 +67,7 @@ window.addEventListener( 'load', function () {
 
 	// });
 
+	axis.createLine("red", "object");
 
 
 
