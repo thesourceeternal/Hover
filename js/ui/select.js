@@ -9,11 +9,16 @@ var transformControls = require('../thirdparty/transformControls.js');
 
 module.exports = select = {
 
+	// Perhaps relocate raycaster and projector into here
+
 	// Perhaps relocate to userState
 	// selected: null,
 	oldSelected: null,
 
 	axis: null,
+
+	enabled: true,
+
 
 	// Set up the transform controlers/axis
 	// TODO: Make only one axis object and move it around
@@ -22,11 +27,27 @@ module.exports = select = {
 	// TODO: make an arrow point to the axis if the axis is off-screen
 	_init_: function () {
 
+		var disableSelection = select.disableSelection;
+		var enableSelection = select.enableSelection;
+
+		// Add event listeners to prevent selection when clicking
+		// on hud elements
+		var editor = document.getElementsByClassName("editor-sidebar")[0];
+		var bottombar = document.getElementsByClassName("bottombar")[0];
+		// var codeEditor = document.getElementsByClassName("code-editor")[0];
+
+		editor.addEventListener( "mousedown", disableSelection, false );
+		editor.addEventListener( "mouseup", enableSelection, false );
+
+		bottombar.addEventListener( "mousedown", disableSelection, false );
+		bottombar.addEventListener( "mouseup", enableSelection, false );
+
+		// codeEditor.addEventListener( "mousedown", disableSelection, false );
+		// codeEditor.addEventListener( "mouseup", enableSelection, false );
+
 		var renderer = cubeWorld.renderer;
 		var camera = cubeWorld.camera;
 		var scene = cubeWorld.scene;
-
-		var domElement = document.getElementsByTagName("canvas")[0];
 
 		select.axis = new THREE.TransformControls( camera, renderer.dom );
 
@@ -36,33 +57,49 @@ module.exports = select = {
 
 	},
 
-	// Perhaps relocate raycaster and projector into here
 
+	// --- Enablers --- \\
+
+	disableSelection: function () {
+
+		select.enabled = false;
+
+	},  // end disableSelection()
+
+	enableSelection: function () {
+
+		select.enabled = true;
+
+	},  // end enableSelection()
+
+	// Called in display.js
 	// Hovering will select objects to get show info
 	enableHoverSelection: function () {
-
-		document.removeEventListener('click', select.ifSceneObject, false);
-		document.addEventListener('mousemove', select.ifSceneObject, false);
+		// Has to be mousedown for selection lock to work
+		document.removeEventListener("mousedown", select.selctionHandler, false);
+		document.addEventListener('mousemove', select.selctionHandler, false);
 
 	},  // end enableHoverSelection()
 
+	// Called in display.js
 	// Clicking will select objects
 	disableHoverSelection: function () {
-
-		document.removeEventListener('mousemove', select.ifSceneObject, false);
-		document.addEventListener('click', select.ifSceneObject, false);
+		// Has to be mousedown for selection lock to work
+		document.removeEventListener('mousemove', select.selctionHandler, false);
+		document.addEventListener("mousedown", select.selctionHandler, false);
 
 	},  // end disableHoverSelection()
 
+
+	// --- Selection --- \\
 	// Determines and, if needed sets, the object currently being selected
-	ifSceneObject: function (event) {
+	selctionHandler: function (event) {
+		console.log(event.target);
+		console.log(select.enabled);
 
-		// TODO: Test if the mouse is over the canvas
-		var inScene = true;
+		if ( select.enabled ) {
 
-		if ( inScene ) {
-
-			var newObj = select.getHover(event);
+			var newObj = select.getObject(event);
 
 			if ( newObj !== userState.selectedObj ) {
 
@@ -72,10 +109,10 @@ module.exports = select = {
 
 		}
 
-	},  // end ifSceneObject()
+	},  // end selctionHandler()
 
 	// Determines what object the mouse is currently on
-	getHover: function (event) {
+	getObject: function (event) {
 
 		// return cubeWorld.scene.children[0];
 		var intersectors = select.getScreenIntersects(event);
@@ -93,7 +130,7 @@ module.exports = select = {
 
 		}
 
-	},  // end getHover()
+	},  // end getObject()
 
 	// Checks what the nearest object intersection is
 	getScreenIntersects: function (event) {
