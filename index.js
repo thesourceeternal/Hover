@@ -9,8 +9,9 @@ var pointerLock = require('./js/controls/pointerlock.js');
 var mouseEvents = require('./js/controls/mouseevents.js');
 var keyEvents = require('./js/controls/keyevents.js');
 
-// var transformControls = require('./js/thirdparty/transformControls.js');
-var axis = require('./js/ui/axis.js');
+var transformControls = require('./js/thirdparty/transformControls.js');
+// var axis = require('./js/ui/axis.js');
+
 
 window.addEventListener( 'load', function () {
 	console.log("PROJECT: Unwritten Exercise Hover Transforms Axes");
@@ -37,37 +38,46 @@ window.addEventListener( 'load', function () {
 	mouseEvents();
 	keyEvents();
 
-	// // somehow transformControls is already being called
-	// var renderer = cubeWorld.renderer;
-	// var camera = cubeWorld.camera;
-	// var scene = cubeWorld.scene;
-	// var controls = new THREE.TransformControls( camera, renderer.dom );
-	// controls.scope = controls;
-	// controls.setMode("translate");
+	// somehow transformControls is already being called
+	var renderer = cubeWorld.renderer;
+	var camera = cubeWorld.camera;
+	var scene = cubeWorld.scene;
+	var controls = new THREE.TransformControls( camera, renderer.dom );
+	controls.scope = controls;
+	controls.setMode("translate");
 
 
-	// // controls.addEventListener( 'change', render );
+	// controls.addEventListener( 'change', render );
 
-	// function render() {
+	function render() {
 
-	// 	controls.update();
+		controls.update();
 
-	// 	renderer.render( scene, camera );
+		renderer.render( scene, camera );
 
-	// }
+	}
 
-	// document.addEventListener('click', function () {
+	cubeWorld.scene.add(controls);
 
-	// 	// controls.scope.object = userState.selectedObj;
-	// 	controls.attach(userState.selectedObj);
+	var attached = false;
 
-	// 	// controls.update();
+	document.addEventListener('click', function () {
+		debugger;
+		if ( attached ) {
 
-	// 	// renderer.render( scene, camera );
+			controls.detach();
+			attached = false;
 
-	// });
+		} else {
 
-	axis( "color", "object", "direction" );
+			controls.attach(userState.selectedObj);
+			attached = true;
+
+		}
+
+	});
+
+	// axis( "color", "object", "direction" );
 
 
 

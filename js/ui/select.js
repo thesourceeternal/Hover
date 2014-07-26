@@ -10,6 +10,13 @@ module.exports = select = {
 	// Perhaps relocate to userState
 	selected: null,
 
+	controls: new THREE.TransformControls( camera, renderer.dom ),
+
+	controlsInit: function () {
+
+		
+	},
+
 	// Perhaps relocate raycaster and projector into here
 
 	// Hovering will select objects to get show info
@@ -116,7 +123,6 @@ module.exports = select = {
 
 		userState.selectedObj = object;
 
-		// Set the color of the selected object to red-tinged
 		// Set the sampler to display the info of this
 			// object (perhaps this should be done in sampler's
 			// functions since sometimes the sampler won't

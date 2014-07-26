@@ -7,18 +7,7 @@ module.exports = transormControls = function () {
 
 	'use strict';
 
-	// In this function, "this" is the TransformControls object or
-	// possibly the GizmoMaterial itself
-	// It's stack is:
-	// THREE.TransformGizmoTranslate
-		// Y: [
-			// [ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0x00ff00 } ) ), [ 0, 0.5, 0 ] ],
-	// THREE.TransformControls
-		// this.gizmo["translate"] = new THREE.TransformGizmoTranslate();
-	// Viewport (Viewport.js)
-		// var transformControls = new THREE.TransformControls( camera, container.dom );
 	var GizmoMaterial = function ( parameters ) {
-		console.log(this);
 
 		THREE.MeshBasicMaterial.call( this );
 
@@ -191,7 +180,7 @@ module.exports = transormControls = function () {
 		};
 
 		this.highlight = function ( axis ) {
-			//debugger;
+
 			this.traverse(function( child ) {
 				if ( child.material && child.material.highlight ){
 					if ( child.name == axis ) {
@@ -208,7 +197,7 @@ module.exports = transormControls = function () {
 	THREE.TransformGizmo.prototype = Object.create( THREE.Object3D.prototype );
 
 	THREE.TransformGizmo.prototype.update = function ( rotation, eye ) {
-		//debugger;
+
 
 		var vec1 = new THREE.Vector3( 0, 0, 0 );
 		var vec2 = new THREE.Vector3( 0, 1, 0 );
@@ -638,7 +627,6 @@ module.exports = transormControls = function () {
 		domElement.addEventListener( "touchleave", onPointerUp, false );
 
 		this.attach = function ( object ) {
-			console.log(this.gizmo[_mode]);
 
 			scope.object = object;
 
@@ -663,8 +651,6 @@ module.exports = transormControls = function () {
 		};
 
 		this.setMode = function ( mode ) {
-			console.log("setMode");
-			console.log(mode);
 
 			_mode = mode ? mode : _mode;
 
@@ -704,8 +690,6 @@ module.exports = transormControls = function () {
 
 		this.update = function () {
 
-			console.log(scope.object);
-			//debugger;
 			if ( scope.object === undefined ) return;
 
 			scope.object.updateMatrixWorld();
@@ -733,7 +717,6 @@ module.exports = transormControls = function () {
 		};
 
 		function onPointerHover( event ) {
-			// console.log("in onPointerHover()");
 
 			if ( scope.object === undefined || _dragging === true ) return;
 
@@ -760,9 +743,6 @@ module.exports = transormControls = function () {
 		}
 
 		function onPointerDown( event ) {
-			// console.log("in onPointerDown()");
-			// console.log(scope.object);
-			// console.log(_dragging);
 
 			if ( scope.object === undefined || _dragging === true ) return;
 
@@ -772,14 +752,10 @@ module.exports = transormControls = function () {
 			var pointer = event.changedTouches ? event.changedTouches[ 0 ] : event;
 
 			if ( pointer.button === 0 || pointer.button === undefined ) {
-				// console.log("in if pointer.button");
-				// console.log(pointer);
-				// console.log(scope.gizmo[_mode].pickers.children);
 
 				var intersect = intersectObjects( pointer, scope.gizmo[_mode].pickers.children );
 
 				if ( intersect ) {
-					// console.log("in if intersect");
 
 					scope.axis = intersect.object.name;
 

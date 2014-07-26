@@ -33,6 +33,7 @@ module.exports = transformGizmos = function (color, object, direction) {
 	var GizmoMaterial = function () {	
 
 		this.transparent = true;
+		material.opacity = 0.75;
 
 	};  // end GizmoMaterial();
 
@@ -49,8 +50,31 @@ module.exports = transformGizmos = function (color, object, direction) {
 
 		var scene = cubeWorld.scene;
 
-		// Later will be determined by axis
-		var material = new THREE.LineBasicMaterial();
+		var	material;
+		// The location of the center of the cube
+		var x, y, z;
+
+		if ( axis === "x" ) {
+
+			material = new THREE.LineBasicMaterial({ color: xColor });
+			x = 3.5; y = 0; z = 0;
+
+		} else if ( axis === "y" ) {
+
+			material = new THREE.LineBasicMaterial({ color: yColor });
+			x = 0; y = 3.5; z = 0;
+
+		} else if ( axis === "z" ) {
+
+			material = new THREE.LineBasicMaterial({ color: zColor });
+			x = 0; y = 0; z = 3.5;
+
+		} else {
+
+			console.error("You have provided an invalid axis. Permited: x, y, z");
+			return;
+
+		}
 
 		// Later will be in the object
 		// Can prototype fit in here? No need, over optimization
@@ -70,7 +94,7 @@ module.exports = transformGizmos = function (color, object, direction) {
 	Line.prototype = new THREE.LineBasicMaterial;
 
 	// For testing: create one line with one axis
-	Line( color, object, direction );
+	Line( "color", "object", "y" );
 
 	// --- Circle --- \\
 	// Draws an axis circle for rotation
@@ -87,25 +111,25 @@ module.exports = transformGizmos = function (color, object, direction) {
 	var Cube = function ( object, originMode, axis ) {
 
 		var scene = cubeWorld.scene;
-
 		var geometry = new THREE.BoxGeometry(1, 1, 1);
 		
-		var	material,
-			x, y, z;
+		var	material;
+		// The location of the center of the cube
+		var x, y, z;
 
 		if ( axis === "x" ) {
 
-			material = new THREE.MeshBasicMaterial({ color: xColor });
+			material = new THREE.MeshLambertMaterial({ color: xColor });
 			x = 3.5; y = 0; z = 0;
 
 		} else if ( axis === "y" ) {
 
-			material = new THREE.MeshBasicMaterial({ color: yColor });
+			material = new THREE.MeshLambertMaterial({ color: yColor });
 			x = 0; y = 3.5; z = 0;
 
 		} else if ( axis === "z" ) {
 
-			material = new THREE.MeshBasicMaterial({ color: zColor });
+			material = new THREE.MeshLambertMaterial({ color: zColor });
 			x = 0; y = 0; z = 3.5;
 
 		} else {
