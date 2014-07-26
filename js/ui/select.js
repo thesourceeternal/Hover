@@ -5,16 +5,33 @@
 var cubeWorld = require('../../server/worlds/cubeworld.js');
 var userState = require('../userState.js');
 
+var transformControls = require('../thirdparty/transformControls.js');
+
 module.exports = select = {
 
 	// Perhaps relocate to userState
-	selected: null,
+	// selected: null,
+	oldSelected: null,
 
-	controls: new THREE.TransformControls( camera, renderer.dom ),
+	axis: null,
 
-	controlsInit: function () {
+	// Set up the transform controlers/axis
+	// TODO: Make only one axis object and move it around
+	// TODO: Make a pointerlock select locking mechanism so
+	// objects can be selected and moved while in pointerlock
+	// TODO: make an arrow point to the axis if the axis is off-screen
+	_init_: function () {
 
-		
+		var renderer = cubeWorld.renderer;
+		var camera = cubeWorld.camera;
+		var scene = cubeWorld.scene;
+
+		select.axis = new THREE.TransformControls( camera, renderer.dom );
+
+		select.axis.setMode("translate");
+
+		scene.add(select.axis);
+
 	},
 
 	// Perhaps relocate raycaster and projector into here
@@ -119,9 +136,12 @@ module.exports = select = {
 	// This is seperate for when objects are selectable
 	// through the scene tree. It's a one-liner, but will
 	// hopefully streamline future functions
-	selectObject: function (object) {
+	selectObject: function (newObject) {
 
-		userState.selectedObj = object;
+			select.axis.detach( userState.selectedObj );
+
+			userState.selectedObj = newObject;
+			select.axis.attach( userState.selectedObj );
 
 		// Set the sampler to display the info of this
 			// object (perhaps this should be done in sampler's

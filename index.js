@@ -8,9 +8,7 @@ var html = require('./server/htmlBlocks.js');
 var pointerLock = require('./js/controls/pointerlock.js');
 var mouseEvents = require('./js/controls/mouseevents.js');
 var keyEvents = require('./js/controls/keyevents.js');
-
-var transformControls = require('./js/thirdparty/transformControls.js');
-// var axis = require('./js/ui/axis.js');
+var selection = require('./js/ui/select.js');
 
 
 window.addEventListener( 'load', function () {
@@ -38,47 +36,7 @@ window.addEventListener( 'load', function () {
 	mouseEvents();
 	keyEvents();
 
-	// somehow transformControls is already being called
-	var renderer = cubeWorld.renderer;
-	var camera = cubeWorld.camera;
-	var scene = cubeWorld.scene;
-	var controls = new THREE.TransformControls( camera, renderer.dom );
-	controls.scope = controls;
-	controls.setMode("translate");
-
-
-	// controls.addEventListener( 'change', render );
-
-	function render() {
-
-		controls.update();
-
-		renderer.render( scene, camera );
-
-	}
-
-	cubeWorld.scene.add(controls);
-
-	var attached = false;
-
-	document.addEventListener('click', function () {
-		debugger;
-		if ( attached ) {
-
-			controls.detach();
-			attached = false;
-
-		} else {
-
-			controls.attach(userState.selectedObj);
-			attached = true;
-
-		}
-
-	});
-
-	// axis( "color", "object", "direction" );
-
-
+	// Creates the object axis/transfrom manipulators (for movin' stuff)
+	selection._init_();
 
 } );  // end window on load
