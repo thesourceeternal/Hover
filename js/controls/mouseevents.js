@@ -5,10 +5,14 @@
 
 var display = require('../display.js');
 var userState = require('../userstate.js');
-// var select = require('../ui/select.js');
+var selection = require('../ui/select.js');
 
 
 module.exports = mouseEvents = function () {
+
+	// Creates the object axis/transfrom manipulators (for movin' stuff)
+	// Selection mouse events are in there
+	selection._init_();
 
 	// --- Input Elements --- \\
 	document.addEventListener( 'click', function (event) {
