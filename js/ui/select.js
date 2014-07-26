@@ -26,6 +26,8 @@ module.exports = select = {
 		var camera = cubeWorld.camera;
 		var scene = cubeWorld.scene;
 
+		var domElement = document.getElementsByTagName("canvas")[0];
+
 		select.axis = new THREE.TransformControls( camera, renderer.dom );
 
 		select.axis.setMode("translate");

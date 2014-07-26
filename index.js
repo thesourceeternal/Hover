@@ -36,7 +36,7 @@ window.addEventListener( 'load', function () {
 	mouseEvents();
 	keyEvents();
 
-	// Creates the object axis/transfrom manipulators (for movin' stuff)
-	selection._init_();
+	// // Creates the object axis/transfrom manipulators (for movin' stuff)
+	// selection._init_();
 
 } );  // end window on load
