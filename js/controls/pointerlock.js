@@ -32,7 +32,7 @@ module.exports = pointerLock = {
 
 		} else {  // This is the bulk of the action
 
-			pointerLock.lockElement = document.body;
+			pointerLock.lockElement = cubeWorld.renderer.domElement;
 			lockElement = pointerLock.lockElement;
 
 			// Normalize the name for the function that locks the pointer, no

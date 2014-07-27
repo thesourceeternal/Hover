@@ -826,6 +826,8 @@ module.exports = transormControls = function () {
 				} 
 
 				if ( scope.space == "world" || scope.axis.search("XYZ") != -1 ) {
+						console.log("point: ");
+						console.log(point);
 
 					if ( scope.axis.search("X") == -1 ) point.x = 0;
 					if ( scope.axis.search("Y") == -1 ) point.y = 0;
@@ -981,7 +983,6 @@ module.exports = transormControls = function () {
 			} else {
 				x = 0; y = 0;
 			}
-			console.log(x, y)
 
 			// var x = (pointer.clientX - rect.left) / rect.width;
 			// var y = (pointer.clientY - rect.top) / rect.height;
