@@ -51,18 +51,18 @@ input[type=number] {
 	width: 3.3rem;
 }
 
-/* --- Major screen space (Not sidebar) --- */
-.majority {
+
+/* --- Code editor --- */
+.code {
 	position: absolute;
-	top: 0;
-	bottom: 0;
+	height: 15rem;
+	bottom: 2rem;
 	left: 0;
 	right: 18rem;
 }
 
 
-/* --- Bars --- */
-/* - sidebar - */
+/* --- Sidebar --- */
 .sidebar {
 	position: absolute;
 	top: 0;
@@ -115,22 +115,35 @@ input[type=number] {
 
 .transforms li {display: inline-block;}
 
-/* - bottombar - */
+
+/* --- Non-sidebar areas --- */
 .bottombar {  /* needs functional name */
 	position: absolute;
 	bottom: 0;
 	height: 2rem;
-	width: 100%;
+	left: 0;
+	right: 18rem;
 	padding: .3rem;
 	overflow: auto;
 }
 
-
-/* --- Intro --- */
 .intro {
+	position: absolute;
 	height: 100%;
 	width: 100%;
 	padding-top: 10%;
+}
+
+.reticule {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+.reticule div {
+	position: absolute;
+	top: 50%;
+	left: 50%;
 }
 
 
@@ -214,26 +227,7 @@ fieldset {
 }
 
 
-.reticule {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	height: 36px;
-	width: 36px;
-	margin: -18px;
-	border: rgb(109, 168, 220) solid .35em;
-	border-radius: 14px;
-}
-
-.reticule div {
-	background-color: rgb(109, 168, 220);
-	height: 6px;
-	width: 6px;
-	margin: 10px;
-}
-
-/* --- Bars --- */
-/* - sidebar - */
+/* --- Sidebar --- */
 .sidebar {
 	border: .1rem solid rgb(40, 40, 40);
 }
@@ -297,9 +291,28 @@ fieldset button {
 }
 
 
-/* --- Intro --- */
+/* --- Non-sidebar Areas --- */
 .intro {
 	background-color: rgba(17, 17, 17, 0.4);
 	color: white;
 	font-size: 1.7rem;
+}
+
+.bottombar {
+	border-top: black solid .1rem;
+}
+
+.reticule {
+	height: 36px;
+	width: 36px;
+	margin: -18px;
+	border: rgb(109, 168, 220) solid .35em;
+	border-radius: 14px;
+}
+
+.reticule div {
+	height: 6px;
+	width: 6px;
+	margin: -3px;
+	background-color: rgb(109, 168, 220);
 }

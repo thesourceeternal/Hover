@@ -1,5 +1,10 @@
 // Starts things off
 
+
+// TODO: GET RID OF MAJORITY ELEMENT
+// TODO: Change transformControls' intersect to use pointerlock position
+
+
 // Server stuff
 var cubeWorld = require('./server/worlds/cubeworld.js');
 var html = require('./server/htmlBlocks.js');
@@ -9,6 +14,7 @@ var pointerLock = require('./js/controls/pointerlock.js');
 var mouseEvents = require('./js/controls/mouseevents.js');
 var keyEvents = require('./js/controls/keyevents.js');
 var selection = require('./js/ui/select.js');
+var display = require('./js/display.js');
 
 
 window.addEventListener( 'load', function () {
@@ -35,5 +41,9 @@ window.addEventListener( 'load', function () {
 	// Add event listeners
 	mouseEvents();
 	keyEvents();
+
+	// Get some elements for hiding and showing
+	display._init_();
+	display.showIntro();
 
 } );  // end window on load

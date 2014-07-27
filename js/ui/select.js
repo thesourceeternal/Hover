@@ -134,35 +134,24 @@ module.exports = select = {
 
 	// Checks what the nearest object intersection is
 	getScreenIntersects: function (event) {
-		// Mostly from Unwritten
 
 		// The screen coordinates of the origin of the ray
 		var mouseCoords;
 		var element = cubeWorld.renderer.domElement;
 
-		if ( event ) {
+		if ( userState.editorShwoing ) {
 
 			var rect = element.getBoundingClientRect();
-
-			// if selecting without pointer lock
-			if ( userState.editorShowing ) {
-				// Get the position of the mouse on the screen
-				mouseCoords = {
-					// The mouse position inside the window
-					// TODO: discuss - is centering not enough with pointer lock?
-					x: (( event.clientX - rect.left ) / rect.width) * 2 - 1,
-				    y: (( event.clientY - rect.top ) / rect.height) * -2 + 1,
-				}
-
-			} else {  // if selecting with pointerlock
-				// Almost the center of the screen
-				mouseCoords = { x: 0, y: 0, }
-
+			// Get the position of the mouse on the screen
+			mouseCoords = {
+				// The mouse position inside the window
+				// TODO: discuss - is centering not enough with pointer lock?
+				x: (( event.clientX - rect.left ) / rect.width) * 2 - 1,
+			    y: (( event.clientY - rect.top ) / rect.height) * -2 + 1,
 			}
 
 		} else {
-			console.error("select.getScreenIntersects was called with no event.");
-			// mouseCoords = { x: 0, y: 0 }
+			mouseCoords = { x: 0, y: 0, };
 		}
 
 		// Why two vectors? Good question.
@@ -171,7 +160,7 @@ module.exports = select = {
 		raycastOrigin.setFromMatrixPosition( cubeWorld.camera.matrixWorld );
 
 		// This one is set from the poition of the mouse on the screen
-		var mouseVector = new THREE.Vector3( mouseCoords.x, mouseCoords.y, .05 );
+		var mouseVector = new THREE.Vector3( mouseCoords.x, mouseCoords.y, 1 );
 		cubeWorld.projector.unprojectVector( mouseVector, cubeWorld.camera );
 		mouseVector.sub( raycastOrigin ).normalize();
 

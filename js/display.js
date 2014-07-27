@@ -15,6 +15,33 @@ module.exports = displayBlocks = {
 	// samplerShowing: false,
 	// codeShowing: false,
 
+	// Maybe place in userstate.js
+	lockElements: [],  // Elements visible during pointer lock
+	freeElements: [],  // Elements visible when pointer is free
+
+	_init_: function () {
+
+		// Used to hide and show for pointer lock
+		// Elements visible during pointer lock
+		displayBlocks.lockElements = [
+			document.getElementsByClassName("sampler")[0],
+			document.getElementsByClassName("reticule")[0]
+		]
+
+		// Elements visible when pointer is free
+		displayBlocks.freeElements = [
+			document.getElementsByClassName("editor-sidebar")[0],
+			document.getElementsByClassName("bottombar")[0],
+			document.getElementsByClassName("code")[0]
+		]
+
+		// intro is its own thing
+		// sidebar and inventory are always visible after intro
+
+
+	},  // end _init_
+
+
 	/* ===================================
 	   Functions
 	   ==================================== */
@@ -61,15 +88,16 @@ module.exports = displayBlocks = {
 
 		pointerLock.unlockPointer();
 
-		// Hide the object info sampler and reticule
-		document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
-		// document.getElementsByClassName( "reticule" )[0].classList.add("collapsed");
+		var lockElems = displayBlocks.lockElements;
+		var freeElems = displayBlocks.freeElements;
 
-		// Show majority element and editor sidebar
-		document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
-		document.getElementsByClassName( "editor-sidebar" )[0].classList.remove("collapsed");
-		// This is for just after the intro
-		document.getElementsByClassName( "bottombar" )[0].classList.remove("collapsed");
+		for ( var indx = 0; indx < lockElems.length; indx++ ) {
+			lockElems[indx].classList.add("collapsed");
+		}
+
+		for ( var indx = 0; indx < freeElems.length ;indx++ ) {
+			freeElems[indx].classList.remove("collapsed");
+		}
 
 		userState.editorShowing = true;
 
@@ -83,16 +111,18 @@ module.exports = displayBlocks = {
 
 		pointerLock.lockPointer();
 
-		// Hide the majority element with the code and bars, and the sidebar editor
-		document.getElementsByClassName( "majority" )[0].classList.add("collapsed");
-		document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
+		var freeElems = displayBlocks.freeElements;
+		var lockElems = displayBlocks.lockElements;
+		console.log(lockElems);
+		console.log(freeElems);
 
-		// Show the object info sampler and reticule
-		document.getElementsByClassName( "sampler" )[0].classList.remove("collapsed");
-		// document.getElementsByClassName( "reticule" )[0].classList.remove("collapsed");
+		for ( var indx = 0; indx < freeElems.length ;indx++ ) {
+			freeElems[indx].classList.add("collapsed");
+		}
 
-		// Show inventory perhaps
-		// document.getElementsByClassName( "inventory" )[0].classList.remove("collapsed");
+		for ( var indx = 0; indx < lockElems.length; indx++ ) {
+			lockElems[indx].classList.remove("collapsed");
+		}
 
 		userState.editorShowing = false;
 
@@ -166,16 +196,32 @@ module.exports = displayBlocks = {
 	// --- Intro --- \\
 	showIntro: function () {
 
-		// hide any sidbar contents, the bars, reticule and the inventory
-		document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
-		document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
-		document.getElementsByClassName( "bottombar" )[0].classList.add("collapsed");
+		// Hide everything other than the intro and canvas
+		var freeElems = displayBlocks.freeElements;
+		var lockElems = displayBlocks.lockElements;
+
+		for ( var indx = 0; indx < freeElems.length ;indx++ ) {
+			freeElems[indx].classList.add("collapsed");
+		}
+
+		for ( var indx = 0; indx < lockElems.length; indx++ ) {
+			lockElems[indx].classList.add("collapsed");
+		}
+
+
+		document.getElementsByClassName( "sidebar" )[0].classList.add("collapsed");
+
+
+		// hide any sidebar contents, the bars, reticule and the inventory
+		// document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
+		// document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
+		// document.getElementsByClassName( "bottombar" )[0].classList.add("collapsed");
 		// document.getElementsByClassName( "reticule" )[0].classList.add("collapsed");
 		// document.getElementsByClassName( "inventory" )[0].classList.add("collapsed");
 
 		// show the majority with the intro in it
 		document.getElementsByClassName( "intro" )[0].classList.remove("collapsed");
-		document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
+		// document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
 		// show the sidebar
 
 	},  // end showIntro()
@@ -185,6 +231,8 @@ module.exports = displayBlocks = {
 		// Remove the intro
 		var intro = document.getElementsByClassName( "intro" )[0];
 		intro.parentNode.removeChild(intro);
+
+		document.getElementsByClassName( "sidebar" )[0].classList.remove("collapsed");
 
 		// The sidebar and sampler are exposed
 		displayBlocks.hideEditor();
