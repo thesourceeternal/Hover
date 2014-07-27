@@ -5,7 +5,7 @@
 var cubeWorld = require('../../server/worlds/cubeworld.js');
 var userState = require('../userState.js');
 
-var transformControls = require('../thirdparty/transformControls.js');
+var axis = require('../thirdparty/transformControls.js');
 
 module.exports = select = {
 
@@ -134,6 +134,8 @@ module.exports = select = {
 
 	// Checks what the nearest object intersection is
 	getScreenIntersects: function (event) {
+		// Would like to use tansformControls version, but can't
+		// pass pointer at this time
 
 		// The screen coordinates of the origin of the ray
 		var mouseCoords;
@@ -194,21 +196,21 @@ module.exports = select = {
 	// Yeah, it's singular, but no one knows axes as the plural
 	showAxis: function (object) {
 
-	// 	object.transformControls.attach
+	// 	object.axis.attach
 
 
 	// function setTransformControlTarget() {
       
  //      var target = this.getSelectedObject()
- //      this.transformControls.detach()
+ //      this.axis.detach()
  //      if ( this.currentMode === 'scene' && target ) {
  //        // attach gizmo
- //        this.transformControls.attach( target )
+ //        this.axis.attach( target )
  //        // // orient gizmo
  //        // var lookTarget = this.fpsControls.getObject().position
- //        // directionVector = this.transformControls.position.clone().sub(lookTarget).setY(0).normalize()
+ //        // directionVector = this.axis.position.clone().sub(lookTarget).setY(0).normalize()
  //        // var angle = 0.75 * Math.PI + Math.atan2(directionVector.x,directionVector.z)
- //        // this.transformControls.setRotationFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), angle )
+ //        // this.axis.setRotationFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), angle )
  //      }
 
     // }  // end setTransformControlTarget()

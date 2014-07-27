@@ -55,7 +55,7 @@ input[type=number] {
 /* --- Code editor --- */
 .code {
 	position: absolute;
-	height: 15rem;
+	height: auto;
 	bottom: 2rem;
 	left: 0;
 	right: 18rem;

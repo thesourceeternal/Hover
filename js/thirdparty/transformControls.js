@@ -3,6 +3,9 @@
  */
  /*jshint sub:true*/
 
+var userState = require('../userstate.js');
+
+
 module.exports = transormControls = function () {
 
 	'use strict';
@@ -966,10 +969,24 @@ module.exports = transormControls = function () {
 
 		function intersectObjects( pointer, objects ) {
 
-			var rect = domElement.getBoundingClientRect();
-			var x = (pointer.clientX - rect.left) / rect.width;
-			var y = (pointer.clientY - rect.top) / rect.height;
-			pointerVector.set( ( x ) * 2 - 1, - ( y ) * 2 + 1, 0.5 );
+			var x, y;
+
+			if ( userState.editorShowing ) {
+
+				var rect = domElement.getBoundingClientRect();
+				// Get the position of the mouse inside the canvas
+				x = (( event.clientX - rect.left ) / rect.width) * 2 - 1;
+			    y = - (( event.clientY - rect.top ) / rect.height) * 2 + 1;
+
+			} else {
+				x = 0; y = 0;
+			}
+			console.log(x, y)
+
+			// var x = (pointer.clientX - rect.left) / rect.width;
+			// var y = (pointer.clientY - rect.top) / rect.height;
+			// pointerVector.set( ( x ) * 2 - 1, - ( y ) * 2 + 1, 0.5 );
+			pointerVector.set( x, y, 0.5 );
 
 			projector.unprojectVector( pointerVector, camera );
 			ray.set( camPosition, pointerVector.sub( camPosition ).normalize() );
@@ -978,6 +995,9 @@ module.exports = transormControls = function () {
 			return intersections[0] ? intersections[0] : false;
 
 		}
+
+		// Make accessible to others
+		this.intersectObjects = intersectObjects;
 
 	};
 

@@ -113,8 +113,6 @@ module.exports = displayBlocks = {
 
 		var freeElems = displayBlocks.freeElements;
 		var lockElems = displayBlocks.lockElements;
-		console.log(lockElems);
-		console.log(freeElems);
 
 		for ( var indx = 0; indx < freeElems.length ;indx++ ) {
 			freeElems[indx].classList.add("collapsed");
