@@ -216,11 +216,11 @@ fieldset {
 
 .reticule {
 	position: absolute;
-	top: calc(50% - 18px);
-	left: calc(50% - 18px);
+	top: 50%;
+	left: 50%;
 	height: 36px;
 	width: 36px;
-	/* background-color: red; */
+	margin: -18px;
 	border: rgb(109, 168, 220) solid .35em;
 	border-radius: 14px;
 }
