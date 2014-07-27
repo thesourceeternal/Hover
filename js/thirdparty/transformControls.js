@@ -966,8 +966,7 @@ module.exports = transormControls = function () {
 
 		function intersectObjects( pointer, objects ) {
 
-			// var rect = domElement.getBoundingClientRect();
-			var rect = document.body.getBoundingClientRect();
+			var rect = domElement.getBoundingClientRect();
 			var x = (pointer.clientX - rect.left) / rect.width;
 			var y = (pointer.clientY - rect.top) / rect.height;
 			pointerVector.set( ( x ) * 2 - 1, - ( y ) * 2 + 1, 0.5 );

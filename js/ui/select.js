@@ -49,11 +49,13 @@ module.exports = select = {
 		var camera = cubeWorld.camera;
 		var scene = cubeWorld.scene;
 
-		select.axis = new THREE.TransformControls( camera, renderer.dom );
+		select.axis = new THREE.TransformControls( camera, renderer.domElement );
 
 		select.axis.setMode("translate");
 
 		scene.add(select.axis);
+
+		document.getElementsByClassName("reticule")
 
 	},
 
@@ -94,8 +96,6 @@ module.exports = select = {
 	// --- Selection --- \\
 	// Determines and, if needed sets, the object currently being selected
 	selctionHandler: function (event) {
-		console.log(event.target);
-		console.log(select.enabled);
 
 		if ( select.enabled ) {
 
@@ -134,6 +134,7 @@ module.exports = select = {
 
 	// Checks what the nearest object intersection is
 	getScreenIntersects: function (event) {
+		// Mostly from Unwritten
 
 		// The screen coordinates of the origin of the ray
 		var mouseCoords;
@@ -142,16 +143,26 @@ module.exports = select = {
 		if ( event ) {
 
 			var rect = element.getBoundingClientRect();
-			// Get the position of the mouse on the screen
-			mouseCoords = {
-				// The mouse position inside the window
-				// TODO: discuss - is centering not enough with pointer lock?
-				x: (( event.clientX - rect.left ) / rect.width) * 2 - 1,
-			    y: (( event.clientY - rect.top ) / rect.height) * -2 + 1,
+
+			// if selecting without pointer lock
+			if ( userState.editorShowing ) {
+				// Get the position of the mouse on the screen
+				mouseCoords = {
+					// The mouse position inside the window
+					// TODO: discuss - is centering not enough with pointer lock?
+					x: (( event.clientX - rect.left ) / rect.width) * 2 - 1,
+				    y: (( event.clientY - rect.top ) / rect.height) * -2 + 1,
+				}
+
+			} else {  // if selecting with pointerlock
+				// Almost the center of the screen
+				mouseCoords = { x: .01, y: .01, }
+
 			}
 
 		} else {
 			console.error("select.getScreenIntersects was called with no event.");
+			// mouseCoords = { x: 0, y: 0 }
 		}
 
 		// Why two vectors? Good question.
