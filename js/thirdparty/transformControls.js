@@ -3,6 +3,8 @@
  */
  /*jshint sub:true*/
 
+var userState = require("../userstate.js");
+
 module.exports = transormControls = function () {
 
 	'use strict';
@@ -743,6 +745,7 @@ module.exports = transormControls = function () {
 		}
 
 		function onPointerDown( event ) {
+			console.log("onPointerDown");
 
 			if ( scope.object === undefined || _dragging === true ) return;
 
@@ -788,6 +791,7 @@ module.exports = transormControls = function () {
 		}
 
 		function onPointerMove( event ) {
+			console.log("onPointerMove");
 
 			if ( scope.object === undefined || scope.axis === null || _dragging === false ) return;
 
@@ -965,9 +969,32 @@ module.exports = transormControls = function () {
 		function intersectObjects( pointer, objects ) {
 
 			var rect = domElement.getBoundingClientRect();
-			var x = (pointer.clientX - rect.left) / rect.width;
-			var y = (pointer.clientY - rect.top) / rect.height;
-			pointerVector.set( ( x ) * 2 - 1, - ( y ) * 2 + 1, 0.5 );
+			var mouseX, mouseY;
+
+
+			// if selecting without pointer lock
+			if ( userState.editorShowing ) {
+				// Get the position of the mouse inside the window
+				// TODO: discuss - is centering not enough with pointer lock?
+				mouseX = (( pointer.clientX - rect.left ) / rect.width) * 2 - 1;
+			    mouseY = - (( pointer.clientY - rect.top ) / rect.height) * 2 + 1;
+
+			    // projectorScreenPos = {
+			    //   x: (( pointer.clientX - rect.left ) / rect.width) * 2 - 1,
+			    //   y: (( pointer.clientY - rect.top ) / rect.height) * -2 + 1,
+			    // }
+
+			} else {  // if selecting with pointerlock
+
+				// Almost the center of the screen (better feel)
+				mouseX = .01;
+				mouseY = .01;
+
+			}  // end if editor showing
+
+			// var x = (pointer.clientX - rect.left) / rect.width;
+			// var y = (pointer.clientY - rect.top) / rect.height;
+			pointerVector.set( mouseX, mouseY, 0.5 );
 
 			projector.unprojectVector( pointerVector, camera );
 			ray.set( camPosition, pointerVector.sub( camPosition ).normalize() );
@@ -976,6 +1003,8 @@ module.exports = transormControls = function () {
 			return intersections[0] ? intersections[0] : false;
 
 		}
+
+		this.intersectObjects = intersectObjects;
 
 	};
 

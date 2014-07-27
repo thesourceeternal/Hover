@@ -156,7 +156,7 @@ module.exports = select = {
 
 			} else {  // if selecting with pointerlock
 				// Almost the center of the screen
-				mouseCoords = { x: .01, y: .01, }
+				mouseCoords = { x: 0, y: 0, }
 
 			}
 
@@ -171,7 +171,7 @@ module.exports = select = {
 		raycastOrigin.setFromMatrixPosition( cubeWorld.camera.matrixWorld );
 
 		// This one is set from the poition of the mouse on the screen
-		var mouseVector = new THREE.Vector3( mouseCoords.x, mouseCoords.y, 1 );
+		var mouseVector = new THREE.Vector3( mouseCoords.x, mouseCoords.y, .05 );
 		cubeWorld.projector.unprojectVector( mouseVector, cubeWorld.camera );
 		mouseVector.sub( raycastOrigin ).normalize();
 

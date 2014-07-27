@@ -216,13 +216,20 @@ fieldset {
 
 .reticule {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	height: 35px;
-	width: 35px;
+	top: calc(50% - 18px);
+	left: calc(50% - 18px);
+	height: 36px;
+	width: 36px;
 	/* background-color: red; */
 	border: rgb(109, 168, 220) solid .35em;
 	border-radius: 14px;
+}
+
+.reticule div {
+	background-color: rgb(109, 168, 220);
+	height: 6px;
+	width: 6px;
+	margin: 10px;
 }
 
 /* --- Bars --- */
