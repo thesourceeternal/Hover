@@ -1,6 +1,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // Starts things off
 
+
+// TODO: GET RID OF MAJORITY ELEMENT
+// TODO: Change transformControls' intersect to use pointerlock position
+
+
 // Server stuff
 var cubeWorld = require('./server/worlds/cubeworld.js');
 var html = require('./server/htmlBlocks.js');
@@ -10,6 +15,7 @@ var pointerLock = require('./js/controls/pointerlock.js');
 var mouseEvents = require('./js/controls/mouseevents.js');
 var keyEvents = require('./js/controls/keyevents.js');
 var selection = require('./js/ui/select.js');
+var display = require('./js/display.js');
 
 
 window.addEventListener( 'load', function () {
@@ -37,12 +43,13 @@ window.addEventListener( 'load', function () {
 	mouseEvents();
 	keyEvents();
 
-	// Creates the object axis/transfrom manipulators (for movin' stuff)
-	selection._init_();
+	// Get some elements for hiding and showing
+	display._init_();
+	display.showIntro();
 
 } );  // end window on load
 
-},{"./js/controls/keyevents.js":2,"./js/controls/mouseevents.js":3,"./js/controls/pointerlock.js":4,"./js/ui/select.js":7,"./server/htmlBlocks.js":19,"./server/worlds/cubeworld.js":20}],2:[function(require,module,exports){
+},{"./js/controls/keyevents.js":2,"./js/controls/mouseevents.js":3,"./js/controls/pointerlock.js":4,"./js/display.js":5,"./js/ui/select.js":7,"./server/htmlBlocks.js":19,"./server/worlds/cubeworld.js":20}],2:[function(require,module,exports){
 /* 
 * Handles user mouse input events
 * There will eventually be a lot of them
@@ -54,7 +61,7 @@ var userState = require('../userstate.js');
 
 module.exports = keyEvents = function () {
 
-	document.addEventListener( 'keyup', function () {
+	document.addEventListener( 'keyup', function (event) {
 
 		var keyCode = ( 'which' in event ) ? event.which : event.keyCode;
 
@@ -112,10 +119,14 @@ module.exports = keyEvents = function () {
 
 var display = require('../display.js');
 var userState = require('../userstate.js');
-// var select = require('../ui/select.js');
+var selection = require('../ui/select.js');
 
 
 module.exports = mouseEvents = function () {
+
+	// Creates the object axis/transfrom manipulators (for movin' stuff)
+	// Selection mouse events are in there
+	selection._init_();
 
 	// --- Input Elements --- \\
 	document.addEventListener( 'click', function (event) {
@@ -194,7 +205,7 @@ module.exports = mouseEvents = function () {
 
 };
 
-},{"../display.js":5,"../userstate.js":9}],4:[function(require,module,exports){
+},{"../display.js":5,"../ui/select.js":7,"../userstate.js":9}],4:[function(require,module,exports){
 /*
 * http://www.html5rocks.com/en/tutorials/pointerlock/intro/
 * Also with functionality to toggle pointer lock
@@ -229,7 +240,7 @@ module.exports = pointerLock = {
 
 		} else {  // This is the bulk of the action
 
-			pointerLock.lockElement = document.body;
+			pointerLock.lockElement = cubeWorld.renderer.domElement;
 			lockElement = pointerLock.lockElement;
 
 			// Normalize the name for the function that locks the pointer, no
@@ -362,6 +373,33 @@ module.exports = displayBlocks = {
 	// samplerShowing: false,
 	// codeShowing: false,
 
+	// Maybe place in userstate.js
+	lockElements: [],  // Elements visible during pointer lock
+	freeElements: [],  // Elements visible when pointer is free
+
+	_init_: function () {
+
+		// Used to hide and show for pointer lock
+		// Elements visible during pointer lock
+		displayBlocks.lockElements = [
+			document.getElementsByClassName("sampler")[0],
+			document.getElementsByClassName("reticule")[0]
+		]
+
+		// Elements visible when pointer is free
+		displayBlocks.freeElements = [
+			document.getElementsByClassName("editor-sidebar")[0],
+			document.getElementsByClassName("bottombar")[0],
+			document.getElementsByClassName("code")[0]
+		]
+
+		// intro is its own thing
+		// sidebar and inventory are always visible after intro
+
+
+	},  // end _init_
+
+
 	/* ===================================
 	   Functions
 	   ==================================== */
@@ -408,15 +446,16 @@ module.exports = displayBlocks = {
 
 		pointerLock.unlockPointer();
 
-		// Hide the object info sampler and reticule
-		document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
-		// document.getElementsByClassName( "reticule" )[0].classList.add("collapsed");
+		var lockElems = displayBlocks.lockElements;
+		var freeElems = displayBlocks.freeElements;
 
-		// Show majority element and editor sidebar
-		document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
-		document.getElementsByClassName( "editor-sidebar" )[0].classList.remove("collapsed");
-		// This is for just after the intro
-		document.getElementsByClassName( "bottombar" )[0].classList.remove("collapsed");
+		for ( var indx = 0; indx < lockElems.length; indx++ ) {
+			lockElems[indx].classList.add("collapsed");
+		}
+
+		for ( var indx = 0; indx < freeElems.length ;indx++ ) {
+			freeElems[indx].classList.remove("collapsed");
+		}
 
 		userState.editorShowing = true;
 
@@ -430,16 +469,16 @@ module.exports = displayBlocks = {
 
 		pointerLock.lockPointer();
 
-		// Hide the majority element with the code and bars, and the sidebar editor
-		document.getElementsByClassName( "majority" )[0].classList.add("collapsed");
-		document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
+		var freeElems = displayBlocks.freeElements;
+		var lockElems = displayBlocks.lockElements;
 
-		// Show the object info sampler and reticule
-		document.getElementsByClassName( "sampler" )[0].classList.remove("collapsed");
-		// document.getElementsByClassName( "reticule" )[0].classList.remove("collapsed");
+		for ( var indx = 0; indx < freeElems.length ;indx++ ) {
+			freeElems[indx].classList.add("collapsed");
+		}
 
-		// Show inventory perhaps
-		// document.getElementsByClassName( "inventory" )[0].classList.remove("collapsed");
+		for ( var indx = 0; indx < lockElems.length; indx++ ) {
+			lockElems[indx].classList.remove("collapsed");
+		}
 
 		userState.editorShowing = false;
 
@@ -513,16 +552,32 @@ module.exports = displayBlocks = {
 	// --- Intro --- \\
 	showIntro: function () {
 
-		// hide any sidbar contents, the bars, reticule and the inventory
-		document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
-		document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
-		document.getElementsByClassName( "bottombar" )[0].classList.add("collapsed");
+		// Hide everything other than the intro and canvas
+		var freeElems = displayBlocks.freeElements;
+		var lockElems = displayBlocks.lockElements;
+
+		for ( var indx = 0; indx < freeElems.length ;indx++ ) {
+			freeElems[indx].classList.add("collapsed");
+		}
+
+		for ( var indx = 0; indx < lockElems.length; indx++ ) {
+			lockElems[indx].classList.add("collapsed");
+		}
+
+
+		document.getElementsByClassName( "sidebar" )[0].classList.add("collapsed");
+
+
+		// hide any sidebar contents, the bars, reticule and the inventory
+		// document.getElementsByClassName( "sampler" )[0].classList.add("collapsed");
+		// document.getElementsByClassName( "editor-sidebar" )[0].classList.add("collapsed");
+		// document.getElementsByClassName( "bottombar" )[0].classList.add("collapsed");
 		// document.getElementsByClassName( "reticule" )[0].classList.add("collapsed");
 		// document.getElementsByClassName( "inventory" )[0].classList.add("collapsed");
 
 		// show the majority with the intro in it
 		document.getElementsByClassName( "intro" )[0].classList.remove("collapsed");
-		document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
+		// document.getElementsByClassName( "majority" )[0].classList.remove("collapsed");
 		// show the sidebar
 
 	},  // end showIntro()
@@ -532,6 +587,8 @@ module.exports = displayBlocks = {
 		// Remove the intro
 		var intro = document.getElementsByClassName( "intro" )[0];
 		intro.parentNode.removeChild(intro);
+
+		document.getElementsByClassName( "sidebar" )[0].classList.remove("collapsed");
 
 		// The sidebar and sampler are exposed
 		displayBlocks.hideEditor();
@@ -548,6 +605,9 @@ module.exports = displayBlocks = {
  * @author arodic / https://github.com/arodic
  */
  /*jshint sub:true*/
+
+var userState = require('../userstate.js');
+
 
 module.exports = transormControls = function () {
 
@@ -1292,7 +1352,10 @@ module.exports = transormControls = function () {
 
 			if ( scope.object === undefined || _dragging === true ) return;
 
-			event.preventDefault();
+			// This is stopping mouse from clicking on input
+			// Also the clicking carries through the overlaying element and into
+			// the canvas.
+			// event.preventDefault();
 			event.stopPropagation();
 
 			var pointer = event.changedTouches ? event.changedTouches[ 0 ] : event;
@@ -1366,6 +1429,7 @@ module.exports = transormControls = function () {
 				} 
 
 				if ( scope.space == "world" || scope.axis.search("XYZ") != -1 ) {
+						console.log(point);
 
 					if ( scope.axis.search("X") == -1 ) point.x = 0;
 					if ( scope.axis.search("Y") == -1 ) point.y = 0;
@@ -1507,21 +1571,51 @@ module.exports = transormControls = function () {
 
 		}
 
+		// Always the vector for mouse in pointer lock (screen center)
+		var pLockVector = new THREE.Vector3();
+
 		function intersectObjects( pointer, objects ) {
 
-			// var rect = domElement.getBoundingClientRect();
-			var rect = document.body.getBoundingClientRect();
-			var x = (pointer.clientX - rect.left) / rect.width;
-			var y = (pointer.clientY - rect.top) / rect.height;
-			pointerVector.set( ( x ) * 2 - 1, - ( y ) * 2 + 1, 0.5 );
+			var rect;
 
-			projector.unprojectVector( pointerVector, camera );
-			ray.set( camPosition, pointerVector.sub( camPosition ).normalize() );
+			// This if statement makes sure our current test works
+			if ( domElement === document ) {
+
+				// ALWAYS GETS SELECTED ATM
+				rect = document.body.getBoundingClientRect();
+
+			} else {
+				rect = domElement.getBoundingClientRect();
+			}
+
+			// Get the position of the mouse inside the canvas
+			var realX = (( event.clientX - rect.left ) / rect.width) * 2 - 1;
+		    var realY = - (( event.clientY - rect.top ) / rect.height) * 2 + 1;
+
+			pointerVector.set( realX, realY, 0.5 );  // need accuracy for offset
+
+			if ( userState.editorShowing ) {
+				// offset will determine how far to move the object
+				projector.unprojectVector( pointerVector, camera );
+				ray.set( camPosition, pointerVector.sub( camPosition ).normalize() );
+
+			} else {
+
+				// For some reason this keeps changing if I don't set it in here
+				pLockVector.set(0, 0, 0.5);
+				// pointer lock mouse is centered and needs to select axis as such
+				projector.unprojectVector( pLockVector, camera );
+				ray.set( camPosition, pLockVector.sub( camPosition ).normalize() );
+				
+			}
 
 			var intersections = ray.intersectObjects( objects, true );
 			return intersections[0] ? intersections[0] : false;
 
 		}
+
+		// Make accessible to others
+		this.intersectObjects = intersectObjects;
 
 	};
 
@@ -1529,7 +1623,7 @@ module.exports = transormControls = function () {
 
 }();
 
-},{}],7:[function(require,module,exports){
+},{"../userstate.js":9}],7:[function(require,module,exports){
 /*
 * Handles selection of objects in fps and with the editor
 */
@@ -1537,15 +1631,20 @@ module.exports = transormControls = function () {
 var cubeWorld = require('../../server/worlds/cubeworld.js');
 var userState = require('../userState.js');
 
-var transformControls = require('../thirdparty/transformControls.js');
+var axis = require('../thirdparty/transformControls.js');
 
 module.exports = select = {
+
+	// Perhaps relocate raycaster and projector into here
 
 	// Perhaps relocate to userState
 	// selected: null,
 	oldSelected: null,
 
 	axis: null,
+
+	enabled: true,
+
 
 	// Set up the transform controlers/axis
 	// TODO: Make only one axis object and move it around
@@ -1554,45 +1653,82 @@ module.exports = select = {
 	// TODO: make an arrow point to the axis if the axis is off-screen
 	_init_: function () {
 
+		var disableSelection = select.disableSelection;
+		var enableSelection = select.enableSelection;
+
+		// Add event listeners to prevent object selection when clicking
+		// on hud elements
+		var editor = document.getElementsByClassName("editor-sidebar")[0];
+		var bottombar = document.getElementsByClassName("bottombar")[0];
+		// var codeEditor = document.getElementsByClassName("code-editor")[0];
+
+		editor.addEventListener( "mousedown", disableSelection, false );
+		editor.addEventListener( "mouseup", enableSelection, false );
+
+		bottombar.addEventListener( "mousedown", disableSelection, false );
+		bottombar.addEventListener( "mouseup", enableSelection, false );
+
+		// codeEditor.addEventListener( "mousedown", disableSelection, false );
+		// codeEditor.addEventListener( "mouseup", enableSelection, false );
+
 		var renderer = cubeWorld.renderer;
 		var camera = cubeWorld.camera;
 		var scene = cubeWorld.scene;
 
-		select.axis = new THREE.TransformControls( camera, renderer.dom );
+		// With this, selecting and moving axis works in pointer lock
+		select.axis = new THREE.TransformControls( camera, undefined );
+		// With this, selecting and moving axis doesn't work in pointer lock
+		// select.axis = new THREE.TransformControls( camera, renderer.domElement );
 
 		select.axis.setMode("translate");
 
 		scene.add(select.axis);
 
+		document.getElementsByClassName("reticule")
+
 	},
 
-	// Perhaps relocate raycaster and projector into here
 
+	// --- Enablers --- \\
+
+	disableSelection: function () {
+
+		select.enabled = false;
+
+	},  // end disableSelection()
+
+	enableSelection: function () {
+
+		select.enabled = true;
+
+	},  // end enableSelection()
+
+	// Called in display.js
 	// Hovering will select objects to get show info
 	enableHoverSelection: function () {
-
-		document.removeEventListener('click', select.ifSceneObject, false);
-		document.addEventListener('mousemove', select.ifSceneObject, false);
+		// Has to be mousedown for selection lock to work
+		document.removeEventListener("mousedown", select.selctionHandler, false);
+		document.addEventListener('mousemove', select.selctionHandler, false);
 
 	},  // end enableHoverSelection()
 
+	// Called in display.js
 	// Clicking will select objects
 	disableHoverSelection: function () {
-
-		document.removeEventListener('mousemove', select.ifSceneObject, false);
-		document.addEventListener('click', select.ifSceneObject, false);
+		// Has to be mousedown for selection lock to work
+		document.removeEventListener('mousemove', select.selctionHandler, false);
+		document.addEventListener("mousedown", select.selctionHandler, false);
 
 	},  // end disableHoverSelection()
 
+
+	// --- Selection --- \\
 	// Determines and, if needed sets, the object currently being selected
-	ifSceneObject: function (event) {
+	selctionHandler: function (event) {
 
-		// TODO: Test if the mouse is over the canvas
-		var inScene = true;
+		if ( select.enabled ) {
 
-		if ( inScene ) {
-
-			var newObj = select.getHover(event);
+			var newObj = select.getObject(event);
 
 			if ( newObj !== userState.selectedObj ) {
 
@@ -1602,10 +1738,10 @@ module.exports = select = {
 
 		}
 
-	},  // end ifSceneObject()
+	},  // end selctionHandler()
 
 	// Determines what object the mouse is currently on
-	getHover: function (event) {
+	getObject: function (event) {
 
 		// return cubeWorld.scene.children[0];
 		var intersectors = select.getScreenIntersects(event);
@@ -1623,16 +1759,18 @@ module.exports = select = {
 
 		}
 
-	},  // end getHover()
+	},  // end getObject()
 
 	// Checks what the nearest object intersection is
 	getScreenIntersects: function (event) {
+		// Would like to use tansformControls version, but can't
+		// pass pointer at this time
 
 		// The screen coordinates of the origin of the ray
 		var mouseCoords;
 		var element = cubeWorld.renderer.domElement;
 
-		if ( event ) {
+		if ( userState.editorShwoing ) {
 
 			var rect = element.getBoundingClientRect();
 			// Get the position of the mouse on the screen
@@ -1644,7 +1782,7 @@ module.exports = select = {
 			}
 
 		} else {
-			console.error("select.getScreenIntersects was called with no event.");
+			mouseCoords = { x: 0, y: 0, };
 		}
 
 		// Why two vectors? Good question.
@@ -1687,21 +1825,21 @@ module.exports = select = {
 	// Yeah, it's singular, but no one knows axes as the plural
 	showAxis: function (object) {
 
-	// 	object.transformControls.attach
+	// 	object.axis.attach
 
 
 	// function setTransformControlTarget() {
       
  //      var target = this.getSelectedObject()
- //      this.transformControls.detach()
+ //      this.axis.detach()
  //      if ( this.currentMode === 'scene' && target ) {
  //        // attach gizmo
- //        this.transformControls.attach( target )
+ //        this.axis.attach( target )
  //        // // orient gizmo
  //        // var lookTarget = this.fpsControls.getObject().position
- //        // directionVector = this.transformControls.position.clone().sub(lookTarget).setY(0).normalize()
+ //        // directionVector = this.axis.position.clone().sub(lookTarget).setY(0).normalize()
  //        // var angle = 0.75 * Math.PI + Math.atan2(directionVector.x,directionVector.z)
- //        // this.transformControls.setRotationFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), angle )
+ //        // this.axis.setRotationFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), angle )
  //      }
 
     // }  // end setTransformControlTarget()
