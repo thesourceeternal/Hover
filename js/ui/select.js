@@ -49,7 +49,10 @@ module.exports = select = {
 		var camera = cubeWorld.camera;
 		var scene = cubeWorld.scene;
 
-		select.axis = new THREE.TransformControls( camera, renderer.domElement );
+		// With this, selecting and moving axis works in pointer lock
+		select.axis = new THREE.TransformControls( camera, undefined );
+		// With this, selecting and moving axis doesn't work in pointer lock
+		// select.axis = new THREE.TransformControls( camera, renderer.domElement );
 
 		select.axis.setMode("translate");
 

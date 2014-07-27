@@ -826,7 +826,6 @@ module.exports = transormControls = function () {
 				} 
 
 				if ( scope.space == "world" || scope.axis.search("XYZ") != -1 ) {
-						console.log("point: ");
 						console.log(point);
 
 					if ( scope.axis.search("X") == -1 ) point.x = 0;
@@ -969,28 +968,43 @@ module.exports = transormControls = function () {
 
 		}
 
+		// Always the vector for mouse in pointer lock (screen center)
+		var pLockVector = new THREE.Vector3();
+
 		function intersectObjects( pointer, objects ) {
 
-			var x, y;
+			var rect;
 
-			if ( userState.editorShowing ) {
+			// This if statement makes sure our current test works
+			if ( domElement === document ) {
 
-				var rect = domElement.getBoundingClientRect();
-				// Get the position of the mouse inside the canvas
-				x = (( event.clientX - rect.left ) / rect.width) * 2 - 1;
-			    y = - (( event.clientY - rect.top ) / rect.height) * 2 + 1;
+				// ALWAYS GETS SELECTED ATM
+				rect = document.body.getBoundingClientRect();
 
 			} else {
-				x = 0; y = 0;
+				rect = domElement.getBoundingClientRect();
 			}
 
-			// var x = (pointer.clientX - rect.left) / rect.width;
-			// var y = (pointer.clientY - rect.top) / rect.height;
-			// pointerVector.set( ( x ) * 2 - 1, - ( y ) * 2 + 1, 0.5 );
-			pointerVector.set( x, y, 0.5 );
+			// Get the position of the mouse inside the canvas
+			var realX = (( event.clientX - rect.left ) / rect.width) * 2 - 1;
+		    var realY = - (( event.clientY - rect.top ) / rect.height) * 2 + 1;
 
-			projector.unprojectVector( pointerVector, camera );
-			ray.set( camPosition, pointerVector.sub( camPosition ).normalize() );
+			pointerVector.set( realX, realY, 0.5 );  // need accuracy for offset
+
+			if ( userState.editorShowing ) {
+				// offset will determine how far to move the object
+				projector.unprojectVector( pointerVector, camera );
+				ray.set( camPosition, pointerVector.sub( camPosition ).normalize() );
+
+			} else {
+
+				// For some reason this keeps changing if I don't set it in here
+				pLockVector.set(0, 0, 0.5);
+				// pointer lock mouse is centered and needs to select axis as such
+				projector.unprojectVector( pLockVector, camera );
+				ray.set( camPosition, pLockVector.sub( camPosition ).normalize() );
+				
+			}
 
 			var intersections = ray.intersectObjects( objects, true );
 			return intersections[0] ? intersections[0] : false;
