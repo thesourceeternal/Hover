@@ -747,9 +747,7 @@ module.exports = transormControls = function () {
 			if ( scope.object === undefined || _dragging === true ) return;
 
 			// This is stopping mouse from clicking on input
-			// Also the clicking carries through the overlaying element and into
-			// the canvas.
-			// event.preventDefault();
+			event.preventDefault();
 			event.stopPropagation();
 
 			var pointer = event.changedTouches ? event.changedTouches[ 0 ] : event;

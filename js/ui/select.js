@@ -30,7 +30,7 @@ module.exports = select = {
 		var disableSelection = select.disableSelection;
 		var enableSelection = select.enableSelection;
 
-		// Add event listeners to prevent selection when clicking
+		// Add event listeners to prevent object selection when clicking
 		// on hud elements
 		var editor = document.getElementsByClassName("editor-sidebar")[0];
 		var bottombar = document.getElementsByClassName("bottombar")[0];
