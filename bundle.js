@@ -61,7 +61,7 @@ var userState = require('../userstate.js');
 
 module.exports = keyEvents = function () {
 
-	document.addEventListener( 'keyup', function (event) {
+	document.addEventListener( 'keyup', function ( event ) {
 
 		var keyCode = ( 'which' in event ) ? event.which : event.keyCode;
 
@@ -1386,6 +1386,7 @@ module.exports = transormControls = function () {
 					parentScale.setFromMatrixScale( tempMatrix.getInverse( scope.object.parent.matrixWorld ) );
 
 					offset.copy( planeIntersect.point );
+					// console.log("offset changed");
 
 				}
 
@@ -1405,11 +1406,11 @@ module.exports = transormControls = function () {
 			var pointer = event.changedTouches? event.changedTouches[0] : event;
 
 			var planeIntersect = intersectObjects( pointer, [scope.gizmo[_mode].activePlane] );
+			// console.log(planeIntersect);
 
 			point.copy( planeIntersect.point );
 
 			if ( _mode == "translate" ) {
-
 				point.sub( offset );
 				point.multiply(parentScale);
 
@@ -1429,7 +1430,7 @@ module.exports = transormControls = function () {
 				} 
 
 				if ( scope.space == "world" || scope.axis.search("XYZ") != -1 ) {
-						console.log(point);
+						// console.log(point);
 
 					if ( scope.axis.search("X") == -1 ) point.x = 0;
 					if ( scope.axis.search("Y") == -1 ) point.y = 0;
@@ -1584,7 +1585,9 @@ module.exports = transormControls = function () {
 				// ALWAYS GETS SELECTED ATM
 				rect = document.body.getBoundingClientRect();
 
-			} else {
+			} else {  // This situation makes the behavior incorrect
+
+				// ALWAYS GETS SELECTED ATM
 				rect = domElement.getBoundingClientRect();
 			}
 
@@ -1676,9 +1679,10 @@ module.exports = select = {
 		var scene = cubeWorld.scene;
 
 		// With this, selecting and moving axis works in pointer lock
-		select.axis = new THREE.TransformControls( camera, undefined );
+		// select.axis = new THREE.TransformControls( camera, undefined );
+
 		// With this, selecting and moving axis doesn't work in pointer lock
-		// select.axis = new THREE.TransformControls( camera, renderer.domElement );
+		select.axis = new THREE.TransformControls( camera, renderer.domElement );
 
 		select.axis.setMode("translate");
 
