@@ -121,6 +121,10 @@ module.exports = select = {
 
 	},  // end getObject()
 
+	// This one is set from the position of the active camera
+	raycastOrigin: new THREE.Vector3(),
+	mouseVector: new THREE.Vector3(),
+
 	// Checks what the nearest object intersection is
 	getScreenIntersects: function ( event ) {
 		// Would like to use tansformControls version, but can't
@@ -146,16 +150,18 @@ module.exports = select = {
 		}
 
 		// Why two vectors? Good question.
-		// This one is set from the position of the active camera
-		var raycastOrigin = new THREE.Vector3();
-		raycastOrigin.setFromMatrixPosition( cubeWorld.camera.matrixWorld );
-
+		// select.raycastOrigin = new THREE.Vector3();
+		select.raycastOrigin.setFromMatrixPosition( cubeWorld.camera.matrixWorld );
 		// This one is set from the poition of the mouse on the screen
-		var mouseVector = new THREE.Vector3( mouseCoords.x, mouseCoords.y, 1 );
-		cubeWorld.projector.unprojectVector( mouseVector, cubeWorld.camera );
-		mouseVector.sub( raycastOrigin ).normalize();
+		select.mouseVector.set( mouseCoords.x, mouseCoords.y, 1 );
 
-		cubeWorld.raycaster.set( raycastOrigin, mouseVector );
+		// This doesn't change anymore
+		var raycastOrigin = select.raycastOrigin;
+
+		cubeWorld.projector.unprojectVector( select.mouseVector, cubeWorld.camera );
+		select.mouseVector.sub( raycastOrigin ).normalize();
+
+		cubeWorld.raycaster.set( raycastOrigin, select.mouseVector );
 
 		return cubeWorld.raycaster.intersectObjects( cubeWorld.scene.children );
 
