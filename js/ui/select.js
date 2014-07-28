@@ -17,7 +17,7 @@ module.exports = select = {
 
 	axis: null,
 
-	enabled: true,
+	locked: false,
 
 
 	// Set up the transform controlers/axis
@@ -36,12 +36,6 @@ module.exports = select = {
 		var bottombar = document.getElementsByClassName("bottombar")[0];
 		// var codeEditor = document.getElementsByClassName("code-editor")[0];
 
-		editor.addEventListener( "mousedown", disableSelection, false );
-		editor.addEventListener( "mouseup", enableSelection, false );
-
-		bottombar.addEventListener( "mousedown", disableSelection, false );
-		bottombar.addEventListener( "mouseup", enableSelection, false );
-
 		// codeEditor.addEventListener( "mousedown", disableSelection, false );
 		// codeEditor.addEventListener( "mouseup", enableSelection, false );
 
@@ -50,10 +44,10 @@ module.exports = select = {
 		var scene = cubeWorld.scene;
 
 		// With this, selecting and moving axis works in pointer lock
-		// select.axis = new THREE.TransformControls( camera, undefined );
+		select.axis = new THREE.TransformControls( camera, undefined );
 
-		// With this, selecting and moving axis doesn't work in pointer lock
-		select.axis = new THREE.TransformControls( camera, renderer.domElement );
+		// // With this, selecting and moving axis doesn't work in pointer lock
+		// select.axis = new THREE.TransformControls( camera, renderer.domElement );
 
 		select.axis.setMode("translate");
 
@@ -66,17 +60,9 @@ module.exports = select = {
 
 	// --- Enablers --- \\
 
-	disableSelection: function () {
+	lockSelection: function () { select.locked = true; },
 
-		select.enabled = false;
-
-	},  // end disableSelection()
-
-	enableSelection: function () {
-
-		select.enabled = true;
-
-	},  // end enableSelection()
+	unlockSelection: function () { select.locked = false; },
 
 	// Called in display.js
 	// Hovering will select objects to get show info
@@ -98,10 +84,11 @@ module.exports = select = {
 
 
 	// --- Selection --- \\
+
 	// Determines and, if needed sets, the object currently being selected
 	selctionHandler: function (event) {
 
-		if ( select.enabled ) {
+		if ( !select.locked ) {
 
 			var newObj = select.getObject(event);
 
@@ -110,9 +97,7 @@ module.exports = select = {
 				select.selectObject(newObj);
 
 			}
-
 		}
-
 	},  // end selctionHandler()
 
 	// Determines what object the mouse is currently on
@@ -137,7 +122,7 @@ module.exports = select = {
 	},  // end getObject()
 
 	// Checks what the nearest object intersection is
-	getScreenIntersects: function (event) {
+	getScreenIntersects: function ( event ) {
 		// Would like to use tansformControls version, but can't
 		// pass pointer at this time
 
@@ -172,9 +157,7 @@ module.exports = select = {
 
 		cubeWorld.raycaster.set( raycastOrigin, mouseVector );
 
-
-		// TODO: Test if this returns anything when the mouse is on the editor
-		return cubeWorld.raycaster.intersectObjects( cubeWorld.scene.children )
+		return cubeWorld.raycaster.intersectObjects( cubeWorld.scene.children );
 
 	},  // end getIntersects()
 
@@ -194,35 +177,6 @@ module.exports = select = {
 			// be showing)
 
 	},  // end selectObject()
-
-	// Show whichever version of the axis is currently desired
-	// at whatever spot on the object is desired.
-	// Yeah, it's singular, but no one knows axes as the plural
-	showAxis: function (object) {
-
-	// 	object.axis.attach
-
-
-	// function setTransformControlTarget() {
-      
- //      var target = this.getSelectedObject()
- //      this.axis.detach()
- //      if ( this.currentMode === 'scene' && target ) {
- //        // attach gizmo
- //        this.axis.attach( target )
- //        // // orient gizmo
- //        // var lookTarget = this.fpsControls.getObject().position
- //        // directionVector = this.axis.position.clone().sub(lookTarget).setY(0).normalize()
- //        // var angle = 0.75 * Math.PI + Math.atan2(directionVector.x,directionVector.z)
- //        // this.axis.setRotationFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), angle )
- //      }
-
-    // }  // end setTransformControlTarget()
-
-		// showAxis(type)
-		// place(where)
-
-	},
 
 }
 
