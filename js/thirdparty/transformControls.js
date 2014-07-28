@@ -783,6 +783,7 @@ module.exports = transormControls = function () {
 					parentScale.setFromMatrixScale( tempMatrix.getInverse( scope.object.parent.matrixWorld ) );
 
 					offset.copy( planeIntersect.point );
+					// console.log("offset changed");
 
 				}
 
@@ -802,11 +803,11 @@ module.exports = transormControls = function () {
 			var pointer = event.changedTouches? event.changedTouches[0] : event;
 
 			var planeIntersect = intersectObjects( pointer, [scope.gizmo[_mode].activePlane] );
+			// console.log(planeIntersect);
 
 			point.copy( planeIntersect.point );
 
 			if ( _mode == "translate" ) {
-
 				point.sub( offset );
 				point.multiply(parentScale);
 
@@ -826,7 +827,7 @@ module.exports = transormControls = function () {
 				} 
 
 				if ( scope.space == "world" || scope.axis.search("XYZ") != -1 ) {
-						console.log(point);
+						// console.log(point);
 
 					if ( scope.axis.search("X") == -1 ) point.x = 0;
 					if ( scope.axis.search("Y") == -1 ) point.y = 0;
@@ -981,7 +982,9 @@ module.exports = transormControls = function () {
 				// ALWAYS GETS SELECTED ATM
 				rect = document.body.getBoundingClientRect();
 
-			} else {
+			} else {  // This situation makes the behavior incorrect
+
+				// ALWAYS GETS SELECTED ATM
 				rect = domElement.getBoundingClientRect();
 			}
 

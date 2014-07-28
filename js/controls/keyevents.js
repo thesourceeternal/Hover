@@ -9,7 +9,7 @@ var userState = require('../userstate.js');
 
 module.exports = keyEvents = function () {
 
-	document.addEventListener( 'keyup', function (event) {
+	document.addEventListener( 'keyup', function ( event ) {
 
 		var keyCode = ( 'which' in event ) ? event.which : event.keyCode;
 
