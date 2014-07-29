@@ -127,12 +127,18 @@ module.exports = select = {
 
 	// Checks what the nearest object intersection is
 	getScreenIntersects: function ( event ) {
-		// Would like to use tansformControls version, but can't
-		// pass pointer at this time
 
 		// The screen coordinates of the origin of the ray
 		var mouseCoords;
 		var element = cubeWorld.renderer.domElement;
+
+		
+		var raycastOrigin = select.raycastOrigin;
+		var mouseVector = select.mouseVector;
+
+		var camera = cubeWorld.camera;
+		var raycaster = cubeWorld.raycaster;
+
 
 		if ( userState.editorShwoing ) {
 
@@ -149,21 +155,21 @@ module.exports = select = {
 			mouseCoords = { x: 0, y: 0, };
 		}
 
-		// Why two vectors? Good question.
 		// select.raycastOrigin = new THREE.Vector3();
-		select.raycastOrigin.setFromMatrixPosition( cubeWorld.camera.matrixWorld );
+		raycastOrigin.setFromMatrixPosition( camera.matrixWorld );
 		// This one is set from the poition of the mouse on the screen
-		select.mouseVector.set( mouseCoords.x, mouseCoords.y, 1 );
+		mouseVector.set( mouseCoords.x, mouseCoords.y, 1 );
 
-		// This doesn't change anymore
-		var raycastOrigin = select.raycastOrigin;
+		// // This doesn't change anymore
+		// var raycastOrigin = select.raycastOrigin;
 
-		cubeWorld.projector.unprojectVector( select.mouseVector, cubeWorld.camera );
-		select.mouseVector.sub( raycastOrigin ).normalize();
+		cubeWorld.projector.unprojectVector( mouseVector, camera );
+		mouseVector.sub( raycastOrigin ).normalize();
+		// console.log(select.mouseVector)
 
-		cubeWorld.raycaster.set( raycastOrigin, select.mouseVector );
+		raycaster.set( raycastOrigin, mouseVector );
 
-		return cubeWorld.raycaster.intersectObjects( cubeWorld.scene.children );
+		return raycaster.intersectObjects( cubeWorld.scene.children );
 
 	},  // end getIntersects()
 

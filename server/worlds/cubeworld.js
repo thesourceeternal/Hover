@@ -14,25 +14,25 @@ module.exports = cubeWorld = function () {
 
 	function init() {
 
-		// Hack to get require and hover working
+		// Hack to get require and external scripts working
 		// Need to be declared in here or values = undefined.
-		cubeWorld.controls = null;
+		controls = cubeWorld.controls = null;
 		
-		cubeWorld.camera = null;
-		cubeWorld.scene = null;
-		cubeWorld.renderer = null;
+		camera = cubeWorld.camera = null;
+		scene = cubeWorld.scene = null;
+		renderer = cubeWorld.renderer = null;
 
-		cubeWorld.geometroy = null;
-		cubeWorld.material = null;
-		cubeWorld.mesh = null;
+		geometry = cubeWorld.geometry = null;
+		material = cubeWorld.material = null;
+		mesh = cubeWorld.mesh = null;
 
-		cubeWorld.objects = [];
+		objects = cubeWorld.objects = [];
 
-		cubeWorld.ray = null;
+		ray = cubeWorld.ray = null;
 
 		// For selecting objects
-		cubeWorld.projector = new THREE.Projector();
-		cubeWorld.raycaster = new THREE.Raycaster();
+		projector = cubeWorld.projector = new THREE.Projector();
+		raycaster = cubeWorld.raycaster = new THREE.Raycaster();
 
 		// Onwards!
 		cubeWorld.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
