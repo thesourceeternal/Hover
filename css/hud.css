@@ -134,13 +134,7 @@ input[type=number] {
 	padding-top: 10%;
 }
 
-.reticule {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-}
-
-.reticule div {
+.reticule, .reticule div {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -302,17 +296,25 @@ fieldset button {
 	border-top: black solid .1rem;
 }
 
-.reticule {
-	height: 36px;
-	width: 36px;
-	margin: -18px;
+.ret-light {
+	height: 2.3rem;
+	width: 2.3rem;
+	margin: -1.1rem;
 	border: rgb(109, 168, 220) solid .35em;
-	border-radius: 14px;
+	border-radius: .9rem;
 }
 
-.reticule div {
-	height: 6px;
-	width: 6px;
-	margin: -3px;
+.ret-dark {
+	height: 2.3rem;
+	width: 2.3rem;
+	margin: -1.1rem;
+	border: rgb(71, 105, 135) solid .45em;
+	border-radius: .9rem;
+}
+
+.ret-center {
+	height: .4rem;
+	width: .4rem;
+	margin: -.2rem;
 	background-color: rgb(109, 168, 220);
 }
