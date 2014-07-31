@@ -1646,7 +1646,7 @@ module.exports = select = {
 
 	axis: null,
 
-	enabled: true,
+	locked: false,
 
 
 	// Set up the transform controlers/axis
@@ -1665,12 +1665,6 @@ module.exports = select = {
 		var bottombar = document.getElementsByClassName("bottombar")[0];
 		// var codeEditor = document.getElementsByClassName("code-editor")[0];
 
-		editor.addEventListener( "mousedown", disableSelection, false );
-		editor.addEventListener( "mouseup", enableSelection, false );
-
-		bottombar.addEventListener( "mousedown", disableSelection, false );
-		bottombar.addEventListener( "mouseup", enableSelection, false );
-
 		// codeEditor.addEventListener( "mousedown", disableSelection, false );
 		// codeEditor.addEventListener( "mouseup", enableSelection, false );
 
@@ -1679,10 +1673,10 @@ module.exports = select = {
 		var scene = cubeWorld.scene;
 
 		// With this, selecting and moving axis works in pointer lock
-		// select.axis = new THREE.TransformControls( camera, undefined );
+		select.axis = new THREE.TransformControls( camera, undefined );
 
-		// With this, selecting and moving axis doesn't work in pointer lock
-		select.axis = new THREE.TransformControls( camera, renderer.domElement );
+		// // With this, selecting and moving axis doesn't work in pointer lock
+		// select.axis = new THREE.TransformControls( camera, renderer.domElement );
 
 		select.axis.setMode("translate");
 
@@ -1695,17 +1689,9 @@ module.exports = select = {
 
 	// --- Enablers --- \\
 
-	disableSelection: function () {
+	lockSelection: function () { select.locked = true; },
 
-		select.enabled = false;
-
-	},  // end disableSelection()
-
-	enableSelection: function () {
-
-		select.enabled = true;
-
-	},  // end enableSelection()
+	unlockSelection: function () { select.locked = false; },
 
 	// Called in display.js
 	// Hovering will select objects to get show info
@@ -1727,10 +1713,11 @@ module.exports = select = {
 
 
 	// --- Selection --- \\
+
 	// Determines and, if needed sets, the object currently being selected
 	selctionHandler: function (event) {
 
-		if ( select.enabled ) {
+		if ( !select.locked ) {
 
 			var newObj = select.getObject(event);
 
@@ -1739,9 +1726,7 @@ module.exports = select = {
 				select.selectObject(newObj);
 
 			}
-
 		}
-
 	},  // end selctionHandler()
 
 	// Determines what object the mouse is currently on
@@ -1765,14 +1750,24 @@ module.exports = select = {
 
 	},  // end getObject()
 
+	// This one is set from the position of the active camera
+	camPosition: new THREE.Vector3(),
+	pointerVector: new THREE.Vector3(),
+
 	// Checks what the nearest object intersection is
-	getScreenIntersects: function (event) {
-		// Would like to use tansformControls version, but can't
-		// pass pointer at this time
+	getScreenIntersects: function ( event ) {
 
 		// The screen coordinates of the origin of the ray
 		var mouseCoords;
 		var element = cubeWorld.renderer.domElement;
+
+		
+		var camPosition = select.camPosition;
+		var pointerVector = select.pointerVector;
+
+		var camera = cubeWorld.camera;
+		var raycaster = cubeWorld.raycaster;
+
 
 		if ( userState.editorShwoing ) {
 
@@ -1789,21 +1784,36 @@ module.exports = select = {
 			mouseCoords = { x: 0, y: 0, };
 		}
 
-		// Why two vectors? Good question.
-		// This one is set from the position of the active camera
-		var raycastOrigin = new THREE.Vector3();
-		raycastOrigin.setFromMatrixPosition( cubeWorld.camera.matrixWorld );
-
+		// select.camPosition = new THREE.Vector3();
+		camPosition.setFromMatrixPosition( camera.matrixWorld );
 		// This one is set from the poition of the mouse on the screen
-		var mouseVector = new THREE.Vector3( mouseCoords.x, mouseCoords.y, 1 );
-		cubeWorld.projector.unprojectVector( mouseVector, cubeWorld.camera );
-		mouseVector.sub( raycastOrigin ).normalize();
+		pointerVector.set( mouseCoords.x, mouseCoords.y, 1 );
 
-		cubeWorld.raycaster.set( raycastOrigin, mouseVector );
+		// // This doesn't change anymore
+		// var camPosition = select.camPosition;
+
+		cubeWorld.projector.unprojectVector( pointerVector, camera );
+		pointerVector.sub( camPosition ).normalize();
+		// console.log(select.pointerVector)
+
+		raycaster.set( camPosition, pointerVector );
 
 
-		// TODO: Test if this returns anything when the mouse is on the editor
-		return cubeWorld.raycaster.intersectObjects( cubeWorld.scene.children )
+		var intersectors = raycaster.intersectObjects( cubeWorld.scene.children )
+		// Testing
+		var geometry = new THREE.Geometry();
+	    geometry.vertices.push(camPosition);
+	    geometry.vertices.push(pointerVector);
+
+	    var material = new THREE.LineBasicMaterial({
+	        color: 0x0000ff
+	    });
+
+	    var line = new THREE.Line(geometry, material);
+		cubeWorld.scene.add(line);
+
+
+		return intersectors;
 
 	},  // end getIntersects()
 
@@ -1823,35 +1833,6 @@ module.exports = select = {
 			// be showing)
 
 	},  // end selectObject()
-
-	// Show whichever version of the axis is currently desired
-	// at whatever spot on the object is desired.
-	// Yeah, it's singular, but no one knows axes as the plural
-	showAxis: function (object) {
-
-	// 	object.axis.attach
-
-
-	// function setTransformControlTarget() {
-      
- //      var target = this.getSelectedObject()
- //      this.axis.detach()
- //      if ( this.currentMode === 'scene' && target ) {
- //        // attach gizmo
- //        this.axis.attach( target )
- //        // // orient gizmo
- //        // var lookTarget = this.fpsControls.getObject().position
- //        // directionVector = this.axis.position.clone().sub(lookTarget).setY(0).normalize()
- //        // var angle = 0.75 * Math.PI + Math.atan2(directionVector.x,directionVector.z)
- //        // this.axis.setRotationFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), angle )
- //      }
-
-    // }  // end setTransformControlTarget()
-
-		// showAxis(type)
-		// place(where)
-
-	},
 
 }
 
@@ -3036,25 +3017,25 @@ module.exports = cubeWorld = function () {
 
 	function init() {
 
-		// Hack to get require and hover working
+		// Hack to get require and external scripts working
 		// Need to be declared in here or values = undefined.
-		cubeWorld.controls = null;
+		controls = cubeWorld.controls = null;
 		
-		cubeWorld.camera = null;
-		cubeWorld.scene = null;
-		cubeWorld.renderer = null;
+		camera = cubeWorld.camera = null;
+		scene = cubeWorld.scene = null;
+		renderer = cubeWorld.renderer = null;
 
-		cubeWorld.geometroy = null;
-		cubeWorld.material = null;
-		cubeWorld.mesh = null;
+		geometry = cubeWorld.geometry = null;
+		material = cubeWorld.material = null;
+		mesh = cubeWorld.mesh = null;
 
-		cubeWorld.objects = [];
+		objects = cubeWorld.objects = [];
 
-		cubeWorld.ray = null;
+		ray = cubeWorld.ray = null;
 
 		// For selecting objects
-		cubeWorld.projector = new THREE.Projector();
-		cubeWorld.raycaster = new THREE.Raycaster();
+		projector = cubeWorld.projector = new THREE.Projector();
+		raycaster = cubeWorld.raycaster = new THREE.Raycaster();
 
 		// Onwards!
 		cubeWorld.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
