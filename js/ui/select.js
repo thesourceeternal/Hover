@@ -122,8 +122,8 @@ module.exports = select = {
 	},  // end getObject()
 
 	// This one is set from the position of the active camera
-	raycastOrigin: new THREE.Vector3(),
-	mouseVector: new THREE.Vector3(),
+	camPosition: new THREE.Vector3(),
+	pointerVector: new THREE.Vector3(),
 
 	// Checks what the nearest object intersection is
 	getScreenIntersects: function ( event ) {
@@ -133,8 +133,8 @@ module.exports = select = {
 		var element = cubeWorld.renderer.domElement;
 
 		
-		var raycastOrigin = select.raycastOrigin;
-		var mouseVector = select.mouseVector;
+		var camPosition = select.camPosition;
+		var pointerVector = select.pointerVector;
 
 		var camera = cubeWorld.camera;
 		var raycaster = cubeWorld.raycaster;
@@ -155,21 +155,36 @@ module.exports = select = {
 			mouseCoords = { x: 0, y: 0, };
 		}
 
-		// select.raycastOrigin = new THREE.Vector3();
-		raycastOrigin.setFromMatrixPosition( camera.matrixWorld );
+		// select.camPosition = new THREE.Vector3();
+		camPosition.setFromMatrixPosition( camera.matrixWorld );
 		// This one is set from the poition of the mouse on the screen
-		mouseVector.set( mouseCoords.x, mouseCoords.y, 1 );
+		pointerVector.set( mouseCoords.x, mouseCoords.y, 1 );
 
 		// // This doesn't change anymore
-		// var raycastOrigin = select.raycastOrigin;
+		// var camPosition = select.camPosition;
 
-		cubeWorld.projector.unprojectVector( mouseVector, camera );
-		mouseVector.sub( raycastOrigin ).normalize();
-		// console.log(select.mouseVector)
+		cubeWorld.projector.unprojectVector( pointerVector, camera );
+		pointerVector.sub( camPosition ).normalize();
+		// console.log(select.pointerVector)
 
-		raycaster.set( raycastOrigin, mouseVector );
+		raycaster.set( camPosition, pointerVector );
 
-		return raycaster.intersectObjects( cubeWorld.scene.children );
+
+		var intersectors = raycaster.intersectObjects( cubeWorld.scene.children )
+		// Testing
+		var geometry = new THREE.Geometry();
+	    geometry.vertices.push(camPosition);
+	    geometry.vertices.push(pointerVector);
+
+	    var material = new THREE.LineBasicMaterial({
+	        color: 0x0000ff
+	    });
+
+	    var line = new THREE.Line(geometry, material);
+		cubeWorld.scene.add(line);
+
+
+		return intersectors;
 
 	},  // end getIntersects()
 
